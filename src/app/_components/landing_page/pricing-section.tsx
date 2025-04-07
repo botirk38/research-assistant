@@ -7,6 +7,15 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
+type PricingPlan = {
+  name: string;
+  price: string;
+  description: string;
+  features: string[];
+  popular?: boolean;
+  cta: string;
+};
+
 export function PricingSection() {
   const monthlyPlans = [
     {
@@ -94,7 +103,7 @@ export function PricingSection() {
     },
   ];
 
-  const renderPricingCards = (plans) => {
+  const renderPricingCards = (plans: PricingPlan[]) => {
     return (
       <div className="grid gap-6 lg:grid-cols-3 lg:gap-8">
         {plans.map((plan, i) => (

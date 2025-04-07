@@ -83,15 +83,17 @@ export function Header() {
             <span className="sr-only">Toggle theme</span>
           </Button>
           <Link
-            href="#"
+            href="/researcher"
             className="text-muted-foreground hover:text-foreground text-sm font-medium transition-colors"
           >
             Log in
           </Link>
-          <Button className="rounded-full">
-            Get Started
-            <ChevronRight className="ml-1 size-4" />
-          </Button>
+          <Link href="/researcher">
+            <Button className="rounded-full">
+              Get Started
+              <ChevronRight className="ml-1 size-4" />
+            </Button>
+          </Link>
         </div>
         <div className="flex items-center gap-4 md:hidden">
           <Button
@@ -159,16 +161,18 @@ export function Header() {
             </Link>
             <div className="flex flex-col gap-2 border-t pt-2">
               <Link
-                href="#"
+                href="/researcher"
                 className="py-2 text-sm font-medium"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Log in
               </Link>
-              <Button className="rounded-full">
-                Get Started
-                <ChevronRight className="ml-1 size-4" />
-              </Button>
+              <Link href="/researcher">
+                <Button className="rounded-full">
+                  Get Started
+                  <ChevronRight className="ml-1 size-4" />
+                </Button>
+              </Link>
             </div>
           </div>
         </motion.div>

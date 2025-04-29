@@ -1,4 +1,3 @@
-import { cn } from "@/lib/utils";
 import {
   Card,
   CardContent,
@@ -15,7 +14,6 @@ interface AuthCardProps extends React.ComponentProps<typeof Card> {
   showSocialLogin?: boolean;
   showDivider?: boolean;
   children: React.ReactNode;
-  footerText?: React.ReactNode;
 }
 
 export function AuthCard({
@@ -24,7 +22,6 @@ export function AuthCard({
   showSocialLogin = true,
   showDivider = true,
   children,
-  footerText,
   className,
   ...props
 }: AuthCardProps) {

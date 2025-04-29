@@ -3,8 +3,7 @@
 import type React from "react";
 
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Search, Settings, Sparkles } from "lucide-react";
+import { Search, Sparkles } from "lucide-react";
 import ResearchAreaSection from "@/app/_components/researcher/settings/research-area-section";
 
 export default function ResearcherSettingsPage() {

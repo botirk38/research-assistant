@@ -1,3 +1,5 @@
+"use client";
+
 import { DatePickerWithRange } from "@/components/date-range-picker";
 import { ResearchOverviewCards } from "@/components/research-admin/research-overview-cards";
 import { ResearcherQualityChart } from "@/components/research-admin/researcher-quality-chart";

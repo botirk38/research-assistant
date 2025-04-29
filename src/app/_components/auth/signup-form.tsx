@@ -4,10 +4,15 @@ import { Label } from "@/components/ui/label";
 import { AuthCard } from "./auth-card";
 import { AuthContainer } from "./auth-container";
 
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+
 export function SignupForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
+  const router = useRouter();
+
   return (
     <AuthContainer className={className} {...props}>
       <AuthCard
@@ -42,15 +47,19 @@ export function SignupForm({
             <Label htmlFor="confirm-password">Confirm Password</Label>
             <Input id="confirm-password" type="password" required />
           </div>
-          <Button type="submit" className="w-full">
+          <Button
+            type="submit"
+            className="w-full"
+            onClick={() => router.push("/researcher")}
+          >
             Sign up
           </Button>
         </div>
         <div className="mt-4 text-center text-sm">
           Already have an account?{" "}
-          <a href="#" className="underline underline-offset-4">
+          <Link href="/login" className="underline underline-offset-4">
             Login
-          </a>
+          </Link>
         </div>
       </AuthCard>
     </AuthContainer>

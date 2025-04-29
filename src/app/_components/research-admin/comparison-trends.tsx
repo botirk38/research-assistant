@@ -24,7 +24,7 @@ export function ComparisonTrends() {
   return (
     <div>
       <div className="mb-4 flex flex-col space-y-1.5">
-        <h3 className="leading-none font-semibold tracking-tight">
+        <h3 className="text-foreground leading-none font-semibold tracking-tight">
           Comparison Trends
         </h3>
         <p className="text-muted-foreground text-sm">Time Range Analysis</p>
@@ -47,7 +47,7 @@ export function ComparisonTrends() {
               <Line
                 type="monotone"
                 dataKey="publications"
-                stroke="#10b981"
+                stroke="var(--chart-1)"
                 activeDot={{ r: 8 }}
               />
             </LineChart>
@@ -64,7 +64,7 @@ export function ComparisonTrends() {
               <Line
                 type="monotone"
                 dataKey="ref"
-                stroke="#3b82f6"
+                stroke="var(--chart-2)"
                 activeDot={{ r: 8 }}
               />
             </LineChart>
@@ -81,7 +81,7 @@ export function ComparisonTrends() {
               <Line
                 type="monotone"
                 dataKey="interdisciplinary"
-                stroke="#8b5cf6"
+                stroke="var(--chart-3)"
                 activeDot={{ r: 8 }}
               />
             </LineChart>

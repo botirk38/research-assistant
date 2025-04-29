@@ -21,7 +21,7 @@ export function ResearcherQualityChart() {
   return (
     <div>
       <div className="flex flex-col space-y-1.5">
-        <h3 className="leading-none font-semibold tracking-tight">
+        <h3 className="text-foreground leading-none font-semibold tracking-tight">
           Researcher Quality Outputs
         </h3>
         <p className="text-muted-foreground text-sm">
@@ -46,7 +46,7 @@ export function ResearcherQualityChart() {
               formatter={(value) => [`${Number(value)}%`, "Percentage"]}
               labelFormatter={(label) => `Quartile ${label}`}
             />
-            <Bar dataKey="percentage" fill="#4ade80" />
+            <Bar dataKey="percentage" fill="var(--chart-1)" />
           </BarChart>
         </ResponsiveContainer>
       </div>

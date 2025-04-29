@@ -11,12 +11,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 export function ResearchOverviewCards() {
   return (
     <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-      <Card>
+      <Card className="bg-card border-border text-card-foreground border">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">
             University Wide Overview
           </CardTitle>
-          <FileText className="h-4 w-4 text-emerald-600" />
+          <FileText className="text-chart-1 h-4 w-4" />
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">1,248</div>
@@ -26,12 +26,12 @@ export function ResearchOverviewCards() {
         </CardContent>
       </Card>
 
-      <Card>
+      <Card className="bg-card border-border text-card-foreground border">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">
             University Wide Overview - REF
           </CardTitle>
-          <BarChart3 className="h-4 w-4 text-emerald-600" />
+          <BarChart3 className="text-chart-2 h-4 w-4" />
         </CardHeader>
         <CardContent>
           <div className="flex items-center space-x-2">
@@ -58,12 +58,12 @@ export function ResearchOverviewCards() {
         </CardContent>
       </Card>
 
-      <Card>
+      <Card className="bg-card border-border text-card-foreground border">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">
             Interdisciplinary Papers
           </CardTitle>
-          <Network className="h-4 w-4 text-emerald-600" />
+          <Network className="text-chart-3 h-4 w-4" />
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">324</div>
@@ -73,12 +73,12 @@ export function ResearchOverviewCards() {
         </CardContent>
       </Card>
 
-      <Card>
+      <Card className="bg-card border-border text-card-foreground border">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">
             Research Publications by Rankings
           </CardTitle>
-          <BookOpen className="h-4 w-4 text-emerald-600" />
+          <BookOpen className="text-chart-4 h-4 w-4" />
         </CardHeader>
         <CardContent>
           <div className="flex items-center space-x-2">
@@ -105,19 +105,19 @@ export function ResearchOverviewCards() {
         </CardContent>
       </Card>
 
-      <Card>
+      <Card className="bg-card border-border text-card-foreground border">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">
             Department-wise Breakdown
           </CardTitle>
-          <PieChart className="h-4 w-4 text-emerald-600" />
+          <PieChart className="text-chart-5 h-4 w-4" />
         </CardHeader>
         <CardContent>
           <div className="flex h-10 w-full items-center space-x-1">
-            <div className="h-2 w-1/4 rounded-full bg-emerald-500"></div>
-            <div className="h-2 w-1/5 rounded-full bg-blue-500"></div>
-            <div className="h-2 w-1/6 rounded-full bg-amber-500"></div>
-            <div className="h-2 w-1/3 rounded-full bg-purple-500"></div>
+            <div className="bg-chart-1 h-2 w-1/4 rounded-full"></div>
+            <div className="bg-chart-2 h-2 w-1/5 rounded-full"></div>
+            <div className="bg-chart-3 h-2 w-1/6 rounded-full"></div>
+            <div className="bg-chart-4 h-2 w-1/3 rounded-full"></div>
           </div>
           <p className="text-muted-foreground mt-2 text-xs">
             REF scores distribution
@@ -125,12 +125,12 @@ export function ResearchOverviewCards() {
         </CardContent>
       </Card>
 
-      <Card>
+      <Card className="bg-card border-border text-card-foreground border">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">
             Internal/External Institute Papers
           </CardTitle>
-          <Building2 className="h-4 w-4 text-emerald-600" />
+          <Building2 className="text-primary h-4 w-4" />
         </CardHeader>
         <CardContent>
           <div className="flex items-center space-x-4">

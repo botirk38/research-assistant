@@ -44,7 +44,7 @@ export function DepartmentKPIChart() {
   return (
     <div>
       <div className="mb-4 flex flex-col space-y-1.5">
-        <h3 className="leading-none font-semibold tracking-tight">
+        <h3 className="text-foreground leading-none font-semibold tracking-tight">
           Department KPI Tracking Chart
         </h3>
         <p className="text-muted-foreground text-sm">
@@ -65,27 +65,31 @@ export function DepartmentKPIChart() {
           >
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="department" />
-            <YAxis yAxisId="left" orientation="left" stroke="#10b981" />
-            <YAxis yAxisId="right" orientation="right" stroke="#3b82f6" />
+            <YAxis yAxisId="left" orientation="left" stroke="var(--chart-1)" />
+            <YAxis
+              yAxisId="right"
+              orientation="right"
+              stroke="var(--chart-2)"
+            />
             <Tooltip />
             <Legend />
             <Bar
               yAxisId="left"
               dataKey="publications"
               name="Publications"
-              fill="#10b981"
+              fill="var(--chart-1)"
             />
             <Bar
               yAxisId="left"
               dataKey="citations"
               name="Citations"
-              fill="#3b82f6"
+              fill="var(--chart-2)"
             />
             <Bar
               yAxisId="right"
               dataKey="funding"
               name="Funding (£)"
-              fill="#8b5cf6"
+              fill="var(--chart-3)"
             />
           </BarChart>
         </ResponsiveContainer>

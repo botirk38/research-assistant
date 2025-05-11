@@ -28,7 +28,7 @@ export function DatePickerWithRange({
 
     const currentYear = new Date().getFullYear();
   const [date, setDate] = React.useState<DateRange | undefined>(
-    value || {
+    value ?? {
       from: new Date(currentYear, 0, 1),
       to: new Date(),
     }

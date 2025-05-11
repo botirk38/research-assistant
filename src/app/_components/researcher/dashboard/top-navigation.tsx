@@ -1,29 +1,25 @@
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+"use client";
 
-const TopNavigation: React.FC = () => (
-  <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
-    <h1 className="font-display text-foreground text-3xl font-semibold">
-      Publications Overview
-    </h1>
-    <Select defaultValue="all">
-      <SelectTrigger className="border-border bg-secondary text-foreground w-[240px] border shadow-sm">
-        <SelectValue placeholder="From - To Dates" />
-      </SelectTrigger>
-      <SelectContent className="border-border bg-popover border">
-        <SelectItem value="all">All Time</SelectItem>
-        <SelectItem value="2023">2023 - Present</SelectItem>
-        <SelectItem value="2020">2020 - 2023</SelectItem>
-        <SelectItem value="2015">2015 - 2020</SelectItem>
-        <SelectItem value="custom">Custom Range</SelectItem>
-      </SelectContent>
-    </Select>
-  </div>
-);
+import { DatePickerWithRange } from "@/components/date-range-picker";
+import type { DateRange } from "react-day-picker";
+
+interface TopNavigationProps {
+    dateRange?: DateRange;
+    onDateChange: (newDateRange: DateRange | undefined) => void;
+}
+
+const TopNavigation: React.FC<TopNavigationProps> = ({ dateRange, onDateChange }) => {
+  return (
+    <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
+      <h1 className="font-display text-foreground text-3xl font-semibold">
+        Publications Overview
+      </h1>
+      <DatePickerWithRange
+        value={dateRange}
+        onChange={onDateChange}
+      />
+    </div>
+  );
+};
 
 export default TopNavigation;

@@ -14,13 +14,40 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 
+interface DatePickerWithRangeProps {
+  value?: DateRange | undefined;
+  onChange?: (date: DateRange | undefined) => void;
+  className?: string;
+}
+
 export function DatePickerWithRange({
   className,
-}: React.HTMLAttributes<HTMLDivElement>) {
-  const [date, setDate] = React.useState<DateRange | undefined>({
-    from: new Date(2023, 0, 1),
-    to: new Date(),
-  });
+  value,
+  onChange,
+}: DatePickerWithRangeProps) {
+
+    const currentYear = new Date().getFullYear();
+  const [date, setDate] = React.useState<DateRange | undefined>(
+    value || {
+      from: new Date(currentYear, 0, 1),
+      to: new Date(),
+    }
+  );
+
+  // Update local state and call the onChange handler
+  const handleSelect = (selectedDate: DateRange | undefined) => {
+    setDate(selectedDate);
+    if (onChange) {
+      onChange(selectedDate);
+    }
+  };
+
+  // Keep local state in sync with provided value
+  React.useEffect(() => {
+    if (value) {
+      setDate(value);
+    }
+  }, [value]);
 
   return (
     <div className={cn("grid gap-2", className)}>
@@ -55,7 +82,7 @@ export function DatePickerWithRange({
             mode="range"
             defaultMonth={date?.from}
             selected={date}
-            onSelect={setDate}
+            onSelect={handleSelect}
             numberOfMonths={2}
           />
         </PopoverContent>

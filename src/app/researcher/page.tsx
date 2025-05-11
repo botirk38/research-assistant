@@ -11,6 +11,8 @@ import ResearchProfileSection from "../_components/researcher/dashboard/research
 import ResearchIdeas from "../_components/researcher/dashboard/research-ideas";
 import Collaborations from "../_components/researcher/dashboard/collaborations";
 import FundingOpportunities from "../_components/researcher/dashboard/funding-opportunities";
+import { useState } from "react";
+import type { DateRange } from "react-day-picker";
 
 // TablesSection Component
 const TablesSection: React.FC = () => (
@@ -23,11 +25,17 @@ const TablesSection: React.FC = () => (
 
 // Main ResearcherProfile Component
 export default function ResearcherProfile() {
+
+    const [dateRange, setDateRange] = useState<DateRange | undefined>(undefined);
+
+    const handleDateChange = (newDateRange: DateRange | undefined) => {
+        setDateRange(newDateRange);
+    }
   return (
     <>
       <Header />
       <div className="mx-auto max-w-7xl p-6">
-        <TopNavigation />
+        <TopNavigation dateRange={dateRange} onDateChange={handleDateChange}/>
         <PublicationsStats />
         <ResearchProfileSection />
 

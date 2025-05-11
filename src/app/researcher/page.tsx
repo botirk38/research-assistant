@@ -1,7 +1,5 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import ChatPopover from "../_components/researcher/chat-popover";
 import Header from "../_components/researcher/dashboard/header";
 import TopNavigation from "../_components/researcher/dashboard/top-navigation";

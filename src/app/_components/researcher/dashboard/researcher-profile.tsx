@@ -53,11 +53,6 @@ const ResearchProfileCard: React.FC<{ dateRange: DateRange | undefined }> = ({ d
       <CardHeader>
         <CardTitle>My Research Profile</CardTitle>
         <CardDescription>Based on Publication Analysis</CardDescription>
-        {dateRange && dateRange.from && dateRange.to && (
-          <CardDescription className="text-sm text-muted-foreground">
-            Filtered: {dateRange.from.toLocaleDateString()} - {dateRange.to.toLocaleDateString()}
-          </CardDescription>
-        )}
       </CardHeader>
       <CardContent className="h-64">
         <ResponsiveContainer width="100%" height="100%">

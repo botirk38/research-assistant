@@ -36,8 +36,8 @@ export default function ResearcherProfile() {
       <Header />
       <div className="mx-auto max-w-7xl p-6">
         <TopNavigation dateRange={dateRange} onDateChange={handleDateChange}/>
-        <PublicationsStats />
-        <ResearchProfileSection />
+        <PublicationsStats dateRange={dateRange} />
+        <ResearchProfileSection dateRange={dateRange} />
 
         <PublicationsArea />
         <TablesSection />

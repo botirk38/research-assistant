@@ -1,4 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import type { DateRange } from "react-day-picker";
 import {
   LineChart,
   Line,
@@ -14,29 +15,34 @@ import {
   Cell,
   Legend,
 } from "recharts";
+import { useMemo } from "react";
+
 
 // Sample data
-const publicationsOverTime = [
-  { year: "2019", count: 3 },
-  { year: "2020", count: 5 },
-  { year: "2021", count: 7 },
-  { year: "2022", count: 9 },
-  { year: "2023", count: 12 },
+const allPublicationsOverTime = [
+  { year: "2023", count: 3, date: new Date(2023, 9, 1) },   // Oct 2023
+  { year: "2024 Q1", count: 5, date: new Date(2024, 2, 1) }, // Mar 2024
+  { year: "2024 Q2", count: 7, date: new Date(2024, 5, 1) }, // Jun 2024
+  { year: "2024 Q3", count: 9, date: new Date(2024, 8, 1) }, // Sep 2024
+  { year: "2024 Q4", count: 12, date: new Date(2024, 11, 1) }, // Dec 2024
+  { year: "2025 Q1", count: 4, date: new Date(2025, 2, 1) }, // Mar 2025
 ];
 
-const coreLevels = [
-  { level: "A*", count: 2 },
-  { level: "A", count: 3 },
-  { level: "B", count: 4 },
-  { level: "C", count: 3 },
+const allCoreLevels = [
+  { level: "A*", count: 2, date: new Date(2024, 10, 15) },  // Nov 2024
+  { level: "A", count: 3, date: new Date(2024, 7, 22) },    // Aug 2024
+  { level: "B", count: 4, date: new Date(2025, 0, 10) },    // Jan 2025
+  { level: "C", count: 1, date: new Date(2024, 5, 18) },    // Jun 2024
 ];
 
-const citationSources = [
-  { name: "Dr. Alice Smith", value: 840 },
-  { name: "Prof. John Doe", value: 620 },
-  { name: "Dr. Emily Zhang", value: 430 },
-  { name: "You (Self-Citations)", value: 310 },
+// Updated citation sources to represent researcher's papers
+const allCitationSources = [
+  { name: "Advanced ML for Personalized Medicine", value: 920, date: new Date(2024, 9, 23) },    // Oct 2024
+  { name: "Neural Networks in Edge Computing", value: 750, date: new Date(2024, 11, 15) },       // Dec 2024
+  { name: "Quantum Data Mining Applications", value: 430, date: new Date(2024, 6, 5) },          // Jul 2024
+  { name: "AI Ethics in Digital Governance", value: 580, date: new Date(2025, 1, 12) },          // Feb 2025
 ];
+
 
 const pieColors = ["#8884d8", "#82ca9d", "#ffc658", "#ff7f50"];
 
@@ -56,61 +62,110 @@ const ChartCard = ({
   </Card>
 );
 
-// Main component
-const PublicationsStats: React.FC = () => (
-  <div className="mb-8">
-    <h1 className="text-foreground mb-6 text-2xl font-bold">My Publications</h1>
-    <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-      <ChartCard title="Publications Over Time">
-        <ResponsiveContainer width="100%" height="100%">
-          <LineChart data={publicationsOverTime}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="year" />
-            <YAxis />
-            <Tooltip />
-            <Line type="monotone" dataKey="count" stroke="#8884d8" />
-          </LineChart>
-        </ResponsiveContainer>
-      </ChartCard>
+// Main component with date filtering
+interface PublicationsStatsProps {
+  dateRange: DateRange | undefined;
+}
 
-      <ChartCard title="CORE Reference Levels">
-        <ResponsiveContainer width="100%" height="100%">
-          <BarChart data={coreLevels}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="level" />
-            <YAxis />
-            <Tooltip />
-            <Bar dataKey="count" fill="#82ca9d" />
-          </BarChart>
-        </ResponsiveContainer>
-      </ChartCard>
+const PublicationsStats: React.FC<PublicationsStatsProps> = ({ dateRange }) => {
+  // Filter data based on date range
+  const filteredPublicationsOverTime = useMemo(() => {
+    if (!dateRange?.from) return allPublicationsOverTime;
 
-      <ChartCard title="Citation Sources">
-        <ResponsiveContainer width="100%" height="100%">
-          <PieChart>
-            <Pie
-              data={citationSources}
-              dataKey="value"
-              nameKey="name"
-              cx="50%"
-              cy="50%"
-              outerRadius={60}
-              label
-            >
-              {citationSources.map((_entry, index) => (
-                <Cell
-                  key={`cell-${index}`}
-                  fill={pieColors[index % pieColors.length]}
-                />
-              ))}
-            </Pie>
-            <Legend />
-            <Tooltip />
-          </PieChart>
-        </ResponsiveContainer>
-      </ChartCard>
+    return allPublicationsOverTime.filter((item) => {
+      const itemDate = item.date;
+      if (dateRange.from && dateRange.to) {
+        return itemDate >= dateRange.from && itemDate <= dateRange.to;
+      }
+        const from = dateRange.from ?? new Date();
+        return itemDate >= from;
+    });
+  }, [dateRange]);
+
+  const filteredCoreLevels = useMemo(() => {
+    if (!dateRange?.from) return allCoreLevels;
+
+    return allCoreLevels.filter((item) => {
+      const itemDate = item.date;
+      if (dateRange.from && dateRange.to) {
+        return itemDate >= dateRange.from && itemDate <= dateRange.to;
+      }
+      const from = dateRange.from ?? new Date();
+
+        return itemDate >= from;
+    });
+  }, [dateRange]);
+
+  const filteredCitationSources = useMemo(() => {
+    if (!dateRange?.from) return allCitationSources;
+
+    return allCitationSources.filter((item) => {
+      const itemDate = item.date;
+      if (dateRange.from && dateRange.to) {
+        return itemDate >= dateRange.from && itemDate <= dateRange.to;
+      }
+
+      const from = dateRange.from ?? new Date();
+
+        return itemDate >= from;
+    });
+  }, [dateRange]);
+
+  return (
+    <div className="mb-8">
+      <h1 className="text-foreground mb-6 text-2xl font-bold">My Publications</h1>
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+        <ChartCard title="Publications Over Time">
+          <ResponsiveContainer width="100%" height="100%">
+            <LineChart data={filteredPublicationsOverTime}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="year" />
+              <YAxis />
+              <Tooltip />
+              <Line type="monotone" dataKey="count" stroke="#8884d8" />
+            </LineChart>
+          </ResponsiveContainer>
+        </ChartCard>
+
+        <ChartCard title="CORE Reference Levels">
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart data={filteredCoreLevels}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="level" />
+              <YAxis />
+              <Tooltip />
+              <Bar dataKey="count" fill="#82ca9d" />
+            </BarChart>
+          </ResponsiveContainer>
+        </ChartCard>
+
+        <ChartCard title="Most Cited Papers">
+          <ResponsiveContainer width="100%" height="100%">
+            <PieChart>
+              <Pie
+                data={filteredCitationSources}
+                dataKey="value"
+                nameKey="name"
+                cx="50%"
+                cy="50%"
+                outerRadius={60}
+                label
+              >
+                {filteredCitationSources.map((_entry, index) => (
+                  <Cell
+                    key={`cell-${index}`}
+                    fill={pieColors[index % pieColors.length]}
+                  />
+                ))}
+              </Pie>
+              <Legend />
+              <Tooltip />
+            </PieChart>
+          </ResponsiveContainer>
+        </ChartCard>
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 export default PublicationsStats;

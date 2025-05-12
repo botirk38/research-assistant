@@ -20,7 +20,7 @@ export const CitedPapersChart: React.FC<CitedPapersChartProps> = ({
   dateRange,
 }) => {
   const filteredData = useMemo(
-    () => filterDataByDateRange(allCitationSources, dateRange),
+    () => filterDataByDateRange(allCitationSources, dateRange).slice(0,3),
     [dateRange]
   );
 

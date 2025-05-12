@@ -38,7 +38,7 @@ export function ResearcherDashboardSidebar() {
           {open ? (
             <div className="flex items-center">
               <div className="bg-sidebar-primary font-display text-sidebar-primary-foreground flex h-10 w-10 items-center justify-center rounded-lg font-bold">
-                RP
+                RA
               </div>
               <Link
                 className="font-display text-sidebar-foreground ml-3 font-semibold"
@@ -49,7 +49,7 @@ export function ResearcherDashboardSidebar() {
             </div>
           ) : (
             <div className="bg-sidebar-primary font-display text-sidebar-primary-foreground mx-auto flex h-10 w-10 items-center justify-center rounded-lg font-bold">
-              RP
+              RA
             </div>
           )}
         </div>

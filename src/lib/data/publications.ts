@@ -1,3 +1,6 @@
+import type { FundingOpportunity, ResearchIdea } from "@/types/researcher";
+
+
 export const allPublicationsOverTime = [
   { year: "2025 Q1", count: 3, date: new Date(2025, 0, 15) },   // Jan 2025
   { year: "2025 Q1", count: 5, date: new Date(2025, 1, 8) },    // Feb 2025
@@ -42,3 +45,46 @@ export const allCitationSources = [
 ];
 
 export const pieColors = ["#8884d8", "#82ca9d", "#ffc658", "#ff7f50", "#af19ff", "#ff19af", "#19ffaf", "#19afff"];
+
+export const opportunities: FundingOpportunity[] = [
+  {
+    title: "NSF Advanced Computing Initiative",
+    amount: "$1.2M",
+    deadline: "June 15, 2025",
+  },
+  {
+    title: "NIH Medical Technology Research",
+    amount: "$850K",
+    deadline: "August 30, 2025",
+  },
+];
+
+
+
+export const ideas: ResearchIdea[] = [
+  {
+    title: "Federated Learning for Privacy-Preserving Medical Analysis",
+    description: "Aligns with your work in healthcare AI",
+  },
+  {
+    title: "Multi-modal Learning for Clinical Decision Support",
+    description: "Extension of your medical imaging research",
+  },
+];
+
+export const fullResearchAreas = [
+  { label: "Machine Learning", value: 42, date: new Date("2023-01-15") },
+  { label: "Data Visualization", value: 28, date: new Date("2023-03-22") },
+  { label: "Natural Language Processing", value: 18, date: new Date("2023-06-10") },
+  { label: "Computer Vision", value: 12, date: new Date("2023-09-05") },
+];
+
+export const areaColors = ["#8884d8", "#82ca9d", "#ffc658", "#ff7f50"];
+
+export const impactDimensions = [
+  { category: "Knowledge", value: 80 },
+  { category: "Socio-economic", value: 75 },
+  { category: "Technology", value: 80 },
+  { category: "Policy", value: 60 },
+  { category: "Public Engagement", value: 70 },
+];

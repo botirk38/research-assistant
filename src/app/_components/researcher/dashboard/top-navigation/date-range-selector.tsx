@@ -1,6 +1,6 @@
 "use client";
 
-import { format, subDays, subMonths, subYears, startOfMonth, endOfMonth, startOfYear } from "date-fns";
+import { subDays, subMonths, subYears, startOfMonth, endOfMonth, startOfYear } from "date-fns";
 import type { DateRange } from "react-day-picker";
 
 import { cn } from "@/lib/utils";

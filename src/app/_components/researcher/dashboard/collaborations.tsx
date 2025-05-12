@@ -22,8 +22,6 @@ const collaborators: Collaborator[] = [
   },
 ];
 
-
-
 const Collaborations: React.FC = () => {
   const [view, setView] = useState<"card" | "table">("card");
 

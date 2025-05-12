@@ -16,37 +16,13 @@ import {
 } from "recharts";
 import ResearchImpactCard from "./research-impact-card";
 import type { DateRange } from "react-day-picker";
-import { useMemo } from "react";
+import { filterDataByDateRange } from "@/utils/date-filter";
+import { fullResearchAreas, areaColors } from "@/lib/data/publications";
 
-// Mock data with dates to demonstrate filtering
-const fullResearchAreas = [
-  { label: "Machine Learning", value: 42, date: new Date("2023-01-15") },
-  { label: "Data Visualization", value: 28, date: new Date("2023-03-22") },
-  { label: "Natural Language Processing", value: 18, date: new Date("2023-06-10") },
-  { label: "Computer Vision", value: 12, date: new Date("2023-09-05") },
-];
 
-const areaColors = ["#8884d8", "#82ca9d", "#ffc658", "#ff7f50"];
 
 const ResearchProfileCard: React.FC<{ dateRange: DateRange | undefined }> = ({ dateRange }) => {
-  // Filter data based on date range
-  const filteredData = useMemo(() => {
-    if (!dateRange || (!dateRange.from && !dateRange.to)) {
-      return fullResearchAreas;
-    }
-
-    return fullResearchAreas.filter(item => {
-      const itemDate = item.date;
-      if (dateRange.from && dateRange.to) {
-        return itemDate >= dateRange.from && itemDate <= dateRange.to;
-      } else if (dateRange.from) {
-        return itemDate >= dateRange.from;
-      } else if (dateRange.to) {
-        return itemDate <= dateRange.to;
-      }
-      return true;
-    });
-  }, [dateRange]);
+  const filteredData = filterDataByDateRange(fullResearchAreas, dateRange)
 
   return (
     <Card className="animate-fade-in transition-shadow hover:shadow-md">

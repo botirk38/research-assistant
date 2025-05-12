@@ -1,7 +1,7 @@
 "use client";
 
-import { DatePickerWithRange } from "@/components/date-range-picker";
 import type { DateRange } from "react-day-picker";
+import { DateRangeSelector } from "./top-navigation/date-range-selector";
 
 interface TopNavigationProps {
     dateRange?: DateRange;
@@ -14,7 +14,7 @@ const TopNavigation: React.FC<TopNavigationProps> = ({ dateRange, onDateChange }
       <h1 className="font-display text-foreground text-3xl font-semibold">
         Publications Overview
       </h1>
-      <DatePickerWithRange
+      <DateRangeSelector
         value={dateRange}
         onChange={onDateChange}
       />

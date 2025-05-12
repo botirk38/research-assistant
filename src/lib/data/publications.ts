@@ -73,10 +73,10 @@ export const ideas: ResearchIdea[] = [
 ];
 
 export const fullResearchAreas = [
-  { label: "Machine Learning", value: 42, date: new Date("2023-01-15") },
-  { label: "Data Visualization", value: 28, date: new Date("2023-03-22") },
-  { label: "Natural Language Processing", value: 18, date: new Date("2023-06-10") },
-  { label: "Computer Vision", value: 12, date: new Date("2023-09-05") },
+  { label: "Machine Learning", value: 42, date: new Date("2025-01-15") },
+  { label: "Data Visualization", value: 28, date: new Date("2025-03-22") },
+  { label: "Natural Language Processing", value: 18, date: new Date("2025-05-10") },
+  { label: "Computer Vision", value: 12, date: new Date("2025-04-05") },
 ];
 
 export const areaColors = ["#8884d8", "#82ca9d", "#ffc658", "#ff7f50"];

@@ -1,7 +1,8 @@
 import { Avatar, AvatarImage, AvatarFallback } from "@radix-ui/react-avatar";
 import { Popover, PopoverTrigger, PopoverContent } from "@radix-ui/react-popover";
-import { User, Settings, FileText, Link, MoveUpRight, LogOut } from "lucide-react";
+import { User, Settings, FileText,  MoveUpRight, LogOut } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 const UserMenu = () => {
   const userData = {

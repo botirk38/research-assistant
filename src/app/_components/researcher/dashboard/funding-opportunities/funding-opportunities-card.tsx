@@ -5,9 +5,10 @@ import { DollarSign } from "lucide-react";
 
 interface FundingCardProps {
     data: FundingOpportunity[];
+    onFundingOpportunityClick: (id: string) => void;
 }
 
-const FundingCard: React.FC<FundingCardProps> = ({ data }) => (
+const FundingCard: React.FC<FundingCardProps> = ({ data, onFundingOpportunityClick}) => (
   <Card className="border-t-destructive border-border border border-t-4 transition-shadow hover:shadow-md">
     <CardHeader>
       <CardTitle className="flex items-center gap-2">
@@ -39,6 +40,7 @@ const FundingCard: React.FC<FundingCardProps> = ({ data }) => (
             <Button
               size="sm"
               className="bg-destructive text-primary-foreground hover:bg-destructive/90"
+              onClick={() => onFundingOpportunityClick(opportunity.id)}
             >
               View Details
             </Button>

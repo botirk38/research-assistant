@@ -663,7 +663,8 @@ export default async function ResearcherProfile({ params }: { params: Promise< {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="flex items-center justify-center">
+    <div className="container">
       {/* Header with cover image and profile info */}
       <ProfileHeader researcher={researcher} />
 
@@ -708,6 +709,7 @@ export default async function ResearcherProfile({ params }: { params: Promise< {
           </div>
         </div>
       </div>
+    </div>
     </div>
   )
 }

@@ -48,7 +48,7 @@ const FundingCard: React.FC<FundingCardProps> = ({
           <div className="mt-3 flex justify-end">
             <Button
               size="sm"
-              className="bg-destructive text-primary-foreground hover:bg-destructive/90"
+              className="bg-destructive text-primary-foreground"
               onClick={() => onFundingOpportunityClick(opportunity.id)}
             >
               View Details

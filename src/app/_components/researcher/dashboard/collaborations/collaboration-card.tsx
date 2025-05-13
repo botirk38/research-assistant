@@ -39,7 +39,7 @@ const CollaborationCard: React.FC<CollaborationCardProps> = ({
             <Button
               variant="outline"
               size="sm"
-              className="border-border text-card-foreground hover:bg-accent"
+              className="border-border text-card-foreground"
               onClick={() => onConnectClick(collaborator.id)}
             >
               Connect

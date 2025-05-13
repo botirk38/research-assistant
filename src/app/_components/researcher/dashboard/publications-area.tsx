@@ -1,16 +1,11 @@
 import { useState } from "react";
-import {
-  LayoutGrid,
-  Table as TableIcon,
-} from "lucide-react";
+import { LayoutGrid, Table as TableIcon } from "lucide-react";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import type { Publication } from "@/types/researcher";
 import ExplorationCard from "./publications/explorations-card";
 import ResearchTable from "./publications/research-table";
 import ExplorationTable from "./publications/exploration-table";
 import PublicationsCard from "./publications/publications-card";
-
-
 
 const PublicationsArea: React.FC = () => {
   const [researchView, setResearchView] = useState<"card" | "table">("card");

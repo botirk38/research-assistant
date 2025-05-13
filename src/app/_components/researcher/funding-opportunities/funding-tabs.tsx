@@ -1,22 +1,26 @@
-
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { FundingOverview } from "./funding-overview"
-import { FundingRequirements } from "./funding-requirements"
-import { FundingTimeline } from "./funding-timeline"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { FundingOverview } from "./funding-overview";
+import { FundingRequirements } from "./funding-requirements";
+import { FundingTimeline } from "./funding-timeline";
 
 interface KeyDate {
-  event: string
-  date: string
+  event: string;
+  date: string;
 }
 
 interface FundingTabsProps {
-  description: string
-  eligibility: string
-  requirements: string[]
-  keyDates: KeyDate[]
+  description: string;
+  eligibility: string;
+  requirements: string[];
+  keyDates: KeyDate[];
 }
 
-export function FundingTabs({ description, eligibility, requirements, keyDates }: FundingTabsProps) {
+export function FundingTabs({
+  description,
+  eligibility,
+  requirements,
+  keyDates,
+}: FundingTabsProps) {
   return (
     <Tabs defaultValue="overview" className="w-full">
       <TabsList className="grid w-full grid-cols-3">
@@ -34,5 +38,5 @@ export function FundingTabs({ description, eligibility, requirements, keyDates }
         <FundingTimeline keyDates={keyDates} />
       </TabsContent>
     </Tabs>
-  )
+  );
 }

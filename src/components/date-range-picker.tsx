@@ -25,13 +25,12 @@ export function DatePickerWithRange({
   value,
   onChange,
 }: DatePickerWithRangeProps) {
-
-    const currentYear = new Date().getFullYear();
+  const currentYear = new Date().getFullYear();
   const [date, setDate] = React.useState<DateRange | undefined>(
     value ?? {
       from: new Date(currentYear, 0, 1),
       to: new Date(),
-    }
+    },
   );
 
   // Update local state and call the onChange handler

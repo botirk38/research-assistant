@@ -1,12 +1,12 @@
-import { Calendar } from "lucide-react"
+import { Calendar } from "lucide-react";
 
 interface KeyDate {
-  event: string
-  date: string
+  event: string;
+  date: string;
 }
 
 interface FundingTimelineProps {
-  keyDates: KeyDate[]
+  keyDates: KeyDate[];
 }
 
 export function FundingTimeline({ keyDates }: FundingTimelineProps) {
@@ -17,17 +17,17 @@ export function FundingTimeline({ keyDates }: FundingTimelineProps) {
         <div className="space-y-4">
           {keyDates.map((date, index) => (
             <div key={index} className="flex items-start space-x-3">
-              <div className="flex-shrink-0 mt-1">
-                <Calendar className="h-5 w-5 text-muted-foreground" />
+              <div className="mt-1 flex-shrink-0">
+                <Calendar className="text-muted-foreground h-5 w-5" />
               </div>
               <div>
                 <p className="font-medium">{date.event}</p>
-                <p className="text-sm text-muted-foreground">{date.date}</p>
+                <p className="text-muted-foreground text-sm">{date.date}</p>
               </div>
             </div>
           ))}
         </div>
       </div>
     </div>
-  )
+  );
 }

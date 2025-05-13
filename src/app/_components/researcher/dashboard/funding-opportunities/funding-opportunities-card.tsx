@@ -1,14 +1,23 @@
-import  { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+} from "@/components/ui/card";
 import type { FundingOpportunity } from "@/types/researcher";
 import { Button } from "@/components/ui/button";
 import { DollarSign } from "lucide-react";
 
 interface FundingCardProps {
-    data: FundingOpportunity[];
-    onFundingOpportunityClick: (id: string) => void;
+  data: FundingOpportunity[];
+  onFundingOpportunityClick: (id: string) => void;
 }
 
-const FundingCard: React.FC<FundingCardProps> = ({ data, onFundingOpportunityClick}) => (
+const FundingCard: React.FC<FundingCardProps> = ({
+  data,
+  onFundingOpportunityClick,
+}) => (
   <Card className="border-t-destructive border-border border border-t-4 transition-shadow hover:shadow-md">
     <CardHeader>
       <CardTitle className="flex items-center gap-2">

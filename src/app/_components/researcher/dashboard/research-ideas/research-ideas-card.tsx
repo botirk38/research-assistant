@@ -1,6 +1,11 @@
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+} from "@/components/ui/card";
 import type { ResearchIdea } from "@/types/researcher";
-
 
 const ResearchIdeasCard: React.FC<{ ideas: ResearchIdea[] }> = ({ ideas }) => (
   <Card className="transition-shadow hover:shadow-md">

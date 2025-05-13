@@ -1,16 +1,16 @@
 interface ContactInfo {
-  name: string
-  email: string
-  phone: string
+  name: string;
+  email: string;
+  phone: string;
 }
 
 interface ContactCardProps {
-  contactInfo: ContactInfo
+  contactInfo: ContactInfo;
 }
 
 export function ContactCard({ contactInfo }: ContactCardProps) {
   return (
-    <div className="rounded-lg border bg-card p-4 shadow-sm">
+    <div className="bg-card rounded-lg border p-4 shadow-sm">
       <div className="space-y-4">
         <h3 className="font-semibold">Contact Information</h3>
         <div className="space-y-2 text-sm">
@@ -20,5 +20,5 @@ export function ContactCard({ contactInfo }: ContactCardProps) {
         </div>
       </div>
     </div>
-  )
+  );
 }

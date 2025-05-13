@@ -11,66 +11,72 @@ import {
   Phone,
   Share2,
   Twitter,
-} from "lucide-react"
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+} from "lucide-react";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 // Types
 type SocialLink = {
-  platform: string
-  url: string
-  username: string
-}
+  platform: string;
+  url: string;
+  username: string;
+};
 
 type Publication = {
-  title: string
-  journal: string
-  year: number
-  citations: number
-  url: string
-  coAuthors: string[]
-}
+  title: string;
+  journal: string;
+  year: number;
+  citations: number;
+  url: string;
+  coAuthors: string[];
+};
 
 type Education = {
-  degree: string
-  institution: string
-  year: string
-}
+  degree: string;
+  institution: string;
+  year: string;
+};
 
 type Award = {
-  name: string
-  year: string
-}
+  name: string;
+  year: string;
+};
 
 type ResearcherData = {
-  name: string
-  title: string
-  institution: string
-  department: string
-  field: string
-  bio: string
-  avatar: string
-  email: string
-  phone: string
-  website: string
-  location: string
-  socialLinks: SocialLink[]
+  name: string;
+  title: string;
+  institution: string;
+  department: string;
+  field: string;
+  bio: string;
+  avatar: string;
+  email: string;
+  phone: string;
+  website: string;
+  location: string;
+  socialLinks: SocialLink[];
   stats: {
-    hIndex: number
-    citations: number
-    publications: number
-    collaborators: number
-  }
-  publications: Publication[]
-  researchInterests: string[]
-  currentProjects: string[]
-  education: Education[]
-  awards: Award[]
-}
+    hIndex: number;
+    citations: number;
+    publications: number;
+    collaborators: number;
+  };
+  publications: Publication[];
+  researchInterests: string[];
+  currentProjects: string[];
+  education: Education[];
+  awards: Award[];
+};
 
 // This would typically come from your database
 const getResearcherData = (id: string) => {
@@ -89,14 +95,26 @@ const getResearcherData = (id: string) => {
       website: "https://sarahchen.stanford.edu",
       location: "Stanford, CA",
       socialLinks: [
-        { platform: "Twitter", url: "https://twitter.com/sarahchen", username: "@sarahchen" },
-        { platform: "LinkedIn", url: "https://linkedin.com/in/sarahchen", username: "sarahchen" },
+        {
+          platform: "Twitter",
+          url: "https://twitter.com/sarahchen",
+          username: "@sarahchen",
+        },
+        {
+          platform: "LinkedIn",
+          url: "https://linkedin.com/in/sarahchen",
+          username: "sarahchen",
+        },
         {
           platform: "Google Scholar",
           url: "https://scholar.google.com/citations?user=sarahchen",
           username: "Sarah Chen",
         },
-        { platform: "ORCID", url: "https://orcid.org/0000-0002-1234-5678", username: "0000-0002-1234-5678" },
+        {
+          platform: "ORCID",
+          url: "https://orcid.org/0000-0002-1234-5678",
+          username: "0000-0002-1234-5678",
+        },
       ],
       stats: {
         hIndex: 32,
@@ -106,7 +124,8 @@ const getResearcherData = (id: string) => {
       },
       publications: [
         {
-          title: "Deep Learning for Medical Image Analysis: A Comprehensive Review",
+          title:
+            "Deep Learning for Medical Image Analysis: A Comprehensive Review",
           journal: "Nature Medicine",
           year: 2023,
           citations: 145,
@@ -114,7 +133,8 @@ const getResearcherData = (id: string) => {
           coAuthors: ["J. Smith", "R. Johnson", "M. Williams"],
         },
         {
-          title: "AI-Driven Diagnostics for Rare Diseases: Challenges and Opportunities",
+          title:
+            "AI-Driven Diagnostics for Rare Diseases: Challenges and Opportunities",
           journal: "Journal of Medical AI",
           year: 2022,
           citations: 87,
@@ -122,7 +142,8 @@ const getResearcherData = (id: string) => {
           coAuthors: ["L. Zhang", "K. Patel"],
         },
         {
-          title: "Federated Learning in Healthcare: Privacy-Preserving Collaborative Model Training",
+          title:
+            "Federated Learning in Healthcare: Privacy-Preserving Collaborative Model Training",
           journal: "IEEE Transactions on Medical Imaging",
           year: 2021,
           citations: 203,
@@ -159,9 +180,21 @@ const getResearcherData = (id: string) => {
         "Explainable AI methods for clinical decision support",
       ],
       education: [
-        { degree: "Ph.D. in Computer Science", institution: "MIT", year: "2015" },
-        { degree: "M.S. in Biomedical Engineering", institution: "Johns Hopkins University", year: "2011" },
-        { degree: "B.S. in Electrical Engineering", institution: "UC Berkeley", year: "2009" },
+        {
+          degree: "Ph.D. in Computer Science",
+          institution: "MIT",
+          year: "2015",
+        },
+        {
+          degree: "M.S. in Biomedical Engineering",
+          institution: "Johns Hopkins University",
+          year: "2011",
+        },
+        {
+          degree: "B.S. in Electrical Engineering",
+          institution: "UC Berkeley",
+          year: "2009",
+        },
       ],
       awards: [
         { name: "NIH Director's New Innovator Award", year: "2022" },
@@ -183,14 +216,26 @@ const getResearcherData = (id: string) => {
       website: "https://jameswilson.mit.edu",
       location: "Cambridge, MA",
       socialLinks: [
-        { platform: "Twitter", url: "https://twitter.com/jameswilson", username: "@jameswilson" },
-        { platform: "LinkedIn", url: "https://linkedin.com/in/jameswilson", username: "jameswilson" },
+        {
+          platform: "Twitter",
+          url: "https://twitter.com/jameswilson",
+          username: "@jameswilson",
+        },
+        {
+          platform: "LinkedIn",
+          url: "https://linkedin.com/in/jameswilson",
+          username: "jameswilson",
+        },
         {
           platform: "Google Scholar",
           url: "https://scholar.google.com/citations?user=jameswilson",
           username: "James Wilson",
         },
-        { platform: "GitHub", url: "https://github.com/jameswilson", username: "jameswilson" },
+        {
+          platform: "GitHub",
+          url: "https://github.com/jameswilson",
+          username: "jameswilson",
+        },
       ],
       stats: {
         hIndex: 45,
@@ -253,48 +298,73 @@ const getResearcherData = (id: string) => {
         "Efficient vision transformers for edge devices",
       ],
       education: [
-        { degree: "Ph.D. in Computer Science", institution: "Stanford University", year: "2008" },
-        { degree: "M.S. in Computer Science", institution: "Carnegie Mellon University", year: "2004" },
-        { degree: "B.S. in Computer Engineering", institution: "University of Michigan", year: "2002" },
+        {
+          degree: "Ph.D. in Computer Science",
+          institution: "Stanford University",
+          year: "2008",
+        },
+        {
+          degree: "M.S. in Computer Science",
+          institution: "Carnegie Mellon University",
+          year: "2004",
+        },
+        {
+          degree: "B.S. in Computer Engineering",
+          institution: "University of Michigan",
+          year: "2002",
+        },
       ],
       awards: [
         { name: "ACM SIGGRAPH Significant New Researcher Award", year: "2022" },
-        { name: "MIT EECS Faculty Research Innovation Fellowship", year: "2020" },
+        {
+          name: "MIT EECS Faculty Research Innovation Fellowship",
+          year: "2020",
+        },
         { name: "NSF CAREER Award", year: "2015" },
       ],
     },
-  }
+  };
 
-  return researchers[id as keyof typeof researchers]
-}
+  return researchers[id as keyof typeof researchers];
+};
 
 // Component: Profile Header
 const ProfileHeader = ({ researcher }: { researcher: ResearcherData }) => {
   return (
     <>
-      <div className="relative h-48 md:h-64 lg:h-80 w-full">
-
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-background/80"></div>
+      <div className="relative h-48 w-full md:h-64 lg:h-80">
+        <div className="to-background/80 absolute inset-0 bg-gradient-to-b from-transparent"></div>
         <div className="absolute top-4 left-4">
           <Link href="/researcher">
-            <Button variant="outline" size="sm" className="bg-background/80 backdrop-blur-sm">
+            <Button
+              variant="outline"
+              size="sm"
+              className="bg-background/80 backdrop-blur-sm"
+            >
               <ArrowLeft className="mr-2 h-4 w-4" />
               Back
             </Button>
           </Link>
         </div>
         <div className="absolute top-4 right-4">
-          <Button variant="outline" size="sm" className="bg-background/80 backdrop-blur-sm">
+          <Button
+            variant="outline"
+            size="sm"
+            className="bg-background/80 backdrop-blur-sm"
+          >
             <Share2 className="mr-2 h-4 w-4" />
             Share
           </Button>
         </div>
       </div>
 
-      <div className="flex flex-col md:flex-row gap-6 -mt-16 md:-mt-20 mb-8 relative z-10">
+      <div className="relative z-10 -mt-16 mb-8 flex flex-col gap-6 md:-mt-20 md:flex-row">
         <div className="flex-shrink-0">
-          <Avatar className="h-32 w-32 md:h-40 md:w-40 border-4 border-background rounded-full">
-            <AvatarImage src={researcher.avatar || "/placeholder.svg"} alt={researcher.name} />
+          <Avatar className="border-background h-32 w-32 rounded-full border-4 md:h-40 md:w-40">
+            <AvatarImage
+              src={researcher.avatar || "/placeholder.svg"}
+              alt={researcher.name}
+            />
             <AvatarFallback>
               {researcher.name
                 .split(" ")
@@ -304,22 +374,22 @@ const ProfileHeader = ({ researcher }: { researcher: ResearcherData }) => {
           </Avatar>
         </div>
         <div className="flex-1 pt-4 md:pt-8">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
             <div>
               <h1 className="text-3xl font-bold">{researcher.name}</h1>
-              <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3 text-muted-foreground mt-1">
+              <div className="text-muted-foreground mt-1 flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-3">
                 <div className="flex items-center">
-                  <BookOpen className="h-4 w-4 mr-1" />
+                  <BookOpen className="mr-1 h-4 w-4" />
                   <span>{researcher.title}</span>
                 </div>
                 <div className="hidden sm:block">•</div>
                 <div className="flex items-center">
-                  <MapPin className="h-4 w-4 mr-1" />
+                  <MapPin className="mr-1 h-4 w-4" />
                   <span>{researcher.institution}</span>
                 </div>
                 <div className="hidden sm:block">•</div>
                 <div className="flex items-center">
-                  <Globe className="h-4 w-4 mr-1" />
+                  <Globe className="mr-1 h-4 w-4" />
                   <span>{researcher.field}</span>
                 </div>
               </div>
@@ -338,13 +408,13 @@ const ProfileHeader = ({ researcher }: { researcher: ResearcherData }) => {
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
 // Component: Stat Cards
 const StatCards = ({ stats }: { stats: ResearcherData["stats"] }) => {
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
+    <div className="mb-8 grid grid-cols-2 gap-4 sm:grid-cols-4">
       <Card>
         <CardHeader className="p-4 pb-2">
           <CardDescription>Publications</CardDescription>
@@ -378,8 +448,8 @@ const StatCards = ({ stats }: { stats: ResearcherData["stats"] }) => {
         </CardContent>
       </Card>
     </div>
-  )
-}
+  );
+};
 
 // Component: Overview Tab Content
 const OverviewTabContent = ({ researcher }: { researcher: ResearcherData }) => {
@@ -414,7 +484,7 @@ const OverviewTabContent = ({ researcher }: { researcher: ResearcherData }) => {
           <CardTitle>Current Projects</CardTitle>
         </CardHeader>
         <CardContent>
-          <ul className="list-disc pl-5 space-y-2">
+          <ul className="list-disc space-y-2 pl-5">
             {researcher.currentProjects.map((project, index) => (
               <li key={index}>{project}</li>
             ))}
@@ -422,11 +492,15 @@ const OverviewTabContent = ({ researcher }: { researcher: ResearcherData }) => {
         </CardContent>
       </Card>
     </div>
-  )
-}
+  );
+};
 
 // Component: Publications Tab Content
-const PublicationsTabContent = ({ publications }: { publications: Publication[] }) => {
+const PublicationsTabContent = ({
+  publications,
+}: {
+  publications: Publication[];
+}) => {
   return (
     <Card>
       <CardHeader>
@@ -435,19 +509,19 @@ const PublicationsTabContent = ({ publications }: { publications: Publication[] 
       <CardContent className="space-y-6">
         {publications.map((pub, index) => (
           <div key={index} className="border-b pb-4 last:border-0 last:pb-0">
-            <h3 className="font-semibold text-lg hover:text-primary">
+            <h3 className="hover:text-primary text-lg font-semibold">
               <Link href={pub.url}>{pub.title}</Link>
             </h3>
-            <div className="flex flex-wrap items-center gap-x-2 text-sm text-muted-foreground mt-1">
+            <div className="text-muted-foreground mt-1 flex flex-wrap items-center gap-x-2 text-sm">
               <span>{pub.journal}</span>
               <span>•</span>
               <div className="flex items-center">
-                <Calendar className="h-3 w-3 mr-1" />
+                <Calendar className="mr-1 h-3 w-3" />
                 <span>{pub.year}</span>
               </div>
               <span>•</span>
               <div className="flex items-center">
-                <BookOpen className="h-3 w-3 mr-1" />
+                <BookOpen className="mr-1 h-3 w-3" />
                 <span>{pub.citations} citations</span>
               </div>
             </div>
@@ -459,8 +533,8 @@ const PublicationsTabContent = ({ publications }: { publications: Publication[] 
         ))}
       </CardContent>
     </Card>
-  )
-}
+  );
+};
 
 // Component: Projects Tab Content
 const ProjectsTabContent = ({ projects }: { projects: string[] }) => {
@@ -473,26 +547,26 @@ const ProjectsTabContent = ({ projects }: { projects: string[] }) => {
         <div className="space-y-6">
           {projects.map((project, index) => (
             <div key={index} className="border-b pb-4 last:border-0 last:pb-0">
-              <h3 className="font-semibold text-lg">{project}</h3>
+              <h3 className="text-lg font-semibold">{project}</h3>
               <p className="text-muted-foreground mt-2">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et
-                dolore magna aliqua.
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua.
               </p>
             </div>
           ))}
         </div>
       </CardContent>
     </Card>
-  )
-}
+  );
+};
 
 // Component: Education and Awards Tab Content
 const EducationAwardsTabContent = ({
   education,
   awards,
 }: {
-  education: Education[]
-  awards: Award[]
+  education: Education[];
+  awards: Award[];
 }) => {
   return (
     <div className="space-y-6">
@@ -503,7 +577,7 @@ const EducationAwardsTabContent = ({
         <CardContent>
           <div className="space-y-4">
             {education.map((edu, index) => (
-              <div key={index} className="flex justify-between items-start">
+              <div key={index} className="flex items-start justify-between">
                 <div>
                   <h3 className="font-semibold">{edu.degree}</h3>
                   <p className="text-muted-foreground">{edu.institution}</p>
@@ -522,7 +596,7 @@ const EducationAwardsTabContent = ({
         <CardContent>
           <div className="space-y-4">
             {awards.map((award, index) => (
-              <div key={index} className="flex justify-between items-start">
+              <div key={index} className="flex items-start justify-between">
                 <div>
                   <h3 className="font-semibold">{award.name}</h3>
                 </div>
@@ -533,8 +607,8 @@ const EducationAwardsTabContent = ({
         </CardContent>
       </Card>
     </div>
-  )
-}
+  );
+};
 
 // Component: Contact Information
 const ContactInfo = ({ researcher }: { researcher: ResearcherData }) => {
@@ -545,9 +619,9 @@ const ContactInfo = ({ researcher }: { researcher: ResearcherData }) => {
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="flex items-start">
-          <Mail className="h-5 w-5 mr-3 mt-0.5 text-muted-foreground" />
+          <Mail className="text-muted-foreground mt-0.5 mr-3 h-5 w-5" />
           <div>
-            <p className="text-sm text-muted-foreground">Email</p>
+            <p className="text-muted-foreground text-sm">Email</p>
             <a href={`mailto:${researcher.email}`} className="hover:underline">
               {researcher.email}
             </a>
@@ -555,9 +629,9 @@ const ContactInfo = ({ researcher }: { researcher: ResearcherData }) => {
         </div>
 
         <div className="flex items-start">
-          <Phone className="h-5 w-5 mr-3 mt-0.5 text-muted-foreground" />
+          <Phone className="text-muted-foreground mt-0.5 mr-3 h-5 w-5" />
           <div>
-            <p className="text-sm text-muted-foreground">Phone</p>
+            <p className="text-muted-foreground text-sm">Phone</p>
             <a href={`tel:${researcher.phone}`} className="hover:underline">
               {researcher.phone}
             </a>
@@ -565,32 +639,32 @@ const ContactInfo = ({ researcher }: { researcher: ResearcherData }) => {
         </div>
 
         <div className="flex items-start">
-          <Globe className="h-5 w-5 mr-3 mt-0.5 text-muted-foreground" />
+          <Globe className="text-muted-foreground mt-0.5 mr-3 h-5 w-5" />
           <div>
-            <p className="text-sm text-muted-foreground">Website</p>
+            <p className="text-muted-foreground text-sm">Website</p>
             <a
               href={researcher.website}
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:underline flex items-center"
+              className="flex items-center hover:underline"
             >
               {researcher.website.replace("https://", "")}
-              <ExternalLink className="h-3 w-3 ml-1" />
+              <ExternalLink className="ml-1 h-3 w-3" />
             </a>
           </div>
         </div>
 
         <div className="flex items-start">
-          <MapPin className="h-5 w-5 mr-3 mt-0.5 text-muted-foreground" />
+          <MapPin className="text-muted-foreground mt-0.5 mr-3 h-5 w-5" />
           <div>
-            <p className="text-sm text-muted-foreground">Location</p>
+            <p className="text-muted-foreground text-sm">Location</p>
             <p>{researcher.location}</p>
           </div>
         </div>
       </CardContent>
     </Card>
-  )
-}
+  );
+};
 
 // Component: Social Links
 const SocialLinks = ({ links }: { links: SocialLink[] }) => {
@@ -603,31 +677,37 @@ const SocialLinks = ({ links }: { links: SocialLink[] }) => {
         {links.map((link, index) => (
           <div key={index} className="flex items-start">
             {link.platform === "Twitter" ? (
-              <Twitter className="h-5 w-5 mr-3 mt-0.5 text-muted-foreground" />
+              <Twitter className="text-muted-foreground mt-0.5 mr-3 h-5 w-5" />
             ) : (
-              <AtSign className="h-5 w-5 mr-3 mt-0.5 text-muted-foreground" />
+              <AtSign className="text-muted-foreground mt-0.5 mr-3 h-5 w-5" />
             )}
             <div>
-              <p className="text-sm text-muted-foreground">{link.platform}</p>
+              <p className="text-muted-foreground text-sm">{link.platform}</p>
               <a
                 href={link.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:underline flex items-center"
+                className="flex items-center hover:underline"
               >
                 {link.username}
-                <ExternalLink className="h-3 w-3 ml-1" />
+                <ExternalLink className="ml-1 h-3 w-3" />
               </a>
             </div>
           </div>
         ))}
       </CardContent>
     </Card>
-  )
-}
+  );
+};
 
 // Component: Department Info
-const DepartmentInfo = ({ department, institution }: { department: string; institution: string }) => {
+const DepartmentInfo = ({
+  department,
+  institution,
+}: {
+  department: string;
+  institution: string;
+}) => {
   return (
     <Card>
       <CardHeader>
@@ -638,20 +718,26 @@ const DepartmentInfo = ({ department, institution }: { department: string; insti
         <p className="mt-2">{institution}</p>
       </CardContent>
     </Card>
-  )
-}
+  );
+};
 
 // Main Component
-export default async function ResearcherProfile({ params }: { params: Promise< { id: string }> }) {
-
-    const { id } = await params;
-  const researcher = getResearcherData(id)
+export default async function ResearcherProfile({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
+  const researcher = getResearcherData(id);
 
   if (!researcher) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen p-4">
-        <h1 className="text-2xl font-bold mb-4">Researcher not found</h1>
-        <p className="mb-6">The researcher profile you&apos;re looking for doesn&apos;t exist or has been removed.</p>
+      <div className="flex min-h-screen flex-col items-center justify-center p-4">
+        <h1 className="mb-4 text-2xl font-bold">Researcher not found</h1>
+        <p className="mb-6">
+          The researcher profile you&apos;re looking for doesn&apos;t exist or
+          has been removed.
+        </p>
         <Link href="/researcher">
           <Button>
             <ArrowLeft className="mr-2 h-4 w-4" />
@@ -659,57 +745,67 @@ export default async function ResearcherProfile({ params }: { params: Promise< {
           </Button>
         </Link>
       </div>
-    )
+    );
   }
 
   return (
     <div className="flex items-center justify-center">
-    <div className="container">
-      {/* Header with cover image and profile info */}
-      <ProfileHeader researcher={researcher} />
+      <div className="container">
+        {/* Header with cover image and profile info */}
+        <ProfileHeader researcher={researcher} />
 
-      <div className=" px-4 pb-12">
-        {/* Stats cards */}
-        <StatCards stats={researcher.stats} />
+        <div className="px-4 pb-12">
+          {/* Stats cards */}
+          <StatCards stats={researcher.stats} />
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Main content */}
-          <div className="lg:col-span-2">
-            <Tabs defaultValue="overview" className="w-full">
-              <TabsList className="mb-6">
-                <TabsTrigger value="overview">Overview</TabsTrigger>
-                <TabsTrigger value="publications">Publications</TabsTrigger>
-                <TabsTrigger value="projects">Projects</TabsTrigger>
-                <TabsTrigger value="education">Education & Awards</TabsTrigger>
-              </TabsList>
+          <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
+            {/* Main content */}
+            <div className="lg:col-span-2">
+              <Tabs defaultValue="overview" className="w-full">
+                <TabsList className="mb-6">
+                  <TabsTrigger value="overview">Overview</TabsTrigger>
+                  <TabsTrigger value="publications">Publications</TabsTrigger>
+                  <TabsTrigger value="projects">Projects</TabsTrigger>
+                  <TabsTrigger value="education">
+                    Education & Awards
+                  </TabsTrigger>
+                </TabsList>
 
-              <TabsContent value="overview">
-                <OverviewTabContent researcher={researcher} />
-              </TabsContent>
+                <TabsContent value="overview">
+                  <OverviewTabContent researcher={researcher} />
+                </TabsContent>
 
-              <TabsContent value="publications">
-                <PublicationsTabContent publications={researcher.publications} />
-              </TabsContent>
+                <TabsContent value="publications">
+                  <PublicationsTabContent
+                    publications={researcher.publications}
+                  />
+                </TabsContent>
 
-              <TabsContent value="projects">
-                <ProjectsTabContent projects={researcher.currentProjects} />
-              </TabsContent>
+                <TabsContent value="projects">
+                  <ProjectsTabContent projects={researcher.currentProjects} />
+                </TabsContent>
 
-              <TabsContent value="education">
-                <EducationAwardsTabContent education={researcher.education} awards={researcher.awards} />
-              </TabsContent>
-            </Tabs>
-          </div>
+                <TabsContent value="education">
+                  <EducationAwardsTabContent
+                    education={researcher.education}
+                    awards={researcher.awards}
+                  />
+                </TabsContent>
+              </Tabs>
+            </div>
 
-          {/* Sidebar */}
-          <div className="space-y-6">
-            <ContactInfo researcher={researcher} />
-            <SocialLinks links={researcher.socialLinks} />
-            <DepartmentInfo department={researcher.department} institution={researcher.institution} />
+            {/* Sidebar */}
+            <div className="space-y-6">
+              <ContactInfo researcher={researcher} />
+              <SocialLinks links={researcher.socialLinks} />
+              <DepartmentInfo
+                department={researcher.department}
+                institution={researcher.institution}
+              />
+            </div>
           </div>
         </div>
       </div>
     </div>
-    </div>
-  )
+  );
 }

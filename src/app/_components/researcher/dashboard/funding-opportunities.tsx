@@ -2,18 +2,17 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { LayoutGrid, Table as TableIcon } from "lucide-react";
-import  { opportunities } from "@/lib/data/publications";
+import { opportunities } from "@/lib/data/publications";
 import FundingCard from "./funding-opportunities/funding-opportunities-card";
 import FundingTable from "./funding-opportunities/funding-opportunities-table";
 
 const FundingOpportunities: React.FC = () => {
   const [view, setView] = useState<"card" | "table">("card");
-const router = useRouter();
+  const router = useRouter();
 
   const handleFundingOpportunityClick = (id: string) => {
-      router.push(`/researcher/funding-opportunities/${id}`)
-
-  }
+    router.push(`/researcher/funding-opportunities/${id}`);
+  };
 
   return (
     <div className="space-y-4">
@@ -35,9 +34,15 @@ const router = useRouter();
       </div>
 
       {view === "card" ? (
-        <FundingCard data={opportunities} onFundingOpportunityClick={handleFundingOpportunityClick} />
+        <FundingCard
+          data={opportunities}
+          onFundingOpportunityClick={handleFundingOpportunityClick}
+        />
       ) : (
-          <FundingTable data={opportunities} onFundingOpportunityClick={handleFundingOpportunityClick}/>
+        <FundingTable
+          data={opportunities}
+          onFundingOpportunityClick={handleFundingOpportunityClick}
+        />
       )}
     </div>
   );

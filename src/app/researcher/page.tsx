@@ -23,17 +23,16 @@ const TablesSection: React.FC = () => (
 
 // Main ResearcherProfile Component
 export default function ResearcherProfile() {
+  const [dateRange, setDateRange] = useState<DateRange | undefined>(undefined);
 
-    const [dateRange, setDateRange] = useState<DateRange | undefined>(undefined);
-
-    const handleDateChange = (newDateRange: DateRange | undefined) => {
-        setDateRange(newDateRange);
-    }
+  const handleDateChange = (newDateRange: DateRange | undefined) => {
+    setDateRange(newDateRange);
+  };
   return (
     <>
       <Header />
       <div className="mx-auto max-w-7xl p-6">
-        <TopNavigation dateRange={dateRange} onDateChange={handleDateChange}/>
+        <TopNavigation dateRange={dateRange} onDateChange={handleDateChange} />
         <PublicationsStats dateRange={dateRange} />
         <ResearchProfileSection dateRange={dateRange} />
 

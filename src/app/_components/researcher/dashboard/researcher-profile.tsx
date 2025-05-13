@@ -19,10 +19,10 @@ import type { DateRange } from "react-day-picker";
 import { filterDataByDateRange } from "@/utils/date-filter";
 import { fullResearchAreas, areaColors } from "@/lib/data/publications";
 
-
-
-const ResearchProfileCard: React.FC<{ dateRange: DateRange | undefined }> = ({ dateRange }) => {
-  const filteredData = filterDataByDateRange(fullResearchAreas, dateRange)
+const ResearchProfileCard: React.FC<{ dateRange: DateRange | undefined }> = ({
+  dateRange,
+}) => {
+  const filteredData = filterDataByDateRange(fullResearchAreas, dateRange);
 
   return (
     <Card className="animate-fade-in transition-shadow hover:shadow-md">
@@ -42,7 +42,10 @@ const ResearchProfileCard: React.FC<{ dateRange: DateRange | undefined }> = ({ d
             <Tooltip />
             <Bar dataKey="value" barSize={20}>
               {filteredData.map((_entry, index) => (
-                <Cell key={`cell-${index}`} fill={areaColors[index % areaColors.length]} />
+                <Cell
+                  key={`cell-${index}`}
+                  fill={areaColors[index % areaColors.length]}
+                />
               ))}
             </Bar>
           </BarChart>
@@ -53,7 +56,9 @@ const ResearchProfileCard: React.FC<{ dateRange: DateRange | undefined }> = ({ d
 };
 
 // ResearchProfileSection Component
-const ResearchProfileSection: React.FC<{ dateRange: DateRange | undefined }> = ({ dateRange }) => (
+const ResearchProfileSection: React.FC<{
+  dateRange: DateRange | undefined;
+}> = ({ dateRange }) => (
   <div className="mb-8 grid grid-cols-1 gap-6 md:grid-cols-2">
     <ResearchProfileCard dateRange={dateRange} />
     <ResearchImpactCard />

@@ -1,4 +1,10 @@
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+} from "@/components/ui/card";
 import type { Publication } from "@/types/researcher";
 import { Settings } from "lucide-react";
 import { Button } from "@/components/ui/button";

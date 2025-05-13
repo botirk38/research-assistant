@@ -1,9 +1,12 @@
 interface FundingOverviewProps {
-  description: string
-  eligibility: string
+  description: string;
+  eligibility: string;
 }
 
-export function FundingOverview({ description, eligibility }: FundingOverviewProps) {
+export function FundingOverview({
+  description,
+  eligibility,
+}: FundingOverviewProps) {
   return (
     <div className="space-y-4 pt-4">
       <div className="space-y-2">
@@ -15,5 +18,5 @@ export function FundingOverview({ description, eligibility }: FundingOverviewPro
         <p className="text-muted-foreground">{eligibility}</p>
       </div>
     </div>
-  )
+  );
 }

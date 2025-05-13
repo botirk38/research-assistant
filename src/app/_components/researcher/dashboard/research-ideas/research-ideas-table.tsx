@@ -1,5 +1,12 @@
-import  { Card } from "@/components/ui/card";
-import  { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
+import { Card } from "@/components/ui/card";
+import {
+  Table,
+  TableHeader,
+  TableRow,
+  TableHead,
+  TableBody,
+  TableCell,
+} from "@/components/ui/table";
 import type { ResearchIdea } from "@/types/researcher";
 
 const ResearchIdeasTable: React.FC<{ ideas: ResearchIdea[] }> = ({ ideas }) => (

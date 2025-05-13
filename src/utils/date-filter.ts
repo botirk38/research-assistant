@@ -2,7 +2,7 @@ import type { DateRange } from "react-day-picker";
 
 export function filterDataByDateRange<T extends { date: Date }>(
   data: T[],
-  dateRange: DateRange | undefined
+  dateRange: DateRange | undefined,
 ): T[] {
   if (!dateRange?.from) return data;
 

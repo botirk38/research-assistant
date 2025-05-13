@@ -1,6 +1,13 @@
 "use client";
 
-import { subDays, subMonths, subYears, startOfMonth, endOfMonth, startOfYear } from "date-fns";
+import {
+  subDays,
+  subMonths,
+  subYears,
+  startOfMonth,
+  endOfMonth,
+  startOfYear,
+} from "date-fns";
 import type { DateRange } from "react-day-picker";
 
 import { cn } from "@/lib/utils";
@@ -94,7 +101,7 @@ export function DateRangeSelector({
   };
 
   return (
-    <div className={cn("flex flex-wrap gap-2 items-center", className)}>
+    <div className={cn("flex flex-wrap items-center gap-2", className)}>
       <Select onValueChange={handlePresetSelect}>
         <SelectTrigger className="w-[180px]">
           <SelectValue placeholder="Preset ranges" />
@@ -108,10 +115,7 @@ export function DateRangeSelector({
         </SelectContent>
       </Select>
 
-      <DatePickerWithRange
-        value={value}
-        onChange={onChange}
-      />
+      <DatePickerWithRange value={value} onChange={onChange} />
     </div>
   );
 }

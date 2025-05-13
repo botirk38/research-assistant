@@ -8,7 +8,6 @@ import CollaborationCard from "./collaborations/collaboration-card";
 import CollaborationTable from "./collaborations/collaboration-table";
 import { useRouter } from "next/navigation";
 
-
 const collaborators: Collaborator[] = [
   {
     id: "sarah-chen",
@@ -27,9 +26,9 @@ const Collaborations: React.FC = () => {
 
   const router = useRouter();
 
-  const handleConnectClick = (id : string) => {
-      router.push(`/researcher/profile/${id}`)
-  }
+  const handleConnectClick = (id: string) => {
+    router.push(`/researcher/profile/${id}`);
+  };
 
   return (
     <div className="space-y-4">
@@ -51,9 +50,15 @@ const Collaborations: React.FC = () => {
       </div>
 
       {view === "card" ? (
-        <CollaborationCard collaborators={collaborators} onConnectClick={handleConnectClick} />
+        <CollaborationCard
+          collaborators={collaborators}
+          onConnectClick={handleConnectClick}
+        />
       ) : (
-        <CollaborationTable collaborators={collaborators} onConnectClick={handleConnectClick} />
+        <CollaborationTable
+          collaborators={collaborators}
+          onConnectClick={handleConnectClick}
+        />
       )}
     </div>
   );

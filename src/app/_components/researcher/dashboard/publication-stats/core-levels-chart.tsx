@@ -22,7 +22,7 @@ export const CoreLevelsChart: React.FC<CoreLevelsChartProps> = ({
 }) => {
   const filteredData = useMemo(
     () => filterDataByDateRange(allCoreLevels, dateRange),
-    [dateRange]
+    [dateRange],
   );
 
   return (

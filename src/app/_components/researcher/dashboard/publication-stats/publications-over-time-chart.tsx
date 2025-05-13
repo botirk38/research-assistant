@@ -17,12 +17,12 @@ interface PublicationsOverTimeChartProps {
   dateRange: DateRange | undefined;
 }
 
-export const PublicationsOverTimeChart: React.FC<PublicationsOverTimeChartProps> = ({
-  dateRange,
-}) => {
+export const PublicationsOverTimeChart: React.FC<
+  PublicationsOverTimeChartProps
+> = ({ dateRange }) => {
   const filteredData = useMemo(
     () => filterDataByDateRange(allPublicationsOverTime, dateRange),
-    [dateRange]
+    [dateRange],
   );
 
   return (

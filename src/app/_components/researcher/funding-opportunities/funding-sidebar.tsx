@@ -1,16 +1,20 @@
-import { Button } from "@/components/ui/button"
-import { Progress } from "@/components/ui/progress"
-import { Separator } from "@/components/ui/separator"
+import { Button } from "@/components/ui/button";
+import { Progress } from "@/components/ui/progress";
+import { Separator } from "@/components/ui/separator";
 
 interface FundingSidebarProps {
-  amount: string
-  deadline: string
-  matchScore: number
+  amount: string;
+  deadline: string;
+  matchScore: number;
 }
 
-export function FundingSidebar({ amount, deadline, matchScore }: FundingSidebarProps) {
+export function FundingSidebar({
+  amount,
+  deadline,
+  matchScore,
+}: FundingSidebarProps) {
   return (
-    <div className="rounded-lg border bg-card p-4 shadow-sm">
+    <div className="bg-card rounded-lg border p-4 shadow-sm">
       <div className="space-y-4">
         <div className="space-y-2">
           <div className="flex items-center justify-between">
@@ -33,8 +37,10 @@ export function FundingSidebar({ amount, deadline, matchScore }: FundingSidebarP
           </div>
           <Progress value={matchScore} className="h-2" />
         </div>
-        <Button className="w-full bg-red-500 hover:bg-red-600">Apply Now</Button>
+        <Button className="w-full bg-red-500 hover:bg-red-600">
+          Apply Now
+        </Button>
       </div>
     </div>
-  )
+  );
 }

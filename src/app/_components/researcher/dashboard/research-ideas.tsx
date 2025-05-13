@@ -5,7 +5,6 @@ import { ideas } from "@/lib/data/publications";
 import ResearchIdeasCard from "./research-ideas/research-ideas-card";
 import ResearchIdeasTable from "./research-ideas/research-ideas-table";
 
-
 const ResearchIdeas: React.FC = () => {
   const [view, setView] = useState<"card" | "table">("card");
 

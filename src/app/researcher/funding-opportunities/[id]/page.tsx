@@ -1,18 +1,16 @@
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { ContactCard } from "@/app/_components/researcher/funding-opportunities/contact-card"
-import { FundingHeader } from "@/app/_components/researcher/funding-opportunities/funding-header"
-import { FundingSidebar } from "@/app/_components/researcher/funding-opportunities/funding-sidebar"
-import { FundingTabs } from "@/app/_components/researcher/funding-opportunities/funding-tabs"
-import { AIReviewSection } from "@/components/ai-review-section"
-import type { FundingOpportunity } from "@/types/researcher"
-
-
-
-
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { ContactCard } from "@/app/_components/researcher/funding-opportunities/contact-card";
+import { FundingHeader } from "@/app/_components/researcher/funding-opportunities/funding-header";
+import { FundingSidebar } from "@/app/_components/researcher/funding-opportunities/funding-sidebar";
+import { FundingTabs } from "@/app/_components/researcher/funding-opportunities/funding-tabs";
+import { AIReviewSection } from "@/components/ai-review-section";
+import type { FundingOpportunity } from "@/types/researcher";
 
 // This would typically come from a database or API
-const getFundingOpportunity = async (id: string): Promise<FundingOpportunity | undefined> => {
+const getFundingOpportunity = async (
+  id: string,
+): Promise<FundingOpportunity | undefined> => {
   // Mock data based on the image
   const opportunities = {
     "nsf-advanced-computing": {
@@ -77,7 +75,8 @@ const getFundingOpportunity = async (id: string): Promise<FundingOpportunity | u
       matchScore: 87,
       description:
         "This funding opportunity supports the development of innovative medical technologies that address unmet clinical needs. Projects should focus on translational research that bridges the gap between laboratory discoveries and clinical applications.",
-      eligibility: "Open to academic medical centers, research hospitals, and biomedical technology companies.",
+      eligibility:
+        "Open to academic medical centers, research hospitals, and biomedical technology companies.",
       requirements: [
         "Research plan (max 12 pages)",
         "Preliminary data demonstrating feasibility",
@@ -118,60 +117,66 @@ const getFundingOpportunity = async (id: string): Promise<FundingOpportunity | u
         ],
       },
     },
-  }
+  };
 
-  return opportunities[id as keyof typeof opportunities]
-}
+  return opportunities[id as keyof typeof opportunities];
+};
 
-export default async function FundingDetailsPage({ params }: { params: Promise<{ id: string }> }) {
-    const { id } = await params;
-  const opportunity = await getFundingOpportunity(id)
+export default async function FundingDetailsPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
+  const opportunity = await getFundingOpportunity(id);
 
   if (!opportunity) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[50vh]">
+      <div className="flex min-h-[50vh] flex-col items-center justify-center">
         <h1 className="text-2xl font-bold">Funding opportunity not found</h1>
-        <p className="mt-2 text-muted-foreground">The requested funding opportunity could not be found.</p>
+        <p className="text-muted-foreground mt-2">
+          The requested funding opportunity could not be found.
+        </p>
         <Link href="/researcher" className="mt-4">
           <Button variant="outline">Back to Dashboard</Button>
         </Link>
       </div>
-    )
+    );
   }
 
   return (
-      <div className="w-full flex items-center justify-center">
-    <div className="container items-center py-6 space-y-8">
-      <FundingHeader
-        title={opportunity.title}
-        organization={opportunity.organization}
-        category={opportunity.category}
-      />
+    <div className="flex w-full items-center justify-center">
+      <div className="container items-center space-y-8 py-6">
+        <FundingHeader
+          title={opportunity.title}
+          organization={opportunity.organization}
+          category={opportunity.category}
+        />
 
-      <div className="grid gap-6 md:grid-cols-3">
-        <div className="md:col-span-2 space-y-6">
-          <FundingTabs
-            description={opportunity.description}
-            eligibility={opportunity.eligibility}
-            requirements={opportunity.requirements}
-            keyDates={opportunity.keyDates}
-          />
+        <div className="grid gap-6 md:grid-cols-3">
+          <div className="space-y-6 md:col-span-2">
+            <FundingTabs
+              description={opportunity.description}
+              eligibility={opportunity.eligibility}
+              requirements={opportunity.requirements}
+              keyDates={opportunity.keyDates}
+            />
+          </div>
+
+          <div className="space-y-6">
+            <FundingSidebar
+              amount={opportunity.amount}
+              deadline={opportunity.deadline}
+              matchScore={opportunity.matchScore}
+            />
+            <ContactCard contactInfo={opportunity.contactInfo} />
+          </div>
         </div>
 
-        <div className="space-y-6">
-          <FundingSidebar
-            amount={opportunity.amount}
-            deadline={opportunity.deadline}
-            matchScore={opportunity.matchScore}
-          />
-          <ContactCard contactInfo={opportunity.contactInfo} />
+        <div className="mt-8">
+          <AIReviewSection analysis={opportunity.aiAnalysis} />
         </div>
-      </div>
-
-      <div className="mt-8">
-        <AIReviewSection analysis={opportunity.aiAnalysis} />
       </div>
     </div>
-      </div>
-  )
+  );
 }

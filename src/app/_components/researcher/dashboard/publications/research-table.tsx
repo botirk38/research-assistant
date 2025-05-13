@@ -1,7 +1,13 @@
 import { Card } from "@/components/ui/card";
-import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
+import {
+  Table,
+  TableHeader,
+  TableRow,
+  TableHead,
+  TableBody,
+  TableCell,
+} from "@/components/ui/table";
 import { type Publication } from "@/types/researcher";
-
 
 const ResearchTable: React.FC<{ data: Publication[] }> = ({ data }) => (
   <Card className="p-4">

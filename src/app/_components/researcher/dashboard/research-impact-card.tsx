@@ -10,7 +10,6 @@ import {
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { impactDimensions } from "@/lib/data/publications";
 
-
 const ResearchImpactCard: React.FC = () => (
   <Card className="animate-fade-in transition-shadow hover:shadow-md">
     <CardHeader>

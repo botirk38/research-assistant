@@ -1,15 +1,22 @@
 import { Card } from "@/components/ui/card";
-import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
+import {
+  Table,
+  TableHeader,
+  TableRow,
+  TableHead,
+  TableBody,
+  TableCell,
+} from "@/components/ui/table";
 import type { Collaborator } from "@/types/researcher";
 import { Button } from "@/components/ui/button";
 
-interface CollaborationTableProps  {
-    collaborators: Collaborator[];
-    onConnectClick: (id: string) => void;
+interface CollaborationTableProps {
+  collaborators: Collaborator[];
+  onConnectClick: (id: string) => void;
 }
 const CollaborationTable: React.FC<CollaborationTableProps> = ({
   collaborators,
-  onConnectClick
+  onConnectClick,
 }) => (
   <Card className="p-4">
     <h3 className="text-primary mb-4 text-base font-semibold">
@@ -29,7 +36,11 @@ const CollaborationTable: React.FC<CollaborationTableProps> = ({
             <TableCell>{collaborator.name}</TableCell>
             <TableCell>{collaborator.affiliation}</TableCell>
             <TableCell className="text-right">
-              <Button size="sm" variant="outline" onClick={() => onConnectClick(collaborator.id)}>
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={() => onConnectClick(collaborator.id)}
+              >
                 Connect
               </Button>
             </TableCell>

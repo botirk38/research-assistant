@@ -10,7 +10,9 @@ interface PublicationsStatsProps {
 const PublicationsStats: React.FC<PublicationsStatsProps> = ({ dateRange }) => {
   return (
     <div className="mb-8">
-      <h1 className="text-foreground mb-6 text-2xl font-bold">My Publications</h1>
+      <h1 className="text-foreground mb-6 text-2xl font-bold">
+        My Publications
+      </h1>
       <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
         <PublicationsOverTimeChart dateRange={dateRange} />
         <CoreLevelsChart dateRange={dateRange} />

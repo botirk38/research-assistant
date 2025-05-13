@@ -1,13 +1,23 @@
 import { Card } from "@/components/ui/card";
 import type { FundingOpportunity } from "@/types/researcher";
-import { Table, TableHead,TableHeader,TableRow, TableBody,TableCell } from "@/components/ui/table";
+import {
+  Table,
+  TableHead,
+  TableHeader,
+  TableRow,
+  TableBody,
+  TableCell,
+} from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 
 interface FundingOpportunityTable {
-    data: FundingOpportunity[];
-    onFundingOpportunityClick: (id: string) => void;
+  data: FundingOpportunity[];
+  onFundingOpportunityClick: (id: string) => void;
 }
-const FundingTable: React.FC<FundingOpportunityTable> = ({ data, onFundingOpportunityClick}) => (
+const FundingTable: React.FC<FundingOpportunityTable> = ({
+  data,
+  onFundingOpportunityClick,
+}) => (
   <Card className="border-t-destructive border-t-4 p-4">
     <h3 className="text-primary mb-4 text-base font-semibold">
       Funding Opportunities
@@ -28,7 +38,11 @@ const FundingTable: React.FC<FundingOpportunityTable> = ({ data, onFundingOpport
             <TableCell>{opportunity.amount}</TableCell>
             <TableCell>{opportunity.deadline}</TableCell>
             <TableCell className="text-right">
-              <Button size="sm" variant="destructive" onClick={() => onFundingOpportunityClick(opportunity.id)}>
+              <Button
+                size="sm"
+                variant="destructive"
+                onClick={() => onFundingOpportunityClick(opportunity.id)}
+              >
                 View Details
               </Button>
             </TableCell>
@@ -38,6 +52,5 @@ const FundingTable: React.FC<FundingOpportunityTable> = ({ data, onFundingOpport
     </Table>
   </Card>
 );
-
 
 export default FundingTable;

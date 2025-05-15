@@ -48,28 +48,36 @@ export const CitedPapersChart: React.FC<CitedPapersChartProps> = ({
   return (
     <ChartCard title="Most Cited Papers">
       <ChartContainer config={chartConfig} className="min-h-[300px] w-full">
-        <PieChart>
-          <Pie
-            data={filteredData}
-            dataKey="value"
-            nameKey="name"
-            cx="50%"
-            cy="50%"
-            outerRadius={80}
-            label
-            isAnimationActive
-          >
-            {filteredData.map((entry, index) => (
-              <Cell
-                key={`cell-${index}`}
-                fill={chartConfig[entry.name]?.color ?? getRandomHSLColor()}
-                className="origin-center transition-transform duration-200 hover:scale-105"
-              />
-            ))}
-          </Pie>
-          <ChartLegend content={<ChartLegendContent />} />
-          <ChartTooltip content={<ChartTooltipContent />} />
-        </PieChart>
+        {filteredData.length > 0 ? (
+          <PieChart>
+            <Pie
+              data={filteredData}
+              dataKey="value"
+              nameKey="name"
+              cx="50%"
+              cy="50%"
+              outerRadius={80}
+              label
+              isAnimationActive
+            >
+              {filteredData.map((entry, index) => (
+                <Cell
+                  key={`cell-${index}`}
+                  fill={chartConfig[entry.name]?.color ?? getRandomHSLColor()}
+                  className="origin-center transition-transform duration-200 hover:scale-105"
+                />
+              ))}
+            </Pie>
+            <ChartLegend content={<ChartLegendContent />} />
+            <ChartTooltip content={<ChartTooltipContent />} />
+          </PieChart>
+        ) : (
+          <div className="flex h-full w-full items-center justify-center">
+            <p className="text-muted-foreground">
+              No citation data available for the selected time period
+            </p>
+          </div>
+        )}
       </ChartContainer>
     </ChartCard>
   );

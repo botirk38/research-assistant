@@ -23,24 +23,32 @@ export function CoreLevelsChart({ dateRange }: { dateRange?: DateRange }) {
   return (
     <ChartCard title="Core Levels">
       <ChartContainer config={chartConfig} className="min-h-[300px] w-full">
-        <BarChart data={filteredData}>
-          <CartesianGrid strokeDasharray="3 3" vertical={false} />
-          <XAxis
-            dataKey="level"
-            tickLine={false}
-            axisLine={false}
-            tickMargin={10}
-            tick={{ fontSize: 12 }}
-          />
-          <YAxis tickLine={false} axisLine={false} tick={{ fontSize: 12 }} />
-          <ChartTooltip content={<ChartTooltipContent />} />
-          <ChartLegend content={<ChartLegendContent />} />
-          <Bar
-            dataKey="count"
-            radius={[6, 6, 0, 0]}
-            fill="oklch(0.6 0.118 184.704)"
-          />
-        </BarChart>
+        {filteredData.length > 0 ? (
+          <BarChart data={filteredData}>
+            <CartesianGrid strokeDasharray="3 3" vertical={false} />
+            <XAxis
+              dataKey="level"
+              tickLine={false}
+              axisLine={false}
+              tickMargin={10}
+              tick={{ fontSize: 12 }}
+            />
+            <YAxis tickLine={false} axisLine={false} tick={{ fontSize: 12 }} />
+            <ChartTooltip content={<ChartTooltipContent />} />
+            <ChartLegend content={<ChartLegendContent />} />
+            <Bar
+              dataKey="count"
+              radius={[6, 6, 0, 0]}
+              fill="oklch(0.6 0.118 184.704)"
+            />
+          </BarChart>
+        ) : (
+          <div className="flex h-full w-full items-center justify-center">
+            <p className="text-muted-foreground">
+              No core levels data available for the selected time period
+            </p>
+          </div>
+        )}
       </ChartContainer>
     </ChartCard>
   );

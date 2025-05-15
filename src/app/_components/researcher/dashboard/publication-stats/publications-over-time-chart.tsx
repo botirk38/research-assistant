@@ -35,29 +35,37 @@ export const PublicationsOverTimeChart: React.FC<
   return (
     <ChartCard title="Publications Over Time">
       <ChartContainer config={chartConfig} className="min-h-[300px] w-full">
-        <LineChart data={filteredData}>
-          <CartesianGrid strokeDasharray="3 3" stroke="oklch(0.922 0 0)" />
-          <XAxis
-            dataKey="year"
-            tick={{ fontSize: 12, fill: "hsl(var(--color-muted-foreground))" }}
-            axisLine={{ stroke: "oklch(0.922 0 0)" }}
-            tickLine={false}
-          />
-          <YAxis
-            tick={{ fontSize: 12, fill: "hsl(var(--color-muted-foreground))" }}
-            axisLine={{ stroke: "oklch(0.922 0 0)" }}
-            tickLine={false}
-          />
-          <ChartTooltip content={<ChartTooltipContent />} />
-          <Line
-            type="monotone"
-            dataKey="count"
-            stroke="oklch(0.398 0.07 227.392)"
-            strokeWidth={2}
-            dot={{ r: 3 }}
-            activeDot={{ r: 5 }}
-          />
-        </LineChart>
+        {filteredData.length > 0 ? (
+          <LineChart data={filteredData}>
+            <CartesianGrid strokeDasharray="3 3" stroke="oklch(0.922 0 0)" />
+            <XAxis
+              dataKey="year"
+              tick={{ fontSize: 12, fill: "hsl(var(--color-muted-foreground))" }}
+              axisLine={{ stroke: "oklch(0.922 0 0)" }}
+              tickLine={false}
+            />
+            <YAxis
+              tick={{ fontSize: 12, fill: "hsl(var(--color-muted-foreground))" }}
+              axisLine={{ stroke: "oklch(0.922 0 0)" }}
+              tickLine={false}
+            />
+            <ChartTooltip content={<ChartTooltipContent />} />
+            <Line
+              type="monotone"
+              dataKey="count"
+              stroke="oklch(0.398 0.07 227.392)"
+              strokeWidth={2}
+              dot={{ r: 3 }}
+              activeDot={{ r: 5 }}
+            />
+          </LineChart>
+        ) : (
+          <div className="flex h-full w-full items-center justify-center">
+            <p className="text-muted-foreground">
+              No publication data available for the selected time period
+            </p>
+          </div>
+        )}
       </ChartContainer>
     </ChartCard>
   );

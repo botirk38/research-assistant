@@ -24,32 +24,44 @@ const chartConfig = {
   },
 };
 
-const ResearchImpactCard: React.FC = () => (
-  <ChartCard title="Research Impact">
-    <ChartContainer config={chartConfig} className="min-h-[300px] w-full">
-      <RadarChart data={impactDimensions}>
-        <PolarGrid stroke="#e5e7eb" /> {/* Tailwind gray-200 */}
-        <PolarAngleAxis
-          dataKey="category"
-          tick={{ fontSize: 12, fill: "#6b7280" }} // gray-500
-        />
-        <PolarRadiusAxis
-          angle={40}
-          domain={[0, 100]}
-          axisLine={{ stroke: "#e5e7eb" }}
-          tick={{ fontSize: 10, fill: "#9ca3af" }} // gray-400
-        />
-        <ChartTooltip content={<ChartTooltipContent />} />
-        <Radar
-          name="Impact"
-          dataKey="value"
-          stroke="#38bdf8"
-          fill="#38bdf8"
-          fillOpacity={0.6}
-        />
-      </RadarChart>
-    </ChartContainer>
-  </ChartCard>
-);
+const ResearchImpactCard: React.FC = () => {
+  const hasData = impactDimensions && impactDimensions.length > 0;
+
+  return (
+    <ChartCard title="Research Impact">
+      <ChartContainer config={chartConfig} className="min-h-[300px] w-full">
+        {hasData ? (
+          <RadarChart data={impactDimensions}>
+            <PolarGrid stroke="#e5e7eb" /> {/* Tailwind gray-200 */}
+            <PolarAngleAxis
+              dataKey="category"
+              tick={{ fontSize: 12, fill: "#6b7280" }} // gray-500
+            />
+            <PolarRadiusAxis
+              angle={40}
+              domain={[0, 100]}
+              axisLine={{ stroke: "#e5e7eb" }}
+              tick={{ fontSize: 10, fill: "#9ca3af" }} // gray-400
+            />
+            <ChartTooltip content={<ChartTooltipContent />} />
+            <Radar
+              name="Impact"
+              dataKey="value"
+              stroke="#38bdf8"
+              fill="#38bdf8"
+              fillOpacity={0.6}
+            />
+          </RadarChart>
+        ) : (
+          <div className="flex h-full w-full items-center justify-center">
+            <p className="text-muted-foreground">
+              No research impact data available
+            </p>
+          </div>
+        )}
+      </ChartContainer>
+    </ChartCard>
+  );
+};
 
 export default ResearchImpactCard;

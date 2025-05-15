@@ -35,36 +35,45 @@ const ResearchProfileCard: React.FC<{ dateRange: DateRange | undefined }> = ({
   return (
     <ChartCard title="Research Areas">
       <ChartContainer config={chartConfig} className="min-h-[256px] w-full">
-        <BarChart
-          layout="vertical"
-          data={filteredData}
-          margin={{ top: 0, right: 0, left: 40, bottom: 0 }}
-        >
-          <CartesianGrid strokeDasharray="3 3" stroke="oklch(0.922 0 0)" />
-          <XAxis
-            type="number"
-            tick={{ fontSize: 12, fill: "" }}
-            axisLine={{ stroke: "oklch(0.922 0 0)" }}
-            tickLine={false}
-          />
-          <YAxis
-            type="category"
-            dataKey="label"
-            tick={{ fontSize: 12, fill: "hsl(var(--color-muted-foreground))" }}
-            axisLine={{ stroke: "oklch(0.922 0 0)" }}
-            tickLine={false}
-          />
-          <ChartTooltip content={<ChartTooltipContent />} />
-          <Bar dataKey="value" barSize={20} radius={[6, 6, 6, 6]}>
-            {filteredData.map((_entry, index) => (
-              <Cell key={`cell-${index}`} fill={getRandomHSLColor()} />
-            ))}
-          </Bar>
-        </BarChart>
+        {filteredData.length > 0 ? (
+          <BarChart
+            layout="vertical"
+            data={filteredData}
+            margin={{ top: 0, right: 0, left: 40, bottom: 0 }}
+          >
+            <CartesianGrid strokeDasharray="3 3" stroke="oklch(0.922 0 0)" />
+            <XAxis
+              type="number"
+              tick={{ fontSize: 12, fill: "" }}
+              axisLine={{ stroke: "oklch(0.922 0 0)" }}
+              tickLine={false}
+            />
+            <YAxis
+              type="category"
+              dataKey="label"
+              tick={{ fontSize: 12, fill: "hsl(var(--color-muted-foreground))" }}
+              axisLine={{ stroke: "oklch(0.922 0 0)" }}
+              tickLine={false}
+            />
+            <ChartTooltip content={<ChartTooltipContent />} />
+            <Bar dataKey="value" barSize={20} radius={[6, 6, 6, 6]}>
+              {filteredData.map((_entry, index) => (
+                <Cell key={`cell-${index}`} fill={getRandomHSLColor()} />
+              ))}
+            </Bar>
+          </BarChart>
+        ) : (
+          <div className="flex h-full w-full items-center justify-center">
+            <p className="text-muted-foreground">
+              No research areas data available for the selected time period
+            </p>
+          </div>
+        )}
       </ChartContainer>
     </ChartCard>
   );
 };
+
 // ResearchProfileSection Component
 const ResearchProfileSection: React.FC<{
   dateRange: DateRange | undefined;

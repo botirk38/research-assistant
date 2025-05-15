@@ -18,7 +18,7 @@ const chartConfig = {
   desktop: { label: "Desktop", color: "var(--chart-2)" },
 };
 
-export function CoreLevelsChart({ dateRange }: { dateRange: DateRange }) {
+export function CoreLevelsChart({ dateRange }: { dateRange?: DateRange }) {
   const filteredData = filterDataByDateRange(allCoreLevels, dateRange);
   return (
     <ChartCard title="Core Levels">

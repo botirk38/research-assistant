@@ -51,7 +51,10 @@ const ResearchProfileCard: React.FC<{ dateRange: DateRange | undefined }> = ({
             <YAxis
               type="category"
               dataKey="label"
-              tick={{ fontSize: 12, fill: "hsl(var(--color-muted-foreground))" }}
+              tick={{
+                fontSize: 12,
+                fill: "hsl(var(--color-muted-foreground))",
+              }}
               axisLine={{ stroke: "oklch(0.922 0 0)" }}
               tickLine={false}
             />

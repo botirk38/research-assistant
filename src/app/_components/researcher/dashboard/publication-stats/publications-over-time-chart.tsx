@@ -40,12 +40,18 @@ export const PublicationsOverTimeChart: React.FC<
             <CartesianGrid strokeDasharray="3 3" stroke="oklch(0.922 0 0)" />
             <XAxis
               dataKey="year"
-              tick={{ fontSize: 12, fill: "hsl(var(--color-muted-foreground))" }}
+              tick={{
+                fontSize: 12,
+                fill: "hsl(var(--color-muted-foreground))",
+              }}
               axisLine={{ stroke: "oklch(0.922 0 0)" }}
               tickLine={false}
             />
             <YAxis
-              tick={{ fontSize: 12, fill: "hsl(var(--color-muted-foreground))" }}
+              tick={{
+                fontSize: 12,
+                fill: "hsl(var(--color-muted-foreground))",
+              }}
               axisLine={{ stroke: "oklch(0.922 0 0)" }}
               tickLine={false}
             />

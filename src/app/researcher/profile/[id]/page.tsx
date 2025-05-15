@@ -78,7 +78,6 @@ type ResearcherData = {
   awards: Award[];
 };
 
-// This would typically come from your database
 const getResearcherData = (id: string) => {
   // Mock data for demonstration
   const researchers = {
@@ -323,6 +322,126 @@ const getResearcherData = (id: string) => {
         { name: "NSF CAREER Award", year: "2015" },
       ],
     },
+
+    "jane-doe": {
+       name: "Dr. Jane Doe",
+       title: "Senior Research Scientist",
+       institution: "Harvard University",
+       department: "Department of Computer Science",
+       field: "Machine Learning & Ethics",
+       bio: "Dr. Jane Doe is a pioneer in responsible AI and machine learning ethics. Her research focuses on developing fair and transparent AI systems, with particular emphasis on bias mitigation and algorithmic accountability.",
+       avatar: "/placeholder.svg?height=400&width=400",
+       email: "jane.doe@harvard.edu",
+       phone: "+1 (617) 555-0123",
+       website: "https://janedoe.harvard.edu",
+       location: "Cambridge, MA",
+       socialLinks: [
+         {
+           platform: "Twitter",
+           url: "https://twitter.com/janedoe",
+           username: "@janedoe",
+         },
+         {
+           platform: "LinkedIn",
+           url: "https://linkedin.com/in/janedoe",
+           username: "janedoe",
+         },
+         {
+           platform: "Google Scholar",
+           url: "https://scholar.google.com/citations?user=janedoe",
+           username: "Jane Doe",
+         },
+         {
+           platform: "ORCID",
+           url: "https://orcid.org/0000-0003-4567-8901",
+           username: "0000-0003-4567-8901",
+         },
+       ],
+       stats: {
+         hIndex: 28,
+         citations: 3750,
+         publications: 65,
+         collaborators: 98,
+       },
+       publications: [
+         {
+           title: "Fairness Metrics in Machine Learning: A Critical Analysis",
+           journal: "Nature Machine Intelligence",
+           year: 2023,
+           citations: 95,
+           url: "#",
+           coAuthors: ["M. Johnson", "P. Singh", "R. Kumar"],
+         },
+         {
+           title: "Ethical Considerations in Automated Decision Systems",
+           journal: "AI Ethics Journal",
+           year: 2022,
+           citations: 142,
+           url: "#",
+           coAuthors: ["S. Martinez", "K. Chen"],
+         },
+         {
+           title: "Debiasing Neural Networks: Methods and Implications",
+           journal: "Conference on Fairness, Accountability, and Transparency",
+           year: 2021,
+           citations: 187,
+           url: "#",
+           coAuthors: ["L. Wilson", "A. Patel", "C. Lee"],
+         },
+         {
+           title: "Transparency in AI: A Framework for Explainable Models",
+           journal: "Journal of Artificial Intelligence Research",
+           year: 2021,
+           citations: 163,
+           url: "#",
+           coAuthors: ["R. Anderson", "M. White"],
+         },
+         {
+           title: "Algorithmic Bias in Healthcare Applications",
+           journal: "Science and Ethics",
+           year: 2020,
+           citations: 228,
+           url: "#",
+           coAuthors: ["T. Thompson", "J. Garcia", "S. Kim"],
+         },
+       ],
+       researchInterests: [
+         "AI Ethics",
+         "Machine Learning",
+         "Algorithmic Fairness",
+         "Responsible AI",
+         "Bias Mitigation",
+       ],
+       currentProjects: [
+         "Developing frameworks for ethical AI deployment",
+         "Bias detection and mitigation in healthcare ML models",
+         "Transparent and explainable AI systems",
+       ],
+       education: [
+         {
+           degree: "Ph.D. in Computer Science",
+           institution: "UC Berkeley",
+           year: "2012",
+         },
+         {
+           degree: "M.S. in Artificial Intelligence",
+           institution: "Stanford University",
+           year: "2008",
+         },
+         {
+           degree: "B.S. in Mathematics",
+           institution: "Harvard University",
+           year: "2006",
+         },
+       ],
+       awards: [
+         { name: "ACM SIGAI Autonomous Agents Research Award", year: "2023" },
+         { name: "Harvard CS Excellence in Research Award", year: "2021" },
+         { name: "NSF CAREER Award", year: "2018" },
+       ],
+     },
+
+
   };
 
   return researchers[id as keyof typeof researchers];

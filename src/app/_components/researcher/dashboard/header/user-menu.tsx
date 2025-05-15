@@ -23,7 +23,7 @@ const UserMenu = () => {
   const menuItems = [
     {
       label: "Profile",
-      href: "/profile",
+      href: "/researcher/profile/jane-doe",
       icon: <User className="h-4 w-4" />,
     },
     {

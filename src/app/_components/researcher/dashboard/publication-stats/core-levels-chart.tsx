@@ -1,41 +1,44 @@
+"use client";
+
+import { BarChart, Bar, CartesianGrid, XAxis, YAxis } from "recharts";
 import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-} from "recharts";
-import ChartCard from "@/components/chart-card";
-import type { DateRange } from "react-day-picker";
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+  ChartLegend,
+  ChartLegendContent,
+} from "@/components/ui/chart";
 import { allCoreLevels } from "@/lib/data/publications";
-import { filterDataByDateRange } from "@/utils/date-filter";
-import { useMemo } from "react";
+import ChartCard from "@/components/chart-card";
 
-interface CoreLevelsChartProps {
-  dateRange: DateRange | undefined;
-}
+const chartConfig = {
+  mobile: { label: "Mobile", color: "var(--chart-1)" },
+  desktop: { label: "Desktop", color: "var(--chart-2)" },
+};
 
-export const CoreLevelsChart: React.FC<CoreLevelsChartProps> = ({
-  dateRange,
-}) => {
-  const filteredData = useMemo(
-    () => filterDataByDateRange(allCoreLevels, dateRange),
-    [dateRange],
-  );
-
+export function CoreLevelsChart() {
   return (
-    <ChartCard title="CORE Reference Levels">
-      <ResponsiveContainer width="100%" height="100%">
-        <BarChart data={filteredData}>
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="level" />
-          <YAxis />
-          <Tooltip />
-          <Bar dataKey="count" fill="#82ca9d" />
+    <ChartCard title="Core Levels">
+      <ChartContainer config={chartConfig} className="min-h-[300px] w-full">
+        <BarChart data={allCoreLevels}>
+          <CartesianGrid strokeDasharray="3 3" vertical={false} />
+          <XAxis
+            dataKey="level"
+            tickLine={false}
+            axisLine={false}
+            tickMargin={10}
+            tick={{ fontSize: 12 }}
+          />
+          <YAxis tickLine={false} axisLine={false} tick={{ fontSize: 12 }} />
+          <ChartTooltip content={<ChartTooltipContent />} />
+          <ChartLegend content={<ChartLegendContent />} />
+          <Bar
+            dataKey="count"
+            radius={[6, 6, 0, 0]}
+            fill="oklch(0.6 0.118 184.704)"
+          />
         </BarChart>
-      </ResponsiveContainer>
+      </ChartContainer>
     </ChartCard>
   );
-};
+}

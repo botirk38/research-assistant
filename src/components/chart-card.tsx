@@ -11,7 +11,7 @@ const ChartCard = ({
     <CardHeader>
       <CardTitle className="text-lg">{title}</CardTitle>
     </CardHeader>
-    <CardContent className="h-64">{children}</CardContent>
+    <CardContent className="h-full w-full px-3">{children}</CardContent>
   </Card>
 );
 

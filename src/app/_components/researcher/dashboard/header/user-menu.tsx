@@ -1,3 +1,5 @@
+"use client";
+
 import { Avatar, AvatarImage, AvatarFallback } from "@radix-ui/react-avatar";
 import {
   Popover,
@@ -29,7 +31,6 @@ const UserMenu = () => {
       href: "/researcher/settings",
       icon: <Settings className="h-4 w-4" />,
     },
-
     {
       label: "Terms & Policies",
       href: "#",
@@ -53,9 +54,12 @@ const UserMenu = () => {
           </Avatar>
         </button>
       </PopoverTrigger>
-      <PopoverContent className="w-full max-w-sm p-0" align="end">
-        <div className="relative overflow-hidden rounded-lg border border-zinc-200 dark:border-zinc-800">
-          <div className="relative px-6 pt-6 pb-4">
+      <PopoverContent
+        className="bg-popover text-popover-foreground border-border w-full max-w-sm rounded-lg border p-0"
+        align="end"
+      >
+        <div className="relative overflow-hidden rounded-lg">
+          <div className="bg-background relative px-6 pt-6 pb-4">
             {/* Profile Header */}
             <div className="mb-4 flex items-center gap-4">
               <div className="relative shrink-0">
@@ -64,29 +68,27 @@ const UserMenu = () => {
                   alt={userData.name}
                   width={72}
                   height={72}
-                  className="rounded-full object-cover ring-4 ring-white dark:ring-zinc-900"
+                  className="ring-background rounded-full object-cover ring-4"
                 />
-                <div className="absolute right-0 bottom-0 h-4 w-4 rounded-full bg-emerald-500 ring-2 ring-white dark:ring-zinc-900" />
+                <div className="ring-background absolute right-0 bottom-0 h-4 w-4 rounded-full bg-emerald-500 ring-2" />
               </div>
 
               <div className="flex-1">
-                <h2 className="text-xl font-semibold text-zinc-900 dark:text-zinc-100">
+                <h2 className="text-foreground text-xl font-semibold">
                   {userData.name}
                 </h2>
-                <div className="mt-1 flex flex-col space-y-1 text-sm text-zinc-600 dark:text-zinc-400">
+                <div className="text-muted-foreground mt-1 flex flex-col space-y-1 text-sm">
                   <span className="font-medium">{userData.role}</span>
                   <div className="flex items-center">
                     <span>{userData.department}</span>
-                    <span className="mx-2 text-zinc-400 dark:text-zinc-600">
-                      •
-                    </span>
+                    <span className="text-muted-foreground mx-2">•</span>
                     <span>{userData.university}</span>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className="my-4 h-px bg-zinc-200 dark:bg-zinc-800" />
+            <div className="bg-border my-4 h-px" />
 
             {/* Menu Items */}
             <div className="space-y-1">
@@ -94,31 +96,29 @@ const UserMenu = () => {
                 <Link
                   key={item.label}
                   href={item.href}
-                  className="flex items-center justify-between rounded-lg p-2 transition-colors duration-200 hover:bg-zinc-50 dark:hover:bg-zinc-800/50"
+                  className="hover:bg-muted flex items-center justify-between rounded-lg p-2 transition-colors"
                 >
                   <div className="flex items-center gap-2">
                     {item.icon}
-                    <span className="text-sm font-medium text-zinc-900 dark:text-zinc-100">
+                    <span className="text-foreground text-sm font-medium">
                       {item.label}
                     </span>
                   </div>
-                  <div className="flex items-center">
-                    {item.external && <MoveUpRight className="h-4 w-4" />}
-                  </div>
+                  {item.external && (
+                    <MoveUpRight className="text-muted-foreground h-4 w-4" />
+                  )}
                 </Link>
               ))}
 
-              <button
-                type="button"
-                className="flex w-full items-center justify-between rounded-lg p-2 transition-colors duration-200 hover:bg-zinc-50 dark:hover:bg-zinc-800/50"
+              <Link
+                href="/"
+                className="hover:bg-muted flex items-center gap-2 rounded-lg p-2 transition-colors"
               >
-                <Link className="flex items-center gap-2" href="/">
-                  <LogOut className="h-4 w-4" />
-                  <span className="text-sm font-medium text-zinc-900 dark:text-zinc-100">
-                    Logout
-                  </span>
-                </Link>
-              </button>
+                <LogOut className="h-4 w-4" />
+                <span className="text-foreground text-sm font-medium">
+                  Logout
+                </span>
+              </Link>
             </div>
           </div>
         </div>

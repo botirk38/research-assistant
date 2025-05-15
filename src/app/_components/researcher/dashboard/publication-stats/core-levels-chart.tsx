@@ -10,17 +10,20 @@ import {
 } from "@/components/ui/chart";
 import { allCoreLevels } from "@/lib/data/publications";
 import ChartCard from "@/components/chart-card";
+import { filterDataByDateRange } from "@/utils/date-filter";
+import type { DateRange } from "react-day-picker";
 
 const chartConfig = {
   mobile: { label: "Mobile", color: "var(--chart-1)" },
   desktop: { label: "Desktop", color: "var(--chart-2)" },
 };
 
-export function CoreLevelsChart() {
+export function CoreLevelsChart({ dateRange }: { dateRange: DateRange }) {
+  const filteredData = filterDataByDateRange(allCoreLevels, dateRange);
   return (
     <ChartCard title="Core Levels">
       <ChartContainer config={chartConfig} className="min-h-[300px] w-full">
-        <BarChart data={allCoreLevels}>
+        <BarChart data={filteredData}>
           <CartesianGrid strokeDasharray="3 3" vertical={false} />
           <XAxis
             dataKey="level"

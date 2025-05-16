@@ -1,3 +1,4 @@
+import Logo from "@/components/logo";
 import Link from "next/link";
 
 const links = [
@@ -36,7 +37,7 @@ export default function FooterSection() {
           aria-label="go home"
           className="mx-auto block size-fit font-bold"
         >
-          ResearchAssistant
+          <Logo />
         </Link>
 
         <div className="my-8 flex flex-wrap justify-center gap-6">

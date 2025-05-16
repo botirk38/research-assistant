@@ -39,7 +39,7 @@ export function ResearcherDashboardSidebar() {
           {open ? (
             <div className="flex items-center">
               <Link
-                className="font-display text-sidebar-foreground ml-3 font-semibold"
+                className="font-display text-sidebar-foreground ml-3 flex items-center gap-x-3 font-semibold"
                 href="/researcher"
               >
                 <Logo />

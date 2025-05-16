@@ -11,8 +11,10 @@ import Collaborations from "../_components/researcher/dashboard/collaborations";
 import FundingOpportunities from "../_components/researcher/dashboard/funding-opportunities";
 import { useState } from "react";
 import type { DateRange } from "react-day-picker";
+import { DollarSign, Search, Settings } from "lucide-react";
 
-// TablesSection Component
+import { QuickActions, type QuickActionItem } from "@/components/quick-actions";
+
 const TablesSection: React.FC = () => (
   <div className="space-y-6">
     <ResearchIdeas />
@@ -21,9 +23,28 @@ const TablesSection: React.FC = () => (
   </div>
 );
 
-// Main ResearcherProfile Component
 export default function ResearcherProfile() {
   const [dateRange, setDateRange] = useState<DateRange | undefined>(undefined);
+
+  const customActions: QuickActionItem[] = [
+    {
+      icon: <Search className="h-5 w-5" />,
+      label: "Publications",
+      href: "/researcher/publications",
+    },
+
+    {
+      icon: <DollarSign className="h-5 w-5" />,
+      label: "Funding Opportunities",
+      href: "/researcher/funding-opportunities",
+    },
+
+    {
+      icon: <Settings className="h-5 w-5" />,
+      label: "Settings",
+      href: "/researcher/settings",
+    },
+  ];
 
   const handleDateChange = (newDateRange: DateRange | undefined) => {
     setDateRange(newDateRange);
@@ -31,8 +52,9 @@ export default function ResearcherProfile() {
   return (
     <>
       <Header />
-      <div className="mx-auto max-w-7xl p-6">
+      <div className="mx-auto flex max-w-7xl flex-col gap-6 p-6">
         <TopNavigation dateRange={dateRange} onDateChange={handleDateChange} />
+        <QuickActions items={customActions} />
         <PublicationsStats dateRange={dateRange} />
         <ResearchProfileSection dateRange={dateRange} />
 

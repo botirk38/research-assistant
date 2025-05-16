@@ -12,6 +12,16 @@ const config = {
         protocol: "https",
         hostname: "ferf1mheo22r9ira.public.blob.vercel-storage.com",
       },
+      {
+        protocol: "https",
+        hostname: "avatars.githubusercontent.com",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "html.tailus.io",
+        pathname: "/blocks/**",
+      },
     ],
   },
 };

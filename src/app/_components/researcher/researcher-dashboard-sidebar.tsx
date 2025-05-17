@@ -17,6 +17,7 @@ import Link from "next/link";
 import { ModeToggle } from "@/components/mode-toggle";
 import Logo from "@/components/logo";
 import { usePathname } from "next/navigation";
+import { FaPaperclip } from "react-icons/fa";
 
 export function ResearcherDashboardSidebar() {
   const { open: openDesktop, openMobile } = useSidebar();
@@ -30,6 +31,11 @@ export function ResearcherDashboardSidebar() {
       icon: DollarSign,
       label: "Funding Opportunities",
       href: "/researcher/funding-opportunities",
+    },
+    {
+      icon: FaPaperclip,
+      label: "Publications",
+      href: "/researcher/publications",
     },
   ].map((item) => ({
     ...item,

@@ -1,3 +1,5 @@
+import { type DateRange } from "react-day-picker";
+
 export type SocialLink = {
   platform: string;
   url: string;
@@ -97,4 +99,12 @@ export interface FundingOpportunity {
 export type ResearchIdea = {
   title: string;
   description: string;
+};
+
+export type FundingOpportunityFilterState = {
+  fundingRange: [number, number];
+  dateRange: DateRange | undefined;
+  selectedEligibility: string[];
+  selectedCategories: string[];
+  minMatchScore: number | undefined;
 };

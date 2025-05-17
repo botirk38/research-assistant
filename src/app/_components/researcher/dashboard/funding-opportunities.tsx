@@ -1,8 +1,10 @@
+"use client";
+
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { LayoutGrid, Table as TableIcon } from "lucide-react";
-import { opportunities } from "@/lib/data/publications";
+import { mockOpportunities } from "@/lib/data/funding-opportunities";
 import FundingCard from "./funding-opportunities/funding-opportunities-card";
 import FundingTable from "./funding-opportunities/funding-opportunities-table";
 
@@ -35,12 +37,12 @@ const FundingOpportunities: React.FC = () => {
 
       {view === "card" ? (
         <FundingCard
-          data={opportunities}
+          data={mockOpportunities.slice(0, 3)} // Display only the first 3 opportunities in card view
           onFundingOpportunityClick={handleFundingOpportunityClick}
         />
       ) : (
         <FundingTable
-          data={opportunities}
+          data={mockOpportunities.slice(0, 3)} // Display only the first 5 opportunities in table view
           onFundingOpportunityClick={handleFundingOpportunityClick}
         />
       )}

@@ -16,11 +16,21 @@ const PublicationsArea: React.FC = () => {
   const researchPublications: Publication[] = [
     {
       title: "Deep Learning for Medical Imaging",
-      subtitle: "Journal of Medical AI, 2023",
+      subtitle: "Latest advances in neural network applications for radiology",
+      journal: "Journal of Medical AI",
+      year: 2023,
+      citations: 52,
+      url: "#",
+      coAuthors: ["A. Smith", "J. Doe"],
     },
     {
       title: "Explainable AI in Healthcare",
-      subtitle: "IEEE Transactions, 2022",
+      subtitle: "Methods and applications for transparency in clinical models",
+      journal: "IEEE Transactions on Medical Imaging",
+      year: 2022,
+      citations: 37,
+      url: "#",
+      coAuthors: ["L. Zhang"],
     },
   ];
 
@@ -28,10 +38,20 @@ const PublicationsArea: React.FC = () => {
     {
       title: "Quantum Computing Applications",
       subtitle: "Emerging field exploration",
+      journal: "Quantum Journal",
+      year: 2024,
+      citations: 10,
+      url: "#",
+      coAuthors: ["S. Patel"],
     },
     {
       title: "Sustainable AI Systems",
       subtitle: "New research direction",
+      journal: "AI & Sustainability Review",
+      year: 2023,
+      citations: 5,
+      url: "#",
+      coAuthors: ["M. Green"],
     },
   ];
 

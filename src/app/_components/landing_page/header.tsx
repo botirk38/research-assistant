@@ -1,182 +1,129 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
-import { Menu, X, Moon, Sun, ChevronRight } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useTheme } from "next-themes";
+import React from "react";
+import { cn } from "@/lib/utils";
+import Logo from "@/components/logo";
+import { ModeToggle } from "@/components/mode-toggle";
 
-export function Header() {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { theme, setTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
+const menuItems = [
+  { name: "Features", href: "#link" },
+  { name: "Pricing", href: "#link" },
+  { name: "About", href: "#link" },
+];
 
-  useEffect(() => {
-    setMounted(true);
+export const HeroHeader = () => {
+  const [menuState, setMenuState] = React.useState(false);
+  const [isScrolled, setIsScrolled] = React.useState(false);
+
+  React.useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 10) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
+      setIsScrolled(window.scrollY > 50);
     };
-
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const toggleTheme = () => {
-    setTheme(theme === "dark" ? "light" : "dark");
-  };
-
   return (
-    <header
-      className={`sticky top-0 z-50 w-full p-3 backdrop-blur-lg transition-all duration-300 ${isScrolled ? "bg-background/80 shadow-sm" : "bg-transparent"}`}
-    >
-      <div className="flex h-16 w-full items-center justify-between">
-        <div className="flex items-center gap-2 font-bold">
-          <div className="from-primary to-primary/70 text-primary-foreground flex size-8 items-center justify-center rounded-lg bg-gradient-to-br">
-            S
-          </div>
-          <span>SaaSify</span>
-        </div>
-        <nav className="hidden gap-8 md:flex">
-          <Link
-            href="#features"
-            className="text-muted-foreground hover:text-foreground text-sm font-medium transition-colors"
-          >
-            Features
-          </Link>
-          <Link
-            href="#testimonials"
-            className="text-muted-foreground hover:text-foreground text-sm font-medium transition-colors"
-          >
-            Testimonials
-          </Link>
-          <Link
-            href="#pricing"
-            className="text-muted-foreground hover:text-foreground text-sm font-medium transition-colors"
-          >
-            Pricing
-          </Link>
-          <Link
-            href="#faq"
-            className="text-muted-foreground hover:text-foreground text-sm font-medium transition-colors"
-          >
-            FAQ
-          </Link>
-        </nav>
-        <div className="hidden items-center gap-4 md:flex">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={toggleTheme}
-            className="rounded-full"
-          >
-            {mounted && theme === "dark" ? (
-              <Sun className="size-[18px]" />
-            ) : (
-              <Moon className="size-[18px]" />
-            )}
-            <span className="sr-only">Toggle theme</span>
-          </Button>
-          <Link
-            href="/login"
-            className="text-muted-foreground hover:text-foreground text-sm font-medium transition-colors"
-          >
-            Log in
-          </Link>
-          <Link href="/signup">
-            <Button className="rounded-full">
-              Get Started
-              <ChevronRight className="ml-1 size-4" />
-            </Button>
-          </Link>
-        </div>
-        <div className="flex items-center gap-4 md:hidden">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={toggleTheme}
-            className="rounded-full"
-          >
-            {mounted && theme === "dark" ? (
-              <Sun className="size-[18px]" />
-            ) : (
-              <Moon className="size-[18px]" />
-            )}
-          </Button>
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          >
-            {mobileMenuOpen ? (
-              <X className="size-5" />
-            ) : (
-              <Menu className="size-5" />
-            )}
-            <span className="sr-only">Toggle menu</span>
-          </Button>
-        </div>
-      </div>
-      {/* Mobile menu */}
-      {mobileMenuOpen && (
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -20 }}
-          className="bg-background/95 absolute inset-x-0 top-16 border-b backdrop-blur-lg md:hidden"
-        >
-          <div className="container flex flex-col gap-4 py-4">
-            <Link
-              href="#features"
-              className="py-2 text-sm font-medium"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Features
-            </Link>
-            <Link
-              href="#testimonials"
-              className="py-2 text-sm font-medium"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Testimonials
-            </Link>
-            <Link
-              href="#pricing"
-              className="py-2 text-sm font-medium"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Pricing
-            </Link>
-            <Link
-              href="#faq"
-              className="py-2 text-sm font-medium"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              FAQ
-            </Link>
-            <div className="flex flex-col gap-2 border-t pt-2">
+    <header>
+      <nav
+        data-state={menuState && "active"}
+        className={cn(
+          "fixed z-20 w-full transition-all duration-300",
+          isScrolled &&
+            "bg-background/75 border-b border-black/5 backdrop-blur-lg",
+        )}
+      >
+        <div className="mx-auto max-w-5xl px-6">
+          <div className="relative flex flex-wrap items-center justify-between gap-6 py-3 lg:gap-0">
+            <div className="flex w-full justify-between gap-6 lg:w-auto">
               <Link
-                href="/login"
-                className="py-2 text-sm font-medium"
-                onClick={() => setMobileMenuOpen(false)}
+                href="/"
+                aria-label="home"
+                className="flex items-center space-x-2 font-bold"
               >
-                Log in
+                <Logo />
               </Link>
-              <Link href="/signup">
-                <Button className="rounded-full">
-                  Get Started
-                  <ChevronRight className="ml-1 size-4" />
+
+              <button
+                onClick={() => setMenuState(!menuState)}
+                aria-label={menuState ? "Close Menu" : "Open Menu"}
+                className="relative z-20 -m-2.5 -mr-4 block cursor-pointer p-2.5 lg:hidden"
+              >
+                <Menu className="m-auto size-6 duration-200 in-data-[state=active]:scale-0 in-data-[state=active]:rotate-180 in-data-[state=active]:opacity-0" />
+                <X className="absolute inset-0 m-auto size-6 scale-0 -rotate-180 opacity-0 duration-200 in-data-[state=active]:scale-100 in-data-[state=active]:rotate-0 in-data-[state=active]:opacity-100" />
+              </button>
+
+              <div className="m-auto hidden size-fit lg:block">
+                <ul className="flex gap-1">
+                  {menuItems.map((item, index) => (
+                    <li key={index}>
+                      <Button asChild variant="ghost" size="sm">
+                        <Link href={item.href} className="text-base">
+                          <span>{item.name}</span>
+                        </Link>
+                      </Button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            <div className="bg-background mb-6 hidden w-full flex-wrap items-center justify-end space-y-8 rounded-3xl border p-6 shadow-2xl shadow-zinc-300/20 in-data-[state=active]:block md:flex-nowrap lg:m-0 lg:flex lg:w-fit lg:gap-6 lg:space-y-0 lg:border-transparent lg:bg-transparent lg:p-0 lg:shadow-none lg:in-data-[state=active]:flex dark:shadow-none dark:lg:bg-transparent">
+              <div className="lg:hidden">
+                <ul className="space-y-6 text-base">
+                  {menuItems.map((item, index) => (
+                    <li key={index}>
+                      <Link
+                        href={item.href}
+                        className="text-muted-foreground hover:text-accent-foreground block duration-150"
+                      >
+                        <span>{item.name}</span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="flex w-full flex-col items-center space-y-3 sm:flex-row sm:gap-3 sm:space-y-0 md:w-fit">
+                <div className="mr-2">
+                  <ModeToggle />
+                </div>
+                <Button
+                  asChild
+                  variant="ghost"
+                  size="sm"
+                  className={cn(isScrolled && "lg:hidden")}
+                >
+                  <Link href="/login">
+                    <span>Login</span>
+                  </Link>
                 </Button>
-              </Link>
+                <Button
+                  asChild
+                  size="sm"
+                  className={cn(isScrolled && "lg:hidden")}
+                >
+                  <Link href="/signup">
+                    <span>Sign Up</span>
+                  </Link>
+                </Button>
+                <Button
+                  asChild
+                  size="sm"
+                  className={cn(isScrolled ? "lg:inline-flex" : "hidden")}
+                >
+                  <Link href="/signup">
+                    <span>Get Started</span>
+                  </Link>
+                </Button>
+              </div>
             </div>
           </div>
-        </motion.div>
-      )}
+        </div>
+      </nav>
     </header>
   );
-}
+};

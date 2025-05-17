@@ -1,6 +1,57 @@
+export type SocialLink = {
+  platform: string;
+  url: string;
+  username: string;
+};
+
 export type Publication = {
   title: string;
   subtitle: string;
+
+  journal: string;
+  year: number;
+  citations: number;
+  url: string;
+  coAuthors: string[];
+};
+
+export type Education = {
+  degree: string;
+  institution: string;
+  year: number;
+};
+
+export type Award = {
+  name: string;
+  year: number;
+};
+
+export type ResearcherStats = {
+  hIndex: number;
+  citations: number;
+  publications: number;
+  collaborators: number;
+};
+
+export type ResearcherData = {
+  name: string;
+  title: string;
+  institution: string;
+  department: string;
+  field: string;
+  bio: string;
+  avatar: string;
+  email: string;
+  phone: string;
+  website: string;
+  location: string;
+  socialLinks: SocialLink[];
+  stats: ResearcherStats;
+  publications: Publication[];
+  researchInterests: string[];
+  currentProjects: string[];
+  education: Education[];
+  awards: Award[];
 };
 
 export type Collaborator = {

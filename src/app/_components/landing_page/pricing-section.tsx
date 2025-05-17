@@ -1,207 +1,138 @@
-"use client";
-
-import { motion } from "framer-motion";
-import { Check } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Check } from "lucide-react";
+import Link from "next/link";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "@/components/ui/card";
 
-type PricingPlan = {
-  name: string;
-  price: string;
-  description: string;
-  features: string[];
-  popular?: boolean;
-  cta: string;
-};
-
-export function PricingSection() {
-  const monthlyPlans = [
-    {
-      name: "Starter",
-      price: "$29",
-      description: "Perfect for small teams and startups.",
-      features: [
-        "Up to 5 team members",
-        "Basic analytics",
-        "5GB storage",
-        "Email support",
-      ],
-      cta: "Start Free Trial",
-    },
-    {
-      name: "Professional",
-      price: "$79",
-      description: "Ideal for growing businesses.",
-      features: [
-        "Up to 20 team members",
-        "Advanced analytics",
-        "25GB storage",
-        "Priority email support",
-        "API access",
-      ],
-      cta: "Start Free Trial",
-      popular: true,
-    },
-    {
-      name: "Enterprise",
-      price: "$199",
-      description: "For large organizations with complex needs.",
-      features: [
-        "Unlimited team members",
-        "Custom analytics",
-        "Unlimited storage",
-        "24/7 phone & email support",
-        "Advanced API access",
-        "Custom integrations",
-      ],
-      cta: "Contact Sales",
-    },
-  ];
-
-  const annualPlans = [
-    {
-      name: "Starter",
-      price: "$23",
-      description: "Perfect for small teams and startups.",
-      features: [
-        "Up to 5 team members",
-        "Basic analytics",
-        "5GB storage",
-        "Email support",
-      ],
-      cta: "Start Free Trial",
-    },
-    {
-      name: "Professional",
-      price: "$63",
-      description: "Ideal for growing businesses.",
-      features: [
-        "Up to 20 team members",
-        "Advanced analytics",
-        "25GB storage",
-        "Priority email support",
-        "API access",
-      ],
-      cta: "Start Free Trial",
-      popular: true,
-    },
-    {
-      name: "Enterprise",
-      price: "$159",
-      description: "For large organizations with complex needs.",
-      features: [
-        "Unlimited team members",
-        "Custom analytics",
-        "Unlimited storage",
-        "24/7 phone & email support",
-        "Advanced API access",
-        "Custom integrations",
-      ],
-      cta: "Contact Sales",
-    },
-  ];
-
-  const renderPricingCards = (plans: PricingPlan[]) => {
-    return (
-      <div className="grid gap-6 lg:grid-cols-3 lg:gap-8">
-        {plans.map((plan, i) => (
-          <motion.div
-            key={i}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: i * 0.1 }}
-          >
-            <Card
-              className={`relative h-full overflow-hidden ${plan.popular ? "border-primary shadow-lg" : "border-border/40 shadow-md"} from-background to-muted/10 bg-gradient-to-b backdrop-blur`}
-            >
-              {plan.popular && (
-                <div className="bg-primary text-primary-foreground absolute top-0 right-0 rounded-bl-lg px-3 py-1 text-xs font-medium">
-                  Most Popular
+export default function Pricing() {
+  return (
+    <div className="bg-muted relative py-16 md:py-32">
+      <div className="mx-auto max-w-5xl px-6">
+        <div className="mx-auto max-w-2xl text-center">
+          <h2 className="text-3xl font-bold text-balance md:text-4xl lg:text-5xl">
+            Pricing that scale with your business
+          </h2>
+          <p className="text-muted-foreground mx-auto mt-4 max-w-xl text-lg text-balance">
+            Choose the perfect plan for your needs and start optimizing your
+            workflow today
+          </p>
+        </div>
+        <div className="@container relative mt-12 md:mt-20">
+          <Card className="relative mx-auto max-w-sm @4xl:max-w-full">
+            <div className="grid @4xl:grid-cols-3">
+              <div>
+                <CardHeader className="p-8">
+                  <CardTitle className="font-medium">Free</CardTitle>
+                  <span className="mt-2 mb-0.5 block text-2xl font-semibold">
+                    $0 / mo
+                  </span>
+                  <CardDescription className="text-sm">
+                    Per editor
+                  </CardDescription>
+                </CardHeader>
+                <div className="border-y px-8 py-4">
+                  <Button asChild className="w-full">
+                    <Link href="#">Get Started</Link>
+                  </Button>
                 </div>
-              )}
-              <CardContent className="flex h-full flex-col p-6">
-                <h3 className="text-2xl font-bold">{plan.name}</h3>
-                <div className="mt-4 flex items-baseline">
-                  <span className="text-4xl font-bold">{plan.price}</span>
-                  <span className="text-muted-foreground ml-1">/month</span>
-                </div>
-                <p className="text-muted-foreground mt-2">{plan.description}</p>
-                <ul className="my-6 flex-grow space-y-3">
-                  {plan.features.map((feature, j) => (
-                    <li key={j} className="flex items-center">
-                      <Check className="text-primary mr-2 size-4" />
-                      <span>{feature}</span>
+
+                <ul role="list" className="space-y-3 p-8">
+                  {[
+                    "Basic Analytics Dashboard",
+                    "5GB Cloud Storage",
+                    "Email and Chat Support",
+                  ].map((item, index) => (
+                    <li key={index} className="flex items-center gap-2">
+                      <Check
+                        className="text-primary size-3"
+                        strokeWidth={3.5}
+                      />
+                      {item}
                     </li>
                   ))}
                 </ul>
-                <Button
-                  className={`mt-auto w-full rounded-full ${plan.popular ? "bg-primary hover:bg-primary/90" : "bg-muted hover:bg-muted/80"}`}
-                  variant={plan.popular ? "default" : "outline"}
-                >
-                  {plan.cta}
-                </Button>
-              </CardContent>
-            </Card>
-          </motion.div>
-        ))}
-      </div>
-    );
-  };
+              </div>
+              <div className="ring-foreground/10 bg-background -mx-1 rounded-(--radius) border-transparent shadow ring-1 @3xl:mx-0 @3xl:-my-3">
+                <div className="relative px-1 @3xl:px-0 @3xl:py-3">
+                  <CardHeader className="p-8">
+                    <CardTitle className="font-medium">Pro</CardTitle>
+                    <span className="mt-2 mb-0.5 block text-2xl font-semibold">
+                      $19 / mo
+                    </span>
+                    <CardDescription className="text-sm">
+                      Per editor
+                    </CardDescription>
+                  </CardHeader>
+                  <div className="-mx-1 border-y px-8 py-4 @3xl:mx-0">
+                    <Button asChild className="w-full">
+                      <Link href="#">Get Started</Link>
+                    </Button>
+                  </div>
 
-  return (
-    <section
-      id="pricing"
-      className="bg-muted/30 relative w-full overflow-hidden py-20 md:py-32"
-    >
-      <div className="absolute inset-0 -z-10 h-full w-full bg-white bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px),linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,#000_40%,transparent_100%)] bg-[size:4rem_4rem] dark:bg-black dark:bg-[linear-gradient(to_right,#1f1f1f_1px,transparent_1px),linear-gradient(to_bottom,#1f1f1f_1px,transparent_1px)]"></div>
+                  <ul role="list" className="space-y-3 p-8">
+                    {[
+                      "Everything in Free Plan",
+                      "5GB Cloud Storage",
+                      "Email and Chat Support",
+                      "Access to Community Forum",
+                      "Single User Access",
+                      "Access to Basic Templates",
+                      "Mobile App Access",
+                      "1 Custom Report Per Month",
+                      "Monthly Product Updates",
+                      "Standard Security Features",
+                    ].map((item, index) => (
+                      <li key={index} className="flex items-center gap-2">
+                        <Check
+                          className="text-primary size-3"
+                          strokeWidth={3.5}
+                        />
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+              <div>
+                <CardHeader className="p-8">
+                  <CardTitle className="font-medium">Pro Plus</CardTitle>
+                  <span className="mt-2 mb-0.5 block text-2xl font-semibold">
+                    $49 / mo
+                  </span>
+                  <CardDescription className="text-sm">
+                    Per editor
+                  </CardDescription>
+                </CardHeader>
+                <div className="border-y px-8 py-4">
+                  <Button asChild className="w-full">
+                    <Link href="#">Get Started</Link>
+                  </Button>
+                </div>
 
-      <div className="relative w-full px-4 md:px-6">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="mb-12 flex flex-col items-center justify-center space-y-4 text-center"
-        >
-          <Badge
-            className="rounded-full px-4 py-1.5 text-sm font-medium"
-            variant="secondary"
-          >
-            Pricing
-          </Badge>
-          <h2 className="text-3xl font-bold tracking-tight md:text-4xl">
-            Simple, Transparent Pricing
-          </h2>
-          <p className="text-muted-foreground max-w-[800px] md:text-lg">
-            Choose the plan that&apos;s right for your business. All plans
-            include a 14-day free trial.
-          </p>
-        </motion.div>
-
-        <div className="mx-auto max-w-5xl">
-          <Tabs defaultValue="monthly" className="w-full">
-            <div className="mb-8 flex justify-center">
-              <TabsList className="rounded-full p-1">
-                <TabsTrigger value="monthly" className="rounded-full px-6">
-                  Monthly
-                </TabsTrigger>
-                <TabsTrigger value="annually" className="rounded-full px-6">
-                  Annually (Save 20%)
-                </TabsTrigger>
-              </TabsList>
+                <ul role="list" className="space-y-3 p-8">
+                  {[
+                    "Everything in Pro Plan",
+                    "5GB Cloud Storage",
+                    "Email and Chat Support",
+                  ].map((item, index) => (
+                    <li key={index} className="flex items-center gap-2">
+                      <Check
+                        className="text-primary size-3"
+                        strokeWidth={3.5}
+                      />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
-            <TabsContent value="monthly">
-              {renderPricingCards(monthlyPlans)}
-            </TabsContent>
-            <TabsContent value="annually">
-              {renderPricingCards(annualPlans)}
-            </TabsContent>
-          </Tabs>
+          </Card>
         </div>
       </div>
-    </section>
+    </div>
   );
 }

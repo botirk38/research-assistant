@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/sidebar";
 import Link from "next/link";
 import { ModeToggle } from "@/components/mode-toggle";
+import Logo from "@/components/logo";
 
 const navItems = [
   { icon: Home, label: "Dashboard", active: false, href: "/researcher" },
@@ -37,14 +38,12 @@ export function ResearcherDashboardSidebar() {
         <div className="border-sidebar-border flex h-16 items-center border-b px-4">
           {open ? (
             <div className="flex items-center">
-              <div className="bg-sidebar-primary font-display text-sidebar-primary-foreground flex h-10 w-10 items-center justify-center rounded-lg font-bold">
-                RA
-              </div>
               <Link
-                className="font-display text-sidebar-foreground ml-3 font-semibold"
+                className="font-display text-sidebar-foreground ml-3 flex items-center gap-x-3 font-semibold"
                 href="/researcher"
               >
-                ResearchAssistant
+                <Logo />
+                Research Assistant
               </Link>
             </div>
           ) : (

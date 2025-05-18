@@ -163,6 +163,21 @@ export function PublicationsNetwork({
             source: pub1.title,
             target: pub2.title,
             sourceHandle: "coauthors",
+            label: `${sharedAuthors.join(", ")}`, // Add label showing shared authors
+            style: { stroke: "#10b981" }, // Green color for co-author connections
+            labelStyle: {
+              fontSize: "10px",
+              fill: "#374151", // Gray text color
+              fontWeight: 500,
+            },
+            labelBgStyle: {
+              fill: "white",
+              fillOpacity: 0.8,
+              stroke: "#e5e7eb", // Light gray border
+              strokeWidth: 1,
+              borderRadius: 4,
+            },
+            labelBgPadding: [4, 4], // Padding around the label
             data: {
               sharedAuthorCount: sharedAuthors.length,
               sharedAuthors: sharedAuthors,
@@ -178,18 +193,34 @@ export function PublicationsNetwork({
   const [nodes, setNodes] = useNodesState<PublicationNode>(initialNodes);
   const [edges, setEdges] = useEdgesState(initialEdges);
 
-  // Type-safe handlers
   const onNodesChange: OnNodesChange<PublicationNode> = useCallback(
     (changes) =>
-      setNodes((nds) =>
-        changes.reduce(
-          (acc, _change) => {
-            // Handle node changes here if needed
-            return acc;
+      setNodes((nds) => {
+        return changes.reduce(
+          (acc, change) => {
+            // Apply all changes directly
+            switch (change.type) {
+              case "position":
+                return acc.map((node) =>
+                  node.id === change.id
+                    ? { ...node, position: change.position || node.position }
+                    : node,
+                );
+              case "remove":
+                return acc.filter((node) => node.id !== change.id);
+              case "select":
+                return acc.map((node) =>
+                  node.id === change.id
+                    ? { ...node, selected: change.selected }
+                    : node,
+                );
+              default:
+                return acc;
+            }
           },
           [...nds],
-        ),
-      ),
+        );
+      }),
     [setNodes],
   );
 
@@ -228,6 +259,9 @@ export function PublicationsNetwork({
         elementsSelectable={true}
         fitView
         fitViewOptions={{ padding: 0.2 }}
+        defaultEdgeOptions={{
+          style: { strokeWidth: 2 },
+        }}
       >
         <Controls />
         <Background gap={12} size={1} />

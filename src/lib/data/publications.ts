@@ -139,7 +139,7 @@ export const mockPublications: Publication[] = [
     year: 2023,
     citations: 242,
     url: "https://example.com/llm-scientific-research",
-    coAuthors: ["James Wilson", "Emily Parker", "Michael Brown"],
+    coAuthors: ["James Wilson", "Sarah Johnson", "Michael Brown"],
   },
   {
     title: "Quantum-Inspired Algorithms for Machine Learning",
@@ -148,7 +148,7 @@ export const mockPublications: Publication[] = [
     year: 2024,
     citations: 165,
     url: "https://example.com/quantum-ml-algorithms",
-    coAuthors: ["Robert Lee", "Jennifer Adams", "Thomas Garcia"],
+    coAuthors: ["Robert Lee", "Jennifer Smith", "David Chen"],
   },
   {
     title: "Robotic Process Automation with Deep Learning",
@@ -157,7 +157,7 @@ export const mockPublications: Publication[] = [
     year: 2023,
     citations: 178,
     url: "https://example.com/robotics-deep-learning",
-    coAuthors: ["Lisa Wong", "Daniel Miller", "Rachel Green"],
+    coAuthors: ["Lisa Wong", "Michael Brown", "Rachel Green"],
   },
   {
     title: "Multi-Modal Deep Learning for Data Science",
@@ -166,7 +166,7 @@ export const mockPublications: Publication[] = [
     year: 2023,
     citations: 193,
     url: "https://example.com/multimodal-data-science",
-    coAuthors: ["John Smith", "Sophia Martinez", "William Taylor"],
+    coAuthors: ["Jennifer Smith", "Sophia Martinez", "David Chen"],
   },
   {
     title: "Blockchain-Enhanced Federated Learning",
@@ -175,7 +175,7 @@ export const mockPublications: Publication[] = [
     year: 2022,
     citations: 212,
     url: "https://example.com/blockchain-federated-learning",
-    coAuthors: ["Kevin Zhang", "Amanda Johnson", "Christopher Lee"],
+    coAuthors: ["Kevin Zhang", "Sarah Johnson", "Christopher Lee"],
   },
   {
     title: "Natural Language Processing for Code Generation",
@@ -184,7 +184,7 @@ export const mockPublications: Publication[] = [
     year: 2024,
     citations: 156,
     url: "https://example.com/nlp-code-generation",
-    coAuthors: ["Elizabeth Brown", "Richard Davis", "Michelle Kim"],
+    coAuthors: ["Elizabeth Brown", "Jennifer Smith", "Michelle Kim"],
   },
   {
     title: "Computer Vision in Autonomous Robotics",
@@ -193,7 +193,7 @@ export const mockPublications: Publication[] = [
     year: 2023,
     citations: 203,
     url: "https://example.com/cv-autonomous-robotics",
-    coAuthors: ["Andrew Wilson", "Patricia Moore", "Steven Clark"],
+    coAuthors: ["Andrew Wilson", "Michael Brown", "David Chen"],
   },
   {
     title: "Machine Learning for Quantum Error Correction",
@@ -202,7 +202,7 @@ export const mockPublications: Publication[] = [
     year: 2023,
     citations: 178,
     url: "https://example.com/ml-quantum-error",
-    coAuthors: ["Laura Martinez", "Paul Johnson", "Karen Wong"],
+    coAuthors: ["Laura Martinez", "Sarah Johnson", "Karen Wong"],
   },
   {
     title: "Data Science Approaches to Climate Modeling",
@@ -211,7 +211,7 @@ export const mockPublications: Publication[] = [
     year: 2022,
     citations: 224,
     url: "https://example.com/data-science-climate",
-    coAuthors: ["Mark Thompson", "Jessica Lee", "Robert Brown"],
+    coAuthors: ["Mark Thompson", "Jennifer Smith", "Robert Brown"],
   },
   {
     title: "AI-Powered Smart Contract Optimization",
@@ -220,7 +220,7 @@ export const mockPublications: Publication[] = [
     year: 2024,
     citations: 145,
     url: "https://example.com/ai-smart-contracts",
-    coAuthors: ["David Wilson", "Susan Chen", "James Rodriguez"],
+    coAuthors: ["David Chen", "Susan Chen", "Michael Brown"],
   },
   {
     title: "Transfer Learning in Computer Vision",
@@ -229,6 +229,6 @@ export const mockPublications: Publication[] = [
     year: 2023,
     citations: 167,
     url: "https://example.com/transfer-learning-cv",
-    coAuthors: ["Jennifer Smith", "Michael Davis", "Emily Johnson"],
+    coAuthors: ["Jennifer Smith", "Sarah Johnson", "Emily Johnson"],
   },
 ];

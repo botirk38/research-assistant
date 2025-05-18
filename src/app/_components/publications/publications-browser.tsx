@@ -3,122 +3,17 @@
 import { useState, useEffect, useMemo } from "react";
 import { PublicationsFilter } from "./publications-filter";
 import { PublicationsSearchBar } from "./publication-search-bar";
-import type { Publication } from "@/types/researcher";
 import { PublicationCard } from "./publication-card";
-
-const mockPublications: Publication[] = [
-  {
-    title: "Quantum Computing Applications in Cryptography",
-    subtitle: "A Comprehensive Review of Post-Quantum Cryptographic Methods",
-    journal: "Journal of Quantum Information Science",
-    year: 2024,
-    citations: 87,
-    url: "https://example.com/quantum-cryptography",
-    coAuthors: ["Maria Rodriguez", "David Chen", "Sarah Johnson"],
-  },
-  {
-    title: "Neural Networks for Climate Prediction",
-    subtitle: "Improving Accuracy in Long-term Climate Modeling",
-    journal: "Environmental Science & Technology",
-    year: 2023,
-    citations: 142,
-    url: "https://example.com/climate-neural-networks",
-    coAuthors: ["James Wilson", "Emily Parker", "Michael Brown"],
-  },
-  {
-    title: "CRISPR-Cas9 Applications in Treating Genetic Disorders",
-    subtitle: "Recent Advances and Ethical Considerations",
-    journal: "Nature Biotechnology",
-    year: 2024,
-    citations: 215,
-    url: "https://example.com/crispr-applications",
-    coAuthors: ["Robert Lee", "Jennifer Adams", "Thomas Garcia"],
-  },
-  {
-    title: "Sustainable Urban Planning in the 21st Century",
-    subtitle: "Integrating Green Infrastructure in Metropolitan Areas",
-    journal: "Urban Studies",
-    year: 2022,
-    citations: 78,
-    url: "https://example.com/sustainable-urban-planning",
-    coAuthors: ["Lisa Wong", "Daniel Miller", "Rachel Green"],
-  },
-  {
-    title: "Artificial Intelligence in Healthcare Diagnostics",
-    subtitle: "Improving Early Detection of Diseases",
-    journal: "Journal of Medical Informatics",
-    year: 2023,
-    citations: 193,
-    url: "https://example.com/ai-healthcare-diagnostics",
-    coAuthors: ["John Smith", "Sophia Martinez", "William Taylor"],
-  },
-  {
-    title: "Blockchain Technology for Supply Chain Management",
-    subtitle: "Enhancing Transparency and Efficiency",
-    journal: "Journal of Operations Management",
-    year: 2022,
-    citations: 112,
-    url: "https://example.com/blockchain-supply-chain",
-    coAuthors: ["Kevin Zhang", "Amanda Johnson", "Christopher Lee"],
-  },
-  {
-    title: "The Role of Microbiome in Mental Health",
-    subtitle: "Exploring the Gut-Brain Connection",
-    journal: "Neuroscience & Biobehavioral Reviews",
-    year: 2024,
-    citations: 156,
-    url: "https://example.com/microbiome-mental-health",
-    coAuthors: ["Elizabeth Brown", "Richard Davis", "Michelle Kim"],
-  },
-  {
-    title: "Renewable Energy Integration in Power Grids",
-    subtitle: "Challenges and Solutions for Grid Stability",
-    journal: "Energy Policy",
-    year: 2021,
-    citations: 203,
-    url: "https://example.com/renewable-energy-grid",
-    coAuthors: ["Andrew Wilson", "Patricia Moore", "Steven Clark"],
-  },
-  {
-    title: "Machine Learning for Drug Discovery",
-    subtitle: "Accelerating Pharmaceutical Research and Development",
-    journal: "Journal of Medicinal Chemistry",
-    year: 2023,
-    citations: 178,
-    url: "https://example.com/ml-drug-discovery",
-    coAuthors: ["Laura Martinez", "Paul Johnson", "Karen Wong"],
-  },
-  {
-    title: "Ocean Acidification and Coral Reef Ecosystems",
-    subtitle: "Impacts and Adaptation Strategies",
-    journal: "Marine Biology",
-    year: 2022,
-    citations: 124,
-    url: "https://example.com/ocean-acidification-coral",
-    coAuthors: ["Mark Thompson", "Jessica Lee", "Robert Brown"],
-  },
-  {
-    title: "Cybersecurity in Internet of Things Devices",
-    subtitle: "Vulnerabilities and Protection Mechanisms",
-    journal: "IEEE Internet of Things Journal",
-    year: 2024,
-    citations: 92,
-    url: "https://example.com/iot-cybersecurity",
-    coAuthors: ["David Wilson", "Susan Chen", "James Rodriguez"],
-  },
-  {
-    title: "Neuroplasticity in Adult Learning",
-    subtitle: "Implications for Education and Cognitive Training",
-    journal: "Journal of Cognitive Neuroscience",
-    year: 2021,
-    citations: 167,
-    url: "https://example.com/neuroplasticity-learning",
-    coAuthors: ["Jennifer Smith", "Michael Davis", "Emily Johnson"],
-  },
-];
+import { mockPublications } from "@/lib/data/publications";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { LayoutGrid, Table } from "lucide-react";
+import { PublicationsTable } from "./publications-table";
 
 export default function PublicationsBrowser() {
   const [searchQuery, setSearchQuery] = useState("");
+  const [viewMode, setViewMode] = useState<"card" | "table" | "network">(
+    "table",
+  );
   const [selectedJournals, setSelectedJournals] = useState<string[]>([]);
   const [selectedYears, setSelectedYears] = useState<number[]>([]);
   const [citationRange, setCitationRange] = useState<[number, number]>([
@@ -246,6 +141,22 @@ export default function PublicationsBrowser() {
             {filteredPublications.length === 1 ? "Publication" : "Publications"}{" "}
             Found
           </h2>
+
+          {/* View Mode Toggle */}
+          <ToggleGroup
+            type="single"
+            value={viewMode}
+            onValueChange={(value) =>
+              value && setViewMode(value as "card" | "table" | "network")
+            }
+          >
+            <ToggleGroupItem value="table" aria-label="Table view">
+              <Table className="h-4 w-4" />
+            </ToggleGroupItem>
+            <ToggleGroupItem value="card" aria-label="Card view">
+              <LayoutGrid className="h-4 w-4" />
+            </ToggleGroupItem>
+          </ToggleGroup>
         </div>
 
         {filteredPublications.length === 0 ? (
@@ -258,11 +169,18 @@ export default function PublicationsBrowser() {
             </p>
           </div>
         ) : (
-          <div className="space-y-4">
-            {filteredPublications.map((publication, index) => (
-              <PublicationCard key={index} publication={publication} />
-            ))}
-          </div>
+          <>
+            {viewMode === "card" && (
+              <div className="space-y-4">
+                {filteredPublications.map((publication, index) => (
+                  <PublicationCard key={index} publication={publication} />
+                ))}
+              </div>
+            )}
+            {viewMode === "table" && (
+              <PublicationsTable publications={filteredPublications} />
+            )}
+          </>
         )}
       </div>
     </div>

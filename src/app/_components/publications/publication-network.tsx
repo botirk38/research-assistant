@@ -217,7 +217,7 @@ export function PublicationsNetwork({
               case "position":
                 return acc.map((node) =>
                   node.id === change.id
-                    ? { ...node, position: change.position || node.position }
+                    ? { ...node, position: change.position ?? node.position }
                     : node,
                 );
               case "remove":

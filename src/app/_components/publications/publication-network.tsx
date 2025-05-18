@@ -16,7 +16,7 @@ import {
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 import type { Publication } from "@/types/researcher";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   Popover,
   PopoverContent,
@@ -38,13 +38,13 @@ function PublicationNode({ data }: NodeProps<PublicationNode>) {
     <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger asChild>
         <div
-          className="min-w-[200px] cursor-pointer rounded-lg border bg-white p-4 shadow hover:bg-gray-50"
+          className="bg-card hover:bg-accent min-w-[200px] cursor-pointer rounded-lg border p-4 shadow-sm"
           onClick={() => setIsOpen(true)}
         >
           <Handle type="target" position={Position.Top} />
 
           <div className="space-y-2">
-            <h3 className="truncate text-sm font-medium">
+            <h3 className="text-foreground truncate text-sm font-medium">
               {data.publication.title}
             </h3>
             <div className="text-muted-foreground space-y-1 text-xs">
@@ -71,7 +71,7 @@ function PublicationNode({ data }: NodeProps<PublicationNode>) {
       <PopoverContent className="w-[400px] p-4">
         <div className="space-y-4">
           <div>
-            <h2 className="mb-2 text-xl font-semibold">
+            <h2 className="text-foreground mb-2 text-xl font-semibold">
               {data.publication.title}
             </h2>
             <p className="text-muted-foreground text-sm">
@@ -80,19 +80,19 @@ function PublicationNode({ data }: NodeProps<PublicationNode>) {
           </div>
 
           <div className="space-y-2">
-            <h3 className="font-medium">Journal</h3>
+            <h3 className="text-foreground font-medium">Journal</h3>
             <p className="text-muted-foreground text-sm">
               {data.publication.journal}
             </p>
           </div>
 
           <div className="space-y-2">
-            <h3 className="font-medium">Authors</h3>
+            <h3 className="text-foreground font-medium">Authors</h3>
             <div className="flex flex-wrap gap-1">
               {data.publication.coAuthors.map((author) => (
                 <span
                   key={author}
-                  className="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800"
+                  className="bg-primary/10 text-primary inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium"
                 >
                   {author}
                 </span>
@@ -101,11 +101,11 @@ function PublicationNode({ data }: NodeProps<PublicationNode>) {
           </div>
 
           <div className="space-y-2">
-            <h3 className="font-medium">Impact</h3>
+            <h3 className="text-foreground font-medium">Impact</h3>
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <p className="text-muted-foreground text-sm">Citations</p>
-                <p className="text-lg font-medium">
+                <p className="text-foreground text-lg font-medium">
                   {data.publication.citations}
                 </p>
               </div>
@@ -124,11 +124,11 @@ interface PublicationsNetworkProps {
 export function PublicationsNetwork({
   publications,
 }: PublicationsNetworkProps) {
-  // Create initial nodes and edges
-  const { initialNodes, initialEdges } = useMemo(() => {
-    const initialNodes: PublicationNode[] = publications.map((pub, index) => {
+  // Create layout function to reuse for updates
+  const createNodesAndEdges = useCallback((pubs: Publication[]) => {
+    const nodes: PublicationNode[] = pubs.map((pub, index) => {
       // Calculate the number of nodes and use it to determine the radius and spacing
-      const nodeCount = publications.length;
+      const nodeCount = pubs.length;
       const radius = Math.max(400, nodeCount * 60); // Adjust radius based on number of nodes
       const angle = (2 * Math.PI * index) / nodeCount;
 
@@ -146,10 +146,11 @@ export function PublicationsNetwork({
         },
       };
     });
-    const initialEdges: Edge[] = [];
 
-    initialNodes.forEach((sourceNode, index) => {
-      initialNodes.slice(index + 1).forEach((targetNode) => {
+    const edges: Edge[] = [];
+
+    nodes.forEach((sourceNode, index) => {
+      nodes.slice(index + 1).forEach((targetNode) => {
         const pub1 = sourceNode.data.publication;
         const pub2 = targetNode.data.publication;
 
@@ -158,22 +159,22 @@ export function PublicationsNetwork({
         );
 
         if (sharedAuthors.length > 0) {
-          initialEdges.push({
+          edges.push({
             id: `${pub1.title}-${pub2.title}`,
             source: pub1.title,
             target: pub2.title,
             sourceHandle: "coauthors",
             label: `${sharedAuthors.join(", ")}`,
-            style: { stroke: "var(--primary)" }, // Use CSS variable for color
+            style: { stroke: "var(--primary)" },
             labelStyle: {
               fontSize: "10px",
-              fill: "var(--foreground)", // Use CSS variable for text color
+              fill: "var(--foreground)",
               fontWeight: 500,
             },
             labelBgStyle: {
-              fill: "var(--background)", // Use CSS variable for background
+              fill: "var(--background)",
               fillOpacity: 0.8,
-              stroke: "var(--border)", // Use CSS variable for border
+              stroke: "var(--border)",
               strokeWidth: 1,
               borderRadius: 4,
             },
@@ -187,23 +188,36 @@ export function PublicationsNetwork({
       });
     });
 
-    return { initialNodes, initialEdges };
-  }, [publications]);
+    return { nodes, edges };
+  }, []);
+
+  // Create initial nodes and edges
+  const { nodes: initialNodes, edges: initialEdges } = useMemo(
+    () => createNodesAndEdges(publications),
+    [publications, createNodesAndEdges],
+  );
 
   const [nodes, setNodes] = useNodesState<PublicationNode>(initialNodes);
   const [edges, setEdges] = useEdgesState(initialEdges);
 
+  // Update nodes and edges when publications change
+  useEffect(() => {
+    const { nodes: newNodes, edges: newEdges } =
+      createNodesAndEdges(publications);
+    setNodes(newNodes);
+    setEdges(newEdges);
+  }, [publications, createNodesAndEdges, setNodes, setEdges]);
+
   const onNodesChange: OnNodesChange<PublicationNode> = useCallback(
-    (changes) =>
+    (changes) => {
       setNodes((nds) => {
         return changes.reduce(
           (acc, change) => {
-            // Apply all changes directly
             switch (change.type) {
               case "position":
                 return acc.map((node) =>
                   node.id === change.id
-                    ? { ...node, position: change.position ?? node.position }
+                    ? { ...node, position: change.position || node.position }
                     : node,
                 );
               case "remove":
@@ -220,7 +234,8 @@ export function PublicationsNetwork({
           },
           [...nds],
         );
-      }),
+      });
+    },
     [setNodes],
   );
 
@@ -258,7 +273,7 @@ export function PublicationsNetwork({
   );
 
   return (
-    <div className="h-[600px] w-full">
+    <div className="bg-background h-[600px] w-full rounded-lg border">
       <ReactFlow<PublicationNode, Edge>
         nodes={nodes}
         edges={edges}
@@ -270,11 +285,8 @@ export function PublicationsNetwork({
         elementsSelectable={true}
         fitView
         fitViewOptions={{ padding: 0.2 }}
-        defaultEdgeOptions={{
-          style: { strokeWidth: 2 },
-        }}
       >
-        <Controls className="bg-background text-primary border font-bold" />
+        <Controls className="bg-background border" />
         <Background
           gap={12}
           size={1}

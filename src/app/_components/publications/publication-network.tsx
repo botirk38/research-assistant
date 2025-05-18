@@ -163,21 +163,21 @@ export function PublicationsNetwork({
             source: pub1.title,
             target: pub2.title,
             sourceHandle: "coauthors",
-            label: `${sharedAuthors.join(", ")}`, // Add label showing shared authors
-            style: { stroke: "#10b981" }, // Green color for co-author connections
+            label: `${sharedAuthors.join(", ")}`,
+            style: { stroke: "var(--primary)" }, // Use CSS variable for color
             labelStyle: {
               fontSize: "10px",
-              fill: "#374151", // Gray text color
+              fill: "var(--foreground)", // Use CSS variable for text color
               fontWeight: 500,
             },
             labelBgStyle: {
-              fill: "white",
+              fill: "var(--background)", // Use CSS variable for background
               fillOpacity: 0.8,
-              stroke: "#e5e7eb", // Light gray border
+              stroke: "var(--border)", // Use CSS variable for border
               strokeWidth: 1,
               borderRadius: 4,
             },
-            labelBgPadding: [4, 4], // Padding around the label
+            labelBgPadding: [4, 4],
             data: {
               sharedAuthorCount: sharedAuthors.length,
               sharedAuthors: sharedAuthors,
@@ -203,7 +203,7 @@ export function PublicationsNetwork({
               case "position":
                 return acc.map((node) =>
                   node.id === change.id
-                    ? { ...node, position: change.position || node.position }
+                    ? { ...node, position: change.position ?? node.position }
                     : node,
                 );
               case "remove":
@@ -225,16 +225,27 @@ export function PublicationsNetwork({
   );
 
   const onEdgesChange: OnEdgesChange = useCallback(
-    (changes) =>
-      setEdges((eds) =>
-        changes.reduce(
-          (acc, _change) => {
-            // Handle edge changes here if needed
-            return acc;
+    (changes) => {
+      setEdges((eds) => {
+        return changes.reduce(
+          (acc, change) => {
+            switch (change.type) {
+              case "remove":
+                return acc.filter((edge) => edge.id !== change.id);
+              case "select":
+                return acc.map((edge) =>
+                  edge.id === change.id
+                    ? { ...edge, selected: change.selected }
+                    : edge,
+                );
+              default:
+                return acc;
+            }
           },
           [...eds],
-        ),
-      ),
+        );
+      });
+    },
     [setEdges],
   );
 
@@ -263,8 +274,13 @@ export function PublicationsNetwork({
           style: { strokeWidth: 2 },
         }}
       >
-        <Controls />
-        <Background gap={12} size={1} />
+        <Controls className="bg-background text-primary border font-bold" />
+        <Background
+          gap={12}
+          size={1}
+          className="bg-background"
+          color="var(--border)"
+        />
       </ReactFlow>
     </div>
   );

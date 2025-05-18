@@ -46,6 +46,7 @@
     "@trpc/server": "^11.0.0",
     "@vercel/analytics": "^1.5.0",
     "@vercel/speed-insights": "^1.2.0",
+    "@xyflow/react": "^12.6.4",
     "accordion": "^3.0.2",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
@@ -60,7 +61,6 @@
     "react": "^19.0.0",
     "react-day-picker": "8.10.1",
     "react-dom": "^19.0.0",
-    "react-force-graph-3d": "^1.26.1",
     "react-hook-form": "^7.55.0",
     "react-icons": "^5.5.0",
     "recharts": "^2.15.3",
@@ -74,6 +74,7 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.1",
     "@tailwindcss/postcss": "^4.0.15",
+    "@types/dagre": "^0.7.52",
     "@types/node": "^20.14.10",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",

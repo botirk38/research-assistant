@@ -6,8 +6,9 @@ import { PublicationsSearchBar } from "./publication-search-bar";
 import { PublicationCard } from "./publication-card";
 import { mockPublications } from "@/lib/data/publications";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { LayoutGrid, Table } from "lucide-react";
+import { LayoutGrid, Network, Table } from "lucide-react";
 import { PublicationsTable } from "./publications-table";
+import { PublicationsNetwork } from "./publication-network";
 
 export default function PublicationsBrowser() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -156,6 +157,10 @@ export default function PublicationsBrowser() {
             <ToggleGroupItem value="card" aria-label="Card view">
               <LayoutGrid className="h-4 w-4" />
             </ToggleGroupItem>
+
+            <ToggleGroupItem value="network" aria-label="Network view">
+              <Network className="h-4 w-4" />
+            </ToggleGroupItem>
           </ToggleGroup>
         </div>
 
@@ -179,6 +184,10 @@ export default function PublicationsBrowser() {
             )}
             {viewMode === "table" && (
               <PublicationsTable publications={filteredPublications} />
+            )}
+
+            {viewMode === "network" && (
+              <PublicationsNetwork publications={filteredPublications} />
             )}
           </>
         )}

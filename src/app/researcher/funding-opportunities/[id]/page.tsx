@@ -6,6 +6,7 @@ import { FundingSidebar } from "@/app/_components/researcher/funding-opportuniti
 import { FundingTabs } from "@/app/_components/researcher/funding-opportunities/funding-tabs";
 import { AIReviewSection } from "@/components/ai-review-section";
 import { getOpportunity } from "@/lib/data/funding-opportunities";
+
 export default async function FundingDetailsPage({
   params,
 }: {

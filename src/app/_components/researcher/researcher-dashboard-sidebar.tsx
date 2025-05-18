@@ -1,7 +1,7 @@
 "use client";
 
 import { Avatar } from "@/components/ui/avatar";
-import { Home, Settings } from "lucide-react";
+import { DollarSign, Home, Settings } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -16,20 +16,31 @@ import {
 import Link from "next/link";
 import { ModeToggle } from "@/components/mode-toggle";
 import Logo from "@/components/logo";
-
-const navItems = [
-  { icon: Home, label: "Dashboard", active: false, href: "/researcher" },
-  {
-    icon: Settings,
-    label: "Settings",
-    active: false,
-    href: "/researcher/settings",
-  },
-];
+import { usePathname } from "next/navigation";
+import { FaPaperclip } from "react-icons/fa";
 
 export function ResearcherDashboardSidebar() {
   const { open: openDesktop, openMobile } = useSidebar();
   const open = openDesktop || openMobile;
+  const pathname = usePathname();
+
+  const navItems = [
+    { icon: Home, label: "Dashboard", href: "/researcher" },
+    { icon: Settings, label: "Settings", href: "/researcher/settings" },
+    {
+      icon: DollarSign,
+      label: "Funding Opportunities",
+      href: "/researcher/funding-opportunities",
+    },
+    {
+      icon: FaPaperclip,
+      label: "Publications",
+      href: "/researcher/publications",
+    },
+  ].map((item) => ({
+    ...item,
+    active: pathname === item.href,
+  }));
 
   return (
     <Sidebar className="bg-sidebar text-sidebar-foreground">

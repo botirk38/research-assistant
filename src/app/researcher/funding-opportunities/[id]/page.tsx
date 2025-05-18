@@ -5,14 +5,14 @@ import { FundingHeader } from "@/app/_components/researcher/funding-opportunitie
 import { FundingSidebar } from "@/app/_components/researcher/funding-opportunities/funding-sidebar";
 import { FundingTabs } from "@/app/_components/researcher/funding-opportunities/funding-tabs";
 import { AIReviewSection } from "@/components/ai-review-section";
-import { getFundingOpportunity } from "@/lib/data/funding-opportunities";
+import { getOpportunity } from "@/lib/data/funding-opportunities";
 export default async function FundingDetailsPage({
   params,
 }: {
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const opportunity = getFundingOpportunity(id);
+  const opportunity = getOpportunity(id);
 
   if (!opportunity) {
     return (

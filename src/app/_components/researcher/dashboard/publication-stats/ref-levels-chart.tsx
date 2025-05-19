@@ -8,7 +8,7 @@ import {
   ChartLegend,
   ChartLegendContent,
 } from "@/components/ui/chart";
-import { allCoreLevels } from "@/lib/data/publications";
+import { allRefLevels } from "@/lib/data/publications";
 import ChartCard from "@/components/chart-card";
 import { filterDataByDateRange } from "@/utils/date-filter";
 import type { DateRange } from "react-day-picker";
@@ -18,10 +18,10 @@ const chartConfig = {
   desktop: { label: "Desktop", color: "var(--chart-2)" },
 };
 
-export function CoreLevelsChart({ dateRange }: { dateRange?: DateRange }) {
-  const filteredData = filterDataByDateRange(allCoreLevels, dateRange);
+export function REFLevelsChart({ dateRange }: { dateRange?: DateRange }) {
+  const filteredData = filterDataByDateRange(allRefLevels, dateRange);
   return (
-    <ChartCard title="Core Levels">
+    <ChartCard title="REF Levels">
       <ChartContainer config={chartConfig} className="min-h-[300px] w-full">
         {filteredData.length > 0 ? (
           <BarChart data={filteredData}>

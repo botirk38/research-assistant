@@ -1,6 +1,6 @@
 import type { DateRange } from "react-day-picker";
 import { PublicationsOverTimeChart } from "./publication-stats/publications-over-time-chart";
-import { CoreLevelsChart } from "./publication-stats/core-levels-chart";
+import { REFLevelsChart } from "./publication-stats/ref-levels-chart";
 import { CitedPapersChart } from "./publication-stats/cited-papers-chart";
 
 interface PublicationsStatsProps {
@@ -15,7 +15,7 @@ const PublicationsStats: React.FC<PublicationsStatsProps> = ({ dateRange }) => {
       </h1>
       <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
         <PublicationsOverTimeChart dateRange={dateRange} />
-        <CoreLevelsChart dateRange={dateRange} />
+        <REFLevelsChart dateRange={dateRange} />
         <CitedPapersChart dateRange={dateRange} />
       </div>
     </div>

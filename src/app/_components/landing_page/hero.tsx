@@ -51,12 +51,21 @@ export default function HeroSection() {
             <div className="mt-24 translate-x-12 perspective-near md:absolute md:top-40 md:-right-6 md:bottom-16 md:left-1/2 md:mt-0 md:translate-x-0">
               <div className="before:border-foreground/5 before:bg-foreground/5 relative h-full before:absolute before:-inset-x-4 before:top-0 before:bottom-7 before:skew-x-6 before:rounded-[calc(var(--radius)+1rem)] before:border">
                 <div className="bg-background shadow-foreground/10 ring-foreground/5 relative h-full -translate-y-12 skew-x-6 overflow-hidden rounded-(--radius) border border-transparent shadow-md ring-1">
+                  {/* Light mode image */}
                   <Image
-                    src="/research-assistant.png"
-                    alt="app screen"
+                    src="/researcher-dashboard-light.png"
+                    alt="app screen light mode"
                     width="2880"
                     height="1842"
-                    className="size-full object-cover object-top-left"
+                    className="size-full object-cover object-top-left dark:hidden"
+                  />
+                  {/* Dark mode image */}
+                  <Image
+                    src="/researcher-dashboard-dark.png"
+                    alt="app screen dark mode"
+                    width="2880"
+                    height="1842"
+                    className="hidden size-full object-cover object-top-left dark:block"
                   />
                 </div>
               </div>

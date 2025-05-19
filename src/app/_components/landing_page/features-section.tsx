@@ -17,9 +17,16 @@ export default function Features() {
             </p>
             <div className="bg-foreground/5 rounded-3xl p-6">
               <Image
-                className="w-full rounded-3xl object-cover"
-                src="/research-admin.png"
-                alt="Research Admin page"
+                className="w-full rounded-3xl object-cover dark:hidden"
+                src="/researcher-dashboard-light.png"
+                alt="Research Dashboard light mode"
+                width="800"
+                height="200"
+              />
+              <Image
+                className="hidden w-full rounded-3xl object-cover dark:block"
+                src="/researcher-dashboard-dark.png"
+                alt="Researcher Dashboard dark mode"
                 width="800"
                 height="200"
               />
@@ -39,10 +46,18 @@ export default function Features() {
                 <Card className="h-full translate-y-6">
                   <CardContent className="w-full">
                     <Image
-                      src="/researcher-profile.png"
+                      src="/researcher-profile-light.png"
                       width="400"
                       height="400"
-                      alt="Researcher Profile"
+                      alt="Researcher Profile light mode"
+                      className="dark:hidden"
+                    />
+                    <Image
+                      src="/researcher-profile-dark.png"
+                      width="400"
+                      height="400"
+                      alt="Researcher Profile dark mode"
+                      className="hidden dark:block"
                     />
                   </CardContent>
                 </Card>
@@ -60,11 +75,18 @@ export default function Features() {
                 <Card className="h-full translate-6">
                   <CardContent className="w-full">
                     <Image
-                      src="/funding-details.png"
+                      src="/researcher-funding-opportunity-light.png"
                       width="400"
                       height="400"
-                      className="w-full"
-                      alt="Funding Opportunity Details"
+                      className="w-full dark:hidden"
+                      alt="Funding Opportunity Details light mode"
+                    />
+                    <Image
+                      src="/researcher-funding-opportunity-dark.png"
+                      width="400"
+                      height="400"
+                      className="hidden w-full dark:block"
+                      alt="Funding Opportunity Details dark mode"
                     />
                   </CardContent>
                 </Card>

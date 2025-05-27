@@ -8,7 +8,7 @@ export default function ResearcherDashboardLayout({
     <SidebarProvider>
       <div className="flex h-screen w-full">
         <ResearcherDashboardSidebar />
-        <main className="w-full flex-1 overflow-auto p-6">{children}</main>
+        <main className="w-full flex-1 p-6">{children}</main>
       </div>
     </SidebarProvider>
   );

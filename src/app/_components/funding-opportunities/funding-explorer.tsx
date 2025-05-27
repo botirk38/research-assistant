@@ -65,7 +65,7 @@ function FundingTable({
   opportunities: FundingOpportunity[];
 }) {
   return (
-    <div className="overflow-x-auto rounded-lg border">
+    <div className="w-full overflow-x-auto rounded-lg border">
       <table className="divide-border bg-card min-w-full divide-y">
         <thead>
           <tr>
@@ -267,7 +267,7 @@ export default function FundingExplorer() {
             </p>
           </div>
         ) : view === "table" ? (
-          <div className="space-y-4 p-4">
+          <div className="space-y-4">
             <FundingTable opportunities={filteredOpportunities} />
           </div>
         ) : (

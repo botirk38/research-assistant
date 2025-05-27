@@ -24,6 +24,11 @@ const config = {
       },
     ],
   },
+  turbopack: {
+    resolveAlias: {
+      canvas: "./empty-module.ts",
+    },
+  },
 };
 
 export default config;

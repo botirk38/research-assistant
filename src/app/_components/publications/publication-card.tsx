@@ -1,6 +1,13 @@
 "use client";
 
-import { ExternalLink, BookOpen, Users, Award } from "lucide-react";
+import {
+  ExternalLink,
+  BookOpen,
+  Users,
+  Award,
+  Compass,
+  Beaker,
+} from "lucide-react";
 import {
   Card,
   CardContent,
@@ -10,6 +17,12 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import type { Publication } from "@/types/researcher";
 
 interface PublicationCardProps {
@@ -36,9 +49,38 @@ export function PublicationCard({ publication }: PublicationCardProps) {
       </CardHeader>
       <CardContent>
         <div className="flex flex-col gap-4">
-          <div className="flex items-center text-sm">
-            <BookOpen className="text-muted-foreground mr-2 h-4 w-4" />
-            <span className="font-medium">{publication.journal}</span>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center text-sm">
+              <BookOpen className="text-muted-foreground mr-2 h-4 w-4" />
+              <span className="font-medium">{publication.journal}</span>
+            </div>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger>
+                  <Badge
+                    variant="secondary"
+                    className="flex items-center gap-2"
+                  >
+                    {publication.recommendationType === "research-area" ? (
+                      <>
+                        <Beaker className="h-3 w-3" />
+                        Research Area
+                      </>
+                    ) : (
+                      <>
+                        <Compass className="h-3 w-3" />
+                        Exploration Area
+                      </>
+                    )}
+                  </Badge>
+                </TooltipTrigger>
+                <TooltipContent>
+                  {publication.recommendationType === "research-area"
+                    ? "Matches your current research areas"
+                    : "Suggested based on potential new research directions"}
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           </div>
 
           <div>

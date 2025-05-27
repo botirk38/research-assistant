@@ -1,6 +1,13 @@
 import type { Publication } from "@/types/researcher";
-import { ExternalLink } from "lucide-react";
+import { ExternalLink, Beaker, Compass } from "lucide-react";
 import Link from "next/link";
+import { Badge } from "@/components/ui/badge";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface PublicationsTableProps {
   publications: Publication[];
@@ -27,6 +34,9 @@ export function PublicationsTable({ publications }: PublicationsTableProps) {
             <th className="px-4 py-3 text-left font-medium whitespace-nowrap">
               Authors
             </th>
+            <th className="px-4 py-3 text-left font-medium whitespace-nowrap">
+              Type
+            </th>
             <th className="sr-only px-4 py-3 text-left font-medium whitespace-nowrap">
               Actions
             </th>
@@ -50,6 +60,35 @@ export function PublicationsTable({ publications }: PublicationsTableProps) {
                 <div className="text-muted-foreground">
                   {publication.coAuthors.join(", ")}
                 </div>
+              </td>
+              <td className="px-4 py-3">
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger>
+                      <Badge
+                        variant="secondary"
+                        className="flex items-center gap-2"
+                      >
+                        {publication.recommendationType === "research-area" ? (
+                          <>
+                            <Beaker className="h-3 w-3" />
+                            Research Area
+                          </>
+                        ) : (
+                          <>
+                            <Compass className="h-3 w-3" />
+                            Exploration Area
+                          </>
+                        )}
+                      </Badge>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      {publication.recommendationType === "research-area"
+                        ? "Matches your current research areas"
+                        : "Suggested based on potential new research directions"}
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
               </td>
               <td className="px-4 py-3">
                 <Link

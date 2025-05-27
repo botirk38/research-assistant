@@ -9,12 +9,12 @@ export type SocialLink = {
 export type Publication = {
   title: string;
   subtitle: string;
-
   journal: string;
   year: number;
   citations: number;
   url: string;
   coAuthors: string[];
+  recommendationType?: "research-area" | "exploration-area";
 };
 
 export type Education = {

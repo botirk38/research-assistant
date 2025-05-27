@@ -131,6 +131,7 @@ export const mockPublications: Publication[] = [
     citations: 187,
     url: "https://example.com/vision-transformers-medical",
     coAuthors: ["Maria Rodriguez", "David Chen", "Sarah Johnson"],
+    recommendationType: "research-area",
   },
   {
     title: "Large Language Models in Scientific Research",
@@ -140,6 +141,7 @@ export const mockPublications: Publication[] = [
     citations: 242,
     url: "https://example.com/llm-scientific-research",
     coAuthors: ["James Wilson", "Sarah Johnson", "Michael Brown"],
+    recommendationType: "exploration-area",
   },
   {
     title: "Quantum-Inspired Algorithms for Machine Learning",
@@ -149,6 +151,7 @@ export const mockPublications: Publication[] = [
     citations: 165,
     url: "https://example.com/quantum-ml-algorithms",
     coAuthors: ["Robert Lee", "Jennifer Smith", "David Chen"],
+    recommendationType: "exploration-area",
   },
   {
     title: "Robotic Process Automation with Deep Learning",
@@ -158,6 +161,7 @@ export const mockPublications: Publication[] = [
     citations: 178,
     url: "https://example.com/robotics-deep-learning",
     coAuthors: ["Lisa Wong", "Michael Brown", "Rachel Green"],
+    recommendationType: "research-area",
   },
   {
     title: "Multi-Modal Deep Learning for Data Science",
@@ -167,6 +171,7 @@ export const mockPublications: Publication[] = [
     citations: 193,
     url: "https://example.com/multimodal-data-science",
     coAuthors: ["Jennifer Smith", "Sophia Martinez", "David Chen"],
+    recommendationType: "research-area",
   },
   {
     title: "Blockchain-Enhanced Federated Learning",
@@ -176,6 +181,7 @@ export const mockPublications: Publication[] = [
     citations: 212,
     url: "https://example.com/blockchain-federated-learning",
     coAuthors: ["Kevin Zhang", "Sarah Johnson", "Christopher Lee"],
+    recommendationType: "exploration-area",
   },
   {
     title: "Natural Language Processing for Code Generation",
@@ -185,6 +191,7 @@ export const mockPublications: Publication[] = [
     citations: 156,
     url: "https://example.com/nlp-code-generation",
     coAuthors: ["Elizabeth Brown", "Jennifer Smith", "Michelle Kim"],
+    recommendationType: "research-area",
   },
   {
     title: "Computer Vision in Autonomous Robotics",
@@ -194,6 +201,7 @@ export const mockPublications: Publication[] = [
     citations: 203,
     url: "https://example.com/cv-autonomous-robotics",
     coAuthors: ["Andrew Wilson", "Michael Brown", "David Chen"],
+    recommendationType: "research-area",
   },
   {
     title: "Machine Learning for Quantum Error Correction",
@@ -203,6 +211,7 @@ export const mockPublications: Publication[] = [
     citations: 178,
     url: "https://example.com/ml-quantum-error",
     coAuthors: ["Laura Martinez", "Sarah Johnson", "Karen Wong"],
+    recommendationType: "exploration-area",
   },
   {
     title: "Data Science Approaches to Climate Modeling",
@@ -212,6 +221,7 @@ export const mockPublications: Publication[] = [
     citations: 224,
     url: "https://example.com/data-science-climate",
     coAuthors: ["Mark Thompson", "Jennifer Smith", "Robert Brown"],
+    recommendationType: "exploration-area",
   },
   {
     title: "AI-Powered Smart Contract Optimization",
@@ -221,6 +231,7 @@ export const mockPublications: Publication[] = [
     citations: 145,
     url: "https://example.com/ai-smart-contracts",
     coAuthors: ["David Chen", "Susan Chen", "Michael Brown"],
+    recommendationType: "exploration-area",
   },
   {
     title: "Transfer Learning in Computer Vision",
@@ -230,5 +241,6 @@ export const mockPublications: Publication[] = [
     citations: 167,
     url: "https://example.com/transfer-learning-cv",
     coAuthors: ["Jennifer Smith", "Sarah Johnson", "Emily Johnson"],
+    recommendationType: "research-area",
   },
 ];

@@ -11,6 +11,10 @@ import { OpportunityCard } from "./explorer/opportunity-card";
 import { mockOpportunities } from "@/lib/data/funding-opportunities";
 import type { DateRange } from "react-day-picker";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { Table as TableIcon, LayoutGrid } from "lucide-react";
 
 const matchesSearch = (opportunity: FundingOpportunity, searchQuery: string) =>
   searchQuery === "" ||
@@ -49,6 +53,66 @@ const matchesDateRange = (
   return true;
 };
 
+const matchesCountries = (
+  opportunity: FundingOpportunity,
+  countries: string[],
+) => countries.length === 0 || countries.includes(opportunity.country);
+
+// Table component
+function FundingTable({
+  opportunities,
+}: {
+  opportunities: FundingOpportunity[];
+}) {
+  return (
+    <div className="overflow-x-auto rounded-lg border">
+      <table className="divide-border bg-card min-w-full divide-y">
+        <thead>
+          <tr>
+            <th className="px-4 py-2 text-left font-semibold">Title</th>
+            <th className="px-4 py-2 text-left font-semibold">Organization</th>
+            <th className="px-4 py-2 text-left font-semibold">Amount</th>
+            <th className="px-4 py-2 text-left font-semibold">Deadline</th>
+            <th className="px-4 py-2 text-left font-semibold">Category</th>
+            <th className="px-4 py-2 text-left font-semibold">Country</th>
+            <th className="px-4 py-2 text-left font-semibold">Match</th>
+            <th className="px-4 py-2 text-left font-semibold">Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          {opportunities.map((opp) => (
+            <tr key={opp.id} className="hover:bg-muted transition">
+              <td className="px-4 py-2">{opp.title}</td>
+              <td className="px-4 py-2">{opp.organization}</td>
+              <td className="px-4 py-2">{opp.amount}</td>
+              <td className="px-4 py-2">
+                {new Date(opp.deadline).toLocaleDateString()}
+              </td>
+              <td className="px-4 py-2">
+                <Badge variant="outline">{opp.category}</Badge>
+              </td>
+              <td className="px-4 py-2">{opp.country}</td>
+              <td className="px-4 py-2">
+                <Badge
+                  variant={opp.matchScore > 85 ? "default" : "secondary"}
+                  className={opp.matchScore > 85 ? "bg-green-500" : ""}
+                >
+                  {opp.matchScore}%
+                </Badge>
+              </td>
+              <td className="px-4 py-2">
+                <Button asChild variant="outline" size="sm">
+                  <Link href={`/opportunities/${opp.id}`}>View</Link>
+                </Button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
 export default function FundingExplorer() {
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState("deadline");
@@ -60,16 +124,24 @@ export default function FundingExplorer() {
     dateRange: { from: startOfYear, to: endOfYear },
     selectedEligibility: [],
     selectedCategories: [],
+    selectedCountries: [],
     minMatchScore: 0,
   });
 
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [view, setView] = useState<"card" | "table">("table"); // Table view default
   const isMobile = useIsMobile();
 
   const categoryOptions = useMemo(
     () => Array.from(new Set(mockOpportunities.map((opp) => opp.category))),
     [],
   );
+
+  const countryOptions = useMemo(
+    () => Array.from(new Set(mockOpportunities.map((opp) => opp.country))),
+    [],
+  );
+
   const eligibilityOptions = useMemo(
     () =>
       Array.from(
@@ -89,6 +161,7 @@ export default function FundingExplorer() {
       (o: FundingOpportunity) => matchesCategory(o, filters.selectedCategories),
       (o: FundingOpportunity) => matchesScore(o, filters.minMatchScore),
       (o: FundingOpportunity) => matchesDateRange(o, filters.dateRange),
+      (o: FundingOpportunity) => matchesCountries(o, filters.selectedCountries),
     ];
 
     return mockOpportunities
@@ -126,6 +199,7 @@ export default function FundingExplorer() {
       dateRange: { from: undefined, to: undefined },
       selectedEligibility: [],
       selectedCategories: [],
+      selectedCountries: [],
       minMatchScore: 0,
     });
   };
@@ -149,6 +223,7 @@ export default function FundingExplorer() {
         setFilters={setFilters}
         eligibilityOptions={eligibilityOptions}
         categoryOptions={categoryOptions}
+        countryOptions={countryOptions}
         resetFilters={resetFilters}
       />
 
@@ -162,6 +237,24 @@ export default function FundingExplorer() {
               : "Opportunities"}{" "}
             Found
           </h2>
+          <div className="flex gap-2">
+            <Button
+              size="icon"
+              variant={view === "table" ? "default" : "outline"}
+              onClick={() => setView("table")}
+              aria-label="Table View"
+            >
+              <TableIcon className="h-5 w-5" />
+            </Button>
+            <Button
+              size="icon"
+              variant={view === "card" ? "default" : "outline"}
+              onClick={() => setView("card")}
+              aria-label="Card View"
+            >
+              <LayoutGrid className="h-5 w-5" />
+            </Button>
+          </div>
         </div>
 
         {filteredOpportunities.length === 0 ? (
@@ -172,6 +265,10 @@ export default function FundingExplorer() {
             <p className="text-muted-foreground mt-2">
               Try adjusting your search criteria or filters
             </p>
+          </div>
+        ) : view === "table" ? (
+          <div className="space-y-4 p-4">
+            <FundingTable opportunities={filteredOpportunities} />
           </div>
         ) : (
           <div className="space-y-4">

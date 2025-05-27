@@ -94,6 +94,8 @@ export interface FundingOpportunity {
   keyDates: KeyDate[];
   contactInfo: ContactInfo;
   aiAnalysis: AIAnalysis;
+  country: string;
+  recommendationType: "research-area" | "exploration-area";
 }
 
 export type ResearchIdea = {
@@ -107,4 +109,5 @@ export type FundingOpportunityFilterState = {
   selectedEligibility: string[];
   selectedCategories: string[];
   minMatchScore: number | undefined;
+  selectedCountries: string[];
 };

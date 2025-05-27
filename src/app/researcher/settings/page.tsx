@@ -5,15 +5,12 @@ import type React from "react";
 import { useState } from "react";
 import { Search, Sparkles } from "lucide-react";
 import ResearchAreaSection from "@/app/_components/researcher/settings/research-area-section";
+import { fullResearchAreas } from "@/lib/data/publications";
 
 export default function ResearcherSettingsPage() {
-  const [researchAreas, setResearchAreas] = useState([
-    "Machine Learning",
-    "Artificial Intelligence",
-    "Natural Language Processing",
-    "Computer Vision",
-    "Data Science",
-  ]);
+  const [researchAreas, setResearchAreas] = useState(
+    fullResearchAreas.map((l) => l.label),
+  );
 
   const [explorationAreas, setExplorationAreas] = useState([
     "Quantum Computing",

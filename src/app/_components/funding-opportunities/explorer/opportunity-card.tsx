@@ -12,9 +12,20 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import type { FundingOpportunity } from "@/types/researcher";
+import { explorationAreas, fullResearchAreas } from "@/lib/data/publications";
+import Link from "next/link";
 
 interface OpportunityCardProps {
   opportunity: FundingOpportunity;
+}
+
+// Helper to determine area type for a category
+function getCategoryType(category: string) {
+  if (fullResearchAreas.some((r) => r.label === category))
+    return "Research Area";
+  if (explorationAreas.some((r) => r.label === category))
+    return "Exploration Area";
+  return null;
 }
 
 export function OpportunityCard({ opportunity }: OpportunityCardProps) {
@@ -32,6 +43,9 @@ export function OpportunityCard({ opportunity }: OpportunityCardProps) {
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     return diffDays;
   };
+
+  // Get category type
+  const categoryType = getCategoryType(opportunity.category);
 
   return (
     <Card>
@@ -64,10 +78,22 @@ export function OpportunityCard({ opportunity }: OpportunityCardProps) {
         </div>
       </CardHeader>
       <CardContent>
-        <div className="mb-4 flex justify-between">
-          <Badge variant="outline" className="bg-muted">
-            {opportunity.category}
-          </Badge>
+        <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
+          <div className="flex items-center gap-2">
+            <Badge variant="outline" className="bg-muted">
+              {opportunity.category}
+            </Badge>
+            {categoryType && (
+              <Badge
+                variant={
+                  categoryType === "Research Area" ? "default" : "secondary"
+                }
+                className="text-xs"
+              >
+                {categoryType}
+              </Badge>
+            )}
+          </div>
           <div className="flex items-center">
             <span className="mr-2 text-sm font-medium">Match Score:</span>
             <Badge
@@ -113,7 +139,9 @@ export function OpportunityCard({ opportunity }: OpportunityCardProps) {
         </div>
         <div className="flex gap-2 self-end">
           <Button asChild>
-            <a href={`/opportunities/${opportunity.id}`}>View Full Details</a>
+            <Link href={`/opportunities/${opportunity.id}`}>
+              View Full Details
+            </Link>
           </Button>
         </div>
       </CardFooter>

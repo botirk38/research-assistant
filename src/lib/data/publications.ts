@@ -112,6 +112,13 @@ export const fullResearchAreas = [
   { label: "Computer Vision", value: 12, date: new Date("2025-04-05") },
 ];
 
+export const explorationAreas = [
+  { label: "Quantum Computing", value: 15, date: new Date("2025-02-20") },
+  { label: "Robotics", value: 10, date: new Date("2025-06-15") },
+  { label: "Blockchain", value: 8, date: new Date("2025-07-10") },
+  { label: "Edge AI", value: 5, date: new Date("2025-08-05") },
+];
+
 export const areaColors = ["#8884d8", "#82ca9d", "#ffc658", "#ff7f50"];
 
 export const impactDimensions = [

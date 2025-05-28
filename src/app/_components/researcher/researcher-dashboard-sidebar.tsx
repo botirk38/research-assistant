@@ -43,7 +43,7 @@ export function ResearcherDashboardSidebar() {
   }));
 
   return (
-    <Sidebar className="bg-sidebar text-sidebar-foreground">
+    <Sidebar className="bg-sidebar text-sidebar-foreground" collapsible="icon">
       <SidebarContent>
         {/* Logo area */}
         <div className="border-sidebar-border flex h-16 items-center border-b px-4">

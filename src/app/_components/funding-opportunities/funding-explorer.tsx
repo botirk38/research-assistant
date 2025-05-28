@@ -11,10 +11,9 @@ import { OpportunityCard } from "./explorer/opportunity-card";
 import { mockOpportunities } from "@/lib/data/funding-opportunities";
 import type { DateRange } from "react-day-picker";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import { Table as TableIcon, LayoutGrid } from "lucide-react";
+import { LayoutGrid, Network, Table } from "lucide-react";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import FundingTable from "./explorer/funding-table";
 
 const matchesSearch = (opportunity: FundingOpportunity, searchQuery: string) =>
   searchQuery === "" ||
@@ -58,61 +57,6 @@ const matchesCountries = (
   countries: string[],
 ) => countries.length === 0 || countries.includes(opportunity.country);
 
-// Table component
-function FundingTable({
-  opportunities,
-}: {
-  opportunities: FundingOpportunity[];
-}) {
-  return (
-    <div className="w-full overflow-x-auto rounded-lg border">
-      <table className="divide-border bg-card min-w-full divide-y">
-        <thead>
-          <tr>
-            <th className="px-4 py-2 text-left font-semibold">Title</th>
-            <th className="px-4 py-2 text-left font-semibold">Organization</th>
-            <th className="px-4 py-2 text-left font-semibold">Amount</th>
-            <th className="px-4 py-2 text-left font-semibold">Deadline</th>
-            <th className="px-4 py-2 text-left font-semibold">Category</th>
-            <th className="px-4 py-2 text-left font-semibold">Country</th>
-            <th className="px-4 py-2 text-left font-semibold">Match</th>
-            <th className="px-4 py-2 text-left font-semibold">Details</th>
-          </tr>
-        </thead>
-        <tbody>
-          {opportunities.map((opp) => (
-            <tr key={opp.id} className="hover:bg-muted transition">
-              <td className="px-4 py-2">{opp.title}</td>
-              <td className="px-4 py-2">{opp.organization}</td>
-              <td className="px-4 py-2">{opp.amount}</td>
-              <td className="px-4 py-2">
-                {new Date(opp.deadline).toLocaleDateString()}
-              </td>
-              <td className="px-4 py-2">
-                <Badge variant="outline">{opp.category}</Badge>
-              </td>
-              <td className="px-4 py-2">{opp.country}</td>
-              <td className="px-4 py-2">
-                <Badge
-                  variant={opp.matchScore > 85 ? "default" : "secondary"}
-                  className={opp.matchScore > 85 ? "bg-green-500" : ""}
-                >
-                  {opp.matchScore}%
-                </Badge>
-              </td>
-              <td className="px-4 py-2">
-                <Button asChild variant="outline" size="sm">
-                  <Link href={`/opportunities/${opp.id}`}>View</Link>
-                </Button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  );
-}
-
 export default function FundingExplorer() {
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState("deadline");
@@ -129,7 +73,7 @@ export default function FundingExplorer() {
   });
 
   const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const [view, setView] = useState<"card" | "table">("table"); // Table view default
+  const [view, setView] = useState<"card" | "table">("table");
   const isMobile = useIsMobile();
 
   const categoryOptions = useMemo(
@@ -237,24 +181,26 @@ export default function FundingExplorer() {
               : "Opportunities"}{" "}
             Found
           </h2>
-          <div className="flex gap-2">
-            <Button
-              size="icon"
-              variant={view === "table" ? "default" : "outline"}
-              onClick={() => setView("table")}
-              aria-label="Table View"
-            >
-              <TableIcon className="h-5 w-5" />
-            </Button>
-            <Button
-              size="icon"
-              variant={view === "card" ? "default" : "outline"}
-              onClick={() => setView("card")}
-              aria-label="Card View"
-            >
-              <LayoutGrid className="h-5 w-5" />
-            </Button>
-          </div>
+
+          {/* View Mode Toggle */}
+          <ToggleGroup
+            type="single"
+            value={view}
+            onValueChange={(value) =>
+              value && setView(value as "card" | "table")
+            }
+          >
+            <ToggleGroupItem value="table" aria-label="Table view">
+              <Table className="h-4 w-4" />
+            </ToggleGroupItem>
+            <ToggleGroupItem value="card" aria-label="Card view">
+              <LayoutGrid className="h-4 w-4" />
+            </ToggleGroupItem>
+
+            <ToggleGroupItem value="network" aria-label="Network view">
+              <Network className="h-4 w-4" />
+            </ToggleGroupItem>
+          </ToggleGroup>
         </div>
 
         {filteredOpportunities.length === 0 ? (

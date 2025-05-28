@@ -29,6 +29,15 @@ const config = {
       canvas: "./empty-module.ts",
     },
   },
+  webpack: (config) => {
+    // Ensure config.resolve exists
+    config.resolve = config.resolve || {};
+    // Ensure config.resolve.alias exists
+    config.resolve.alias = config.resolve.alias || {};
+    // Now safely set the canvas property
+    config.resolve.alias.canvas = false;
+    return config;
+  },
 };
 
 export default config;

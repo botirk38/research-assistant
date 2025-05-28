@@ -5,7 +5,6 @@ import { useChat } from "@ai-sdk/react";
 import { useTheme } from "next-themes";
 import { Worker, Viewer, SpecialZoomLevel } from "@react-pdf-viewer/core";
 import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout";
-import { searchPlugin } from "@react-pdf-viewer/search";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -37,10 +36,7 @@ export default function PDFChatApp() {
     [handleInputChange],
   );
 
-  const searchPluginInstance = searchPlugin();
-  const defaultLayoutPluginInstance = defaultLayoutPlugin({
-    searchPlugin: searchPluginInstance,
-  });
+  const defaultLayoutPluginInstance = defaultLayoutPlugin();
 
   const handleChatSubmit = useCallback(
     (event: React.FormEvent) => {

@@ -11,7 +11,7 @@ import { OpportunityCard } from "./explorer/opportunity-card";
 import { mockOpportunities } from "@/lib/data/funding-opportunities";
 import type { DateRange } from "react-day-picker";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { LayoutGrid, Network, Table } from "lucide-react";
+import { LayoutGrid, Table } from "lucide-react";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import FundingTable from "./explorer/funding-table";
 
@@ -195,10 +195,6 @@ export default function FundingExplorer() {
             </ToggleGroupItem>
             <ToggleGroupItem value="card" aria-label="Card view">
               <LayoutGrid className="h-4 w-4" />
-            </ToggleGroupItem>
-
-            <ToggleGroupItem value="network" aria-label="Network view">
-              <Network className="h-4 w-4" />
             </ToggleGroupItem>
           </ToggleGroup>
         </div>

@@ -1,151 +1,87 @@
 "use client";
 
-import { useState, useMemo } from "react";
-import type {
-  FundingOpportunity,
-  FundingOpportunityFilterState,
-} from "@/types/researcher";
+import { useState, useEffect } from "react";
 import { FilterSidebar } from "./explorer/filter-sidebar";
 import { FundingSearchBar } from "./explorer/funding-search-bar";
 import { OpportunityCard } from "./explorer/opportunity-card";
 import { mockOpportunities } from "@/lib/data/funding-opportunities";
-import type { DateRange } from "react-day-picker";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useFundingFilters } from "@/hooks/funding-explorer/use-funding-filters";
+import { usePagination } from "@/hooks/use-pagination";
+import { useAutoPagination } from "@/hooks/use-auto-pagination";
 import { LayoutGrid, Table } from "lucide-react";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 import FundingTable from "./explorer/funding-table";
-
-const matchesSearch = (opportunity: FundingOpportunity, searchQuery: string) =>
-  searchQuery === "" ||
-  opportunity.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-  opportunity.organization.toLowerCase().includes(searchQuery.toLowerCase()) ||
-  opportunity.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-  opportunity.category.toLowerCase().includes(searchQuery.toLowerCase());
-
-const matchesFunding = (
-  opportunity: FundingOpportunity,
-  range: [number, number],
-) => {
-  const amount = Number.parseInt(opportunity.amount.replace(/[^0-9]/g, ""));
-  return amount >= range[0] && amount <= range[1];
-};
-
-const matchesEligibility = (opportunity: FundingOpportunity, elig: string[]) =>
-  elig.length === 0 || elig.some((e) => opportunity.eligibility.includes(e));
-
-const matchesCategory = (opportunity: FundingOpportunity, cats: string[]) =>
-  cats.length === 0 || cats.includes(opportunity.category);
-
-const matchesScore = (
-  opportunity: FundingOpportunity,
-  min: number | undefined,
-) => !min || opportunity.matchScore >= min;
-
-const matchesDateRange = (
-  opportunity: FundingOpportunity,
-  dateRange: DateRange | undefined,
-) => {
-  if (!dateRange?.from && !dateRange?.to) return true;
-  const oppDate = new Date(opportunity.deadline);
-  if (dateRange?.from && oppDate < dateRange.from) return false;
-  if (dateRange?.to && oppDate > dateRange.to) return false;
-  return true;
-};
-
-const matchesCountries = (
-  opportunity: FundingOpportunity,
-  countries: string[],
-) => countries.length === 0 || countries.includes(opportunity.country);
+import { ItemsPerPageSelector } from "@/components/items-per-page-selector";
+import { DEFAULT_ITEMS_PER_PAGE } from "@/utils/pagination";
 
 export default function FundingExplorer() {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [sortBy, setSortBy] = useState("deadline");
-  const startOfYear = new Date(new Date().getFullYear(), 0, 1);
-  const endOfYear = new Date(new Date().getFullYear(), 11, 31);
-
-  const [filters, setFilters] = useState<FundingOpportunityFilterState>({
-    fundingRange: [0, 500000],
-    dateRange: { from: startOfYear, to: endOfYear },
-    selectedEligibility: [],
-    selectedCategories: [],
-    selectedCountries: [],
-    minMatchScore: 0,
-  });
-
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [view, setView] = useState<"card" | "table">("table");
   const isMobile = useIsMobile();
 
-  const categoryOptions = useMemo(
-    () => Array.from(new Set(mockOpportunities.map((opp) => opp.category))),
-    [],
-  );
+  const {
+    searchQuery,
+    setSearchQuery,
+    sortBy,
+    setSortBy,
+    filters,
+    setFilters,
+    filteredOpportunities,
+    resetFilters,
+    categoryOptions,
+    countryOptions,
+    eligibilityOptions,
+  } = useFundingFilters({ opportunities: mockOpportunities });
 
-  const countryOptions = useMemo(
-    () => Array.from(new Set(mockOpportunities.map((opp) => opp.country))),
-    [],
-  );
+  const {
+    currentPage,
+    itemsPerPage,
+    totalPages,
+    startIndex,
+    endIndex,
+    setCurrentPage,
+    setItemsPerPage,
+    handlePageChange: paginationPageChange,
+    handleItemsPerPageChange,
+  } = usePagination({
+    totalItems: filteredOpportunities.length,
+    defaultItemsPerPage: DEFAULT_ITEMS_PER_PAGE,
+  });
 
-  const eligibilityOptions = useMemo(
-    () =>
-      Array.from(
-        new Set(
-          mockOpportunities.flatMap((opp) => opp.eligibility.split(", ")),
-        ),
-      ),
-    [],
-  );
-
-  const filteredOpportunities = useMemo(() => {
-    const filterFns = [
-      (o: FundingOpportunity) => matchesSearch(o, searchQuery),
-      (o: FundingOpportunity) => matchesFunding(o, filters.fundingRange),
-      (o: FundingOpportunity) =>
-        matchesEligibility(o, filters.selectedEligibility),
-      (o: FundingOpportunity) => matchesCategory(o, filters.selectedCategories),
-      (o: FundingOpportunity) => matchesScore(o, filters.minMatchScore),
-      (o: FundingOpportunity) => matchesDateRange(o, filters.dateRange),
-      (o: FundingOpportunity) => matchesCountries(o, filters.selectedCountries),
-    ];
-
-    return mockOpportunities
-      .filter((opportunity) => filterFns.every((fn) => fn(opportunity)))
-      .sort((a, b) => {
-        switch (sortBy) {
-          case "deadline":
-            return (
-              new Date(a.deadline).getTime() - new Date(b.deadline).getTime()
-            );
-          case "amount-high":
-            return (
-              Number.parseInt(b.amount.replace(/[^0-9]/g, "")) -
-              Number.parseInt(a.amount.replace(/[^0-9]/g, ""))
-            );
-          case "amount-low":
-            return (
-              Number.parseInt(a.amount.replace(/[^0-9]/g, "")) -
-              Number.parseInt(b.amount.replace(/[^0-9]/g, ""))
-            );
-          case "match-score":
-            return b.matchScore - a.matchScore;
-          case "title":
-            return a.title.localeCompare(b.title);
-          default:
-            return 0;
-        }
-      });
-  }, [sortBy, filters, searchQuery]);
-
-  const resetFilters = () => {
-    setSearchQuery("");
-    setFilters({
-      fundingRange: [0, 500000],
-      dateRange: { from: undefined, to: undefined },
-      selectedEligibility: [],
-      selectedCategories: [],
-      selectedCountries: [],
-      minMatchScore: 0,
+  const { autoCalculatePageSize, handleAutoCalculateToggle } =
+    useAutoPagination({
+      view,
+      isMobile,
+      onItemsPerPageChange: setItemsPerPage,
+      onPageReset: () => setCurrentPage(1),
     });
+
+  // Reset to first page when view changes or filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [view, filteredOpportunities.length, setCurrentPage]);
+
+  const paginatedOpportunities = filteredOpportunities.slice(
+    startIndex,
+    endIndex,
+  );
+
+  const handleItemsPerPageChangeWithAutoReset = (value: string) => {
+    handleItemsPerPageChange(value);
+    // Disable auto-calculate when manually set, but don't reset page unnecessarily
+    if (autoCalculatePageSize) {
+      handleAutoCalculateToggle(false);
+    }
   };
 
   return (
@@ -174,29 +110,48 @@ export default function FundingExplorer() {
       {/* Results */}
       <div>
         <div className="mb-4 flex items-center justify-between">
-          <h2 className="font-semibold">
-            {filteredOpportunities.length}{" "}
-            {filteredOpportunities.length === 1
-              ? "Opportunity"
-              : "Opportunities"}{" "}
-            Found
-          </h2>
+          <div>
+            <h2 className="font-semibold">
+              {filteredOpportunities.length}{" "}
+              {filteredOpportunities.length === 1
+                ? "Opportunity"
+                : "Opportunities"}{" "}
+              Found
+            </h2>
+            {filteredOpportunities.length > 0 && (
+              <p className="text-muted-foreground text-sm">
+                Showing {startIndex + 1}-
+                {Math.min(endIndex, filteredOpportunities.length)} of{" "}
+                {filteredOpportunities.length}
+              </p>
+            )}
+          </div>
 
-          {/* View Mode Toggle */}
-          <ToggleGroup
-            type="single"
-            value={view}
-            onValueChange={(value) =>
-              value && setView(value as "card" | "table")
-            }
-          >
-            <ToggleGroupItem value="table" aria-label="Table view">
-              <Table className="h-4 w-4" />
-            </ToggleGroupItem>
-            <ToggleGroupItem value="card" aria-label="Card view">
-              <LayoutGrid className="h-4 w-4" />
-            </ToggleGroupItem>
-          </ToggleGroup>
+          <div className="flex items-center gap-2">
+            {/* Page Size Controls */}
+            <ItemsPerPageSelector
+              itemsPerPage={itemsPerPage}
+              autoCalculatePageSize={autoCalculatePageSize}
+              onItemsPerPageChange={handleItemsPerPageChangeWithAutoReset}
+              onAutoCalculateToggle={handleAutoCalculateToggle}
+            />
+
+            {/* View Mode Toggle */}
+            <ToggleGroup
+              type="single"
+              value={view}
+              onValueChange={(value) =>
+                value && setView(value as "card" | "table")
+              }
+            >
+              <ToggleGroupItem value="table" aria-label="Table view">
+                <Table className="h-4 w-4" />
+              </ToggleGroupItem>
+              <ToggleGroupItem value="card" aria-label="Card view">
+                <LayoutGrid className="h-4 w-4" />
+              </ToggleGroupItem>
+            </ToggleGroup>
+          </div>
         </div>
 
         {filteredOpportunities.length === 0 ? (
@@ -208,16 +163,130 @@ export default function FundingExplorer() {
               Try adjusting your search criteria or filters
             </p>
           </div>
-        ) : view === "table" ? (
-          <div className="space-y-4">
-            <FundingTable opportunities={filteredOpportunities} />
-          </div>
         ) : (
-          <div className="space-y-4">
-            {filteredOpportunities.map((opportunity) => (
-              <OpportunityCard key={opportunity.id} opportunity={opportunity} />
-            ))}
-          </div>
+          <>
+            {view === "table" ? (
+              <div className="space-y-4">
+                <FundingTable opportunities={paginatedOpportunities} />
+              </div>
+            ) : (
+              <div className="space-y-4">
+                {paginatedOpportunities.map((opportunity) => (
+                  <OpportunityCard
+                    key={opportunity.id}
+                    opportunity={opportunity}
+                  />
+                ))}
+              </div>
+            )}
+
+            {/* Pagination */}
+            {totalPages > 1 && (
+              <div className="mt-8 flex justify-center">
+                <Pagination>
+                  <PaginationContent>
+                    <PaginationItem>
+                      <PaginationPrevious
+                        href="#"
+                        onClick={(e: React.MouseEvent) => {
+                          e.preventDefault();
+                          if (currentPage > 1)
+                            paginationPageChange(currentPage - 1);
+                        }}
+                        className={
+                          currentPage <= 1
+                            ? "pointer-events-none opacity-50"
+                            : ""
+                        }
+                      />
+                    </PaginationItem>
+
+                    {/* First page */}
+                    {currentPage > 3 && (
+                      <>
+                        <PaginationItem>
+                          <PaginationLink
+                            href="#"
+                            onClick={(e: React.MouseEvent) => {
+                              e.preventDefault();
+                              paginationPageChange(1);
+                            }}
+                          >
+                            1
+                          </PaginationLink>
+                        </PaginationItem>
+                        {currentPage > 4 && (
+                          <PaginationItem>
+                            <PaginationEllipsis />
+                          </PaginationItem>
+                        )}
+                      </>
+                    )}
+
+                    {/* Pages around current page */}
+                    {Array.from({ length: totalPages }, (_, i) => i + 1)
+                      .filter((page) => {
+                        return (
+                          page >= currentPage - 2 && page <= currentPage + 2
+                        );
+                      })
+                      .map((page) => (
+                        <PaginationItem key={page}>
+                          <PaginationLink
+                            href="#"
+                            onClick={(e: React.MouseEvent) => {
+                              e.preventDefault();
+                              paginationPageChange(page);
+                            }}
+                            isActive={currentPage === page}
+                          >
+                            {page}
+                          </PaginationLink>
+                        </PaginationItem>
+                      ))}
+
+                    {/* Last page */}
+                    {currentPage < totalPages - 2 && (
+                      <>
+                        {currentPage < totalPages - 3 && (
+                          <PaginationItem>
+                            <PaginationEllipsis />
+                          </PaginationItem>
+                        )}
+                        <PaginationItem>
+                          <PaginationLink
+                            href="#"
+                            onClick={(e: React.MouseEvent) => {
+                              e.preventDefault();
+                              paginationPageChange(totalPages);
+                            }}
+                          >
+                            {totalPages}
+                          </PaginationLink>
+                        </PaginationItem>
+                      </>
+                    )}
+
+                    <PaginationItem>
+                      <PaginationNext
+                        href="#"
+                        onClick={(e: React.MouseEvent) => {
+                          e.preventDefault();
+                          if (currentPage < totalPages)
+                            paginationPageChange(currentPage + 1);
+                        }}
+                        className={
+                          currentPage >= totalPages
+                            ? "pointer-events-none opacity-50"
+                            : ""
+                        }
+                      />
+                    </PaginationItem>
+                  </PaginationContent>
+                </Pagination>
+              </div>
+            )}
+          </>
         )}
       </div>
     </div>

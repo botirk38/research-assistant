@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { PublicationsFilter } from "./publications-filter";
 import { PublicationsSearchBar } from "./publication-search-bar";
 import { PublicationCard } from "./publication-card";
@@ -8,99 +8,85 @@ import { mockPublications } from "@/lib/data/publications";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { LayoutGrid, Network, Table } from "lucide-react";
 import { PublicationsTable } from "./publications-table";
+import { usePublicationsFilters } from "@/hooks/publications-browser/use-publication-filters";
 import { PublicationsNetwork } from "./publication-network";
+import { usePagination } from "@/hooks/use-pagination";
+import { useAutoPagination } from "@/hooks/use-auto-pagination";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { ItemsPerPageSelector } from "@/components/items-per-page-selector";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
+import { DEFAULT_ITEMS_PER_PAGE } from "@/utils/pagination";
 
 export default function PublicationsBrowser() {
-  const [searchQuery, setSearchQuery] = useState("");
   const [viewMode, setViewMode] = useState<"card" | "table" | "network">(
     "table",
   );
-  const [selectedJournals, setSelectedJournals] = useState<string[]>([]);
-  const [selectedYears, setSelectedYears] = useState<number[]>([]);
-  const [citationRange, setCitationRange] = useState<[number, number]>([
-    0, 250,
-  ]);
-  const [sortBy, setSortBy] = useState<string>("citations");
-  const [isMobile, setIsMobile] = useState(false);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const isMobile = useIsMobile();
 
-  // Extract unique journals and years
-  const journals = useMemo(
-    () => Array.from(new Set(mockPublications.map((pub) => pub.journal))),
-    [],
-  );
-  const years = useMemo(
-    () =>
-      Array.from(new Set(mockPublications.map((pub) => pub.year))).sort(
-        (a, b) => b - a,
-      ),
-    [],
-  );
+  const {
+    searchQuery,
+    setSearchQuery,
+    sortBy,
+    setSortBy,
+    selectedJournals,
+    setSelectedJournals,
+    selectedYears,
+    setSelectedYears,
+    citationRange,
+    setCitationRange,
+    filteredPublications,
+    resetFilters,
+    journals,
+    years,
+  } = usePublicationsFilters({ publications: mockPublications });
 
-  // Responsive effect
+  const {
+    currentPage,
+    itemsPerPage,
+    totalPages,
+    startIndex,
+    endIndex,
+    setCurrentPage,
+    setItemsPerPage,
+    handlePageChange: paginationPageChange,
+    handleItemsPerPageChange,
+  } = usePagination({
+    totalItems: filteredPublications.length,
+    defaultItemsPerPage: DEFAULT_ITEMS_PER_PAGE,
+  });
+
+  const { autoCalculatePageSize, handleAutoCalculateToggle } =
+    useAutoPagination({
+      view: viewMode === "network" ? "card" : viewMode, // Network view uses card-like spacing
+      isMobile,
+      onItemsPerPageChange: setItemsPerPage,
+      onPageReset: () => setCurrentPage(1),
+    });
+
+  // Reset to first page when view changes or filters change
   useEffect(() => {
-    const checkIfMobile = () => setIsMobile(window.innerWidth < 768);
-    checkIfMobile();
-    window.addEventListener("resize", checkIfMobile);
-    return () => window.removeEventListener("resize", checkIfMobile);
-  }, []);
+    setCurrentPage(1);
+  }, [viewMode, filteredPublications.length, setCurrentPage]);
 
-  // Filter and sort publications
-  const filteredPublications = useMemo(() => {
-    let results = mockPublications.filter((publication) => {
-      // Search
-      const matchesSearch =
-        searchQuery === "" ||
-        publication.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        publication.subtitle
-          .toLowerCase()
-          .includes(searchQuery.toLowerCase()) ||
-        publication.journal.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        publication.coAuthors.some((author) =>
-          author.toLowerCase().includes(searchQuery.toLowerCase()),
-        );
+  const paginatedPublications =
+    viewMode === "network"
+      ? filteredPublications // Network view shows all for connections
+      : filteredPublications.slice(startIndex, endIndex);
 
-      // Journal
-      const matchesJournal =
-        selectedJournals.length === 0 ||
-        selectedJournals.includes(publication.journal);
-
-      // Year
-      const matchesYear =
-        selectedYears.length === 0 || selectedYears.includes(publication.year);
-
-      // Citations
-      const matchesCitations =
-        publication.citations >= citationRange[0] &&
-        publication.citations <= citationRange[1];
-
-      return matchesSearch && matchesJournal && matchesYear && matchesCitations;
-    });
-
-    // Sort
-    results = results.sort((a, b) => {
-      switch (sortBy) {
-        case "year-newest":
-          return b.year - a.year;
-        case "year-oldest":
-          return a.year - b.year;
-        case "citations":
-          return b.citations - a.citations;
-        case "title":
-          return a.title.localeCompare(b.title);
-        default:
-          return 0;
-      }
-    });
-
-    return results;
-  }, [searchQuery, selectedJournals, selectedYears, citationRange, sortBy]);
-
-  // Reset all filters
-  const resetFilters = () => {
-    setSelectedJournals([]);
-    setSelectedYears([]);
-    setCitationRange([0, 250]);
+  const handleItemsPerPageChangeWithAutoReset = (value: string) => {
+    handleItemsPerPageChange(value);
+    if (autoCalculatePageSize) {
+      handleAutoCalculateToggle(false);
+    }
   };
 
   return (
@@ -137,31 +123,53 @@ export default function PublicationsBrowser() {
       {/* Results */}
       <div>
         <div className="mb-4 flex items-center justify-between">
-          <h2 className="font-semibold">
-            {filteredPublications.length}{" "}
-            {filteredPublications.length === 1 ? "Publication" : "Publications"}{" "}
-            Found
-          </h2>
+          <div>
+            <h2 className="font-semibold">
+              {filteredPublications.length}{" "}
+              {filteredPublications.length === 1
+                ? "Publication"
+                : "Publications"}{" "}
+              Found
+            </h2>
+            {filteredPublications.length > 0 && viewMode !== "network" && (
+              <p className="text-muted-foreground text-sm">
+                Showing {startIndex + 1}-
+                {Math.min(endIndex, filteredPublications.length)} of{" "}
+                {filteredPublications.length}
+              </p>
+            )}
+          </div>
 
-          {/* View Mode Toggle */}
-          <ToggleGroup
-            type="single"
-            value={viewMode}
-            onValueChange={(value) =>
-              value && setViewMode(value as "card" | "table" | "network")
-            }
-          >
-            <ToggleGroupItem value="table" aria-label="Table view">
-              <Table className="h-4 w-4" />
-            </ToggleGroupItem>
-            <ToggleGroupItem value="card" aria-label="Card view">
-              <LayoutGrid className="h-4 w-4" />
-            </ToggleGroupItem>
+          <div className="flex items-center gap-2">
+            {/* Page Size Controls - Hide for network view */}
+            {viewMode !== "network" && (
+              <ItemsPerPageSelector
+                itemsPerPage={itemsPerPage}
+                autoCalculatePageSize={autoCalculatePageSize}
+                onItemsPerPageChange={handleItemsPerPageChangeWithAutoReset}
+                onAutoCalculateToggle={handleAutoCalculateToggle}
+              />
+            )}
 
-            <ToggleGroupItem value="network" aria-label="Network view">
-              <Network className="h-4 w-4" />
-            </ToggleGroupItem>
-          </ToggleGroup>
+            {/* View Mode Toggle */}
+            <ToggleGroup
+              type="single"
+              value={viewMode}
+              onValueChange={(value) =>
+                value && setViewMode(value as "card" | "table" | "network")
+              }
+            >
+              <ToggleGroupItem value="table" aria-label="Table view">
+                <Table className="h-4 w-4" />
+              </ToggleGroupItem>
+              <ToggleGroupItem value="card" aria-label="Card view">
+                <LayoutGrid className="h-4 w-4" />
+              </ToggleGroupItem>
+              <ToggleGroupItem value="network" aria-label="Network view">
+                <Network className="h-4 w-4" />
+              </ToggleGroupItem>
+            </ToggleGroup>
+          </div>
         </div>
 
         {filteredPublications.length === 0 ? (
@@ -177,17 +185,123 @@ export default function PublicationsBrowser() {
           <>
             {viewMode === "card" && (
               <div className="space-y-4">
-                {filteredPublications.map((publication, index) => (
+                {paginatedPublications.map((publication, index) => (
                   <PublicationCard key={index} publication={publication} />
                 ))}
               </div>
             )}
             {viewMode === "table" && (
-              <PublicationsTable publications={filteredPublications} />
+              <PublicationsTable publications={paginatedPublications} />
+            )}
+            {viewMode === "network" && (
+              <PublicationsNetwork publications={paginatedPublications} />
             )}
 
-            {viewMode === "network" && (
-              <PublicationsNetwork publications={filteredPublications} />
+            {/* Pagination - Hide for network view */}
+            {viewMode !== "network" && totalPages > 1 && (
+              <div className="mt-8 flex justify-center">
+                <Pagination>
+                  <PaginationContent>
+                    <PaginationItem>
+                      <PaginationPrevious
+                        href="#"
+                        onClick={(e: React.MouseEvent) => {
+                          e.preventDefault();
+                          if (currentPage > 1)
+                            paginationPageChange(currentPage - 1);
+                        }}
+                        className={
+                          currentPage <= 1
+                            ? "pointer-events-none opacity-50"
+                            : ""
+                        }
+                      />
+                    </PaginationItem>
+
+                    {/* First page */}
+                    {currentPage > 3 && (
+                      <>
+                        <PaginationItem>
+                          <PaginationLink
+                            href="#"
+                            onClick={(e: React.MouseEvent) => {
+                              e.preventDefault();
+                              paginationPageChange(1);
+                            }}
+                          >
+                            1
+                          </PaginationLink>
+                        </PaginationItem>
+                        {currentPage > 4 && (
+                          <PaginationItem>
+                            <PaginationEllipsis />
+                          </PaginationItem>
+                        )}
+                      </>
+                    )}
+
+                    {/* Pages around current page */}
+                    {Array.from({ length: totalPages }, (_, i) => i + 1)
+                      .filter((page) => {
+                        return (
+                          page >= currentPage - 2 && page <= currentPage + 2
+                        );
+                      })
+                      .map((page) => (
+                        <PaginationItem key={page}>
+                          <PaginationLink
+                            href="#"
+                            onClick={(e: React.MouseEvent) => {
+                              e.preventDefault();
+                              paginationPageChange(page);
+                            }}
+                            isActive={currentPage === page}
+                          >
+                            {page}
+                          </PaginationLink>
+                        </PaginationItem>
+                      ))}
+
+                    {/* Last page */}
+                    {currentPage < totalPages - 2 && (
+                      <>
+                        {currentPage < totalPages - 3 && (
+                          <PaginationItem>
+                            <PaginationEllipsis />
+                          </PaginationItem>
+                        )}
+                        <PaginationItem>
+                          <PaginationLink
+                            href="#"
+                            onClick={(e: React.MouseEvent) => {
+                              e.preventDefault();
+                              paginationPageChange(totalPages);
+                            }}
+                          >
+                            {totalPages}
+                          </PaginationLink>
+                        </PaginationItem>
+                      </>
+                    )}
+
+                    <PaginationItem>
+                      <PaginationNext
+                        href="#"
+                        onClick={(e: React.MouseEvent) => {
+                          e.preventDefault();
+                          if (currentPage < totalPages)
+                            paginationPageChange(currentPage + 1);
+                        }}
+                        className={
+                          currentPage >= totalPages
+                            ? "pointer-events-none opacity-50"
+                            : ""
+                        }
+                      />
+                    </PaginationItem>
+                  </PaginationContent>
+                </Pagination>
+              </div>
             )}
           </>
         )}

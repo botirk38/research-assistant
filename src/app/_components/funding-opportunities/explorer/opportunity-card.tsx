@@ -105,27 +105,7 @@ export function OpportunityCard({ opportunity }: OpportunityCardProps) {
           </div>
         </div>
         <p className="mb-4">{opportunity.description}</p>
-        <div className="mb-4 grid grid-cols-1 gap-4 md:grid-cols-2">
-          <div>
-            <h4 className="mb-2 text-sm font-semibold">Requirements</h4>
-            <ul className="list-disc space-y-1 pl-5 text-sm">
-              {opportunity.requirements.map((req, index) => (
-                <li key={index}>{req}</li>
-              ))}
-            </ul>
-          </div>
-          <div>
-            <h4 className="mb-2 text-sm font-semibold">Key Dates</h4>
-            <ul className="space-y-1 text-sm">
-              {opportunity.keyDates.map((date, index) => (
-                <li key={index} className="flex justify-between">
-                  <span>{date.event}:</span>
-                  <span className="font-medium">{formatDate(date.date)}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
+
         <div className="text-muted-foreground text-sm">
           <span className="font-medium">Eligibility:</span>{" "}
           {opportunity.eligibility}

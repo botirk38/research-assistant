@@ -7,6 +7,7 @@ export type SocialLink = {
 };
 
 export type Publication = {
+  id: string;
   title: string;
   subtitle: string;
   journal: string;
@@ -15,6 +16,11 @@ export type Publication = {
   url: string;
   coAuthors: string[];
   recommendationType?: "research-area" | "exploration-area";
+  keywords?: string[];
+  pdfUrl: string;
+  doi: string;
+  abstract?: string;
+  references?: string[];
 };
 
 export type Education = {

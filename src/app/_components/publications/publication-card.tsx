@@ -24,6 +24,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import type { Publication } from "@/types/researcher";
+import Link from "next/link";
 
 interface PublicationCardProps {
   publication: Publication;
@@ -103,15 +104,15 @@ export function PublicationCard({ publication }: PublicationCardProps) {
           Published in {publication.year}
         </div>
         <Button variant="outline" size="sm" asChild>
-          <a
-            href={publication.url}
+          <Link
+            href={`/researcher/publications/${publication.id}`}
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center"
           >
             View Publication
             <ExternalLink className="ml-2 h-3 w-3" />
-          </a>
+          </Link>
         </Button>
       </CardFooter>
     </Card>

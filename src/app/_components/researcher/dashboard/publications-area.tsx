@@ -15,6 +15,10 @@ const PublicationsArea: React.FC = () => {
 
   const researchPublications: Publication[] = [
     {
+      id: "1",
+      keywords: ["AI", "Medical Imaging", "Neural Networks"],
+      pdfUrl: "#",
+      doi: "10.1234/jmai.2023.001",
       title: "Deep Learning for Medical Imaging",
       subtitle: "Latest advances in neural network applications for radiology",
       journal: "Journal of Medical AI",
@@ -24,6 +28,10 @@ const PublicationsArea: React.FC = () => {
       coAuthors: ["A. Smith", "J. Doe"],
     },
     {
+      id: "2",
+      keywords: ["AI", "Healthcare", "Ethics"],
+      pdfUrl: "#",
+      doi: "10.1234/jai.2023.002",
       title: "Explainable AI in Healthcare",
       subtitle: "Methods and applications for transparency in clinical models",
       journal: "IEEE Transactions on Medical Imaging",
@@ -36,6 +44,10 @@ const PublicationsArea: React.FC = () => {
 
   const explorationPublications: Publication[] = [
     {
+      id: "3",
+      keywords: ["Quantum Computing", "Machine Learning"],
+      pdfUrl: "#",
+      doi: "10.1234/jqcm.2024.003",
       title: "Quantum Computing Applications",
       subtitle: "Emerging field exploration",
       journal: "Quantum Journal",
@@ -45,6 +57,10 @@ const PublicationsArea: React.FC = () => {
       coAuthors: ["S. Patel"],
     },
     {
+      id: "4",
+      keywords: ["Sustainability", "AI Systems"],
+      doi: "10.1234/jais.2023.004",
+      pdfUrl: "#",
       title: "Sustainable AI Systems",
       subtitle: "New research direction",
       journal: "AI & Sustainability Review",

@@ -92,7 +92,7 @@ export function PublicationsTable({ publications }: PublicationsTableProps) {
               </td>
               <td className="px-4 py-3">
                 <Link
-                  href={publication.url}
+                  href={`/researcher/publications/${publication.id}`}
                   target="_blank"
                   className="text-muted-foreground hover:text-foreground inline-flex items-center gap-1"
                 >

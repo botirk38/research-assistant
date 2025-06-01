@@ -28,7 +28,10 @@ const ResearchImpactCard: React.FC = () => {
   const hasData = impactDimensions && impactDimensions.length > 0;
 
   return (
-    <ChartCard title="Research Impact">
+    <ChartCard
+      title="Research Impact"
+      description="Visualize the impact of your research across various dimensions for the selected time period"
+    >
       <ChartContainer config={chartConfig} className="min-h-[300px] w-full">
         {hasData ? (
           <RadarChart data={impactDimensions}>

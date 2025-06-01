@@ -19,9 +19,7 @@ const FundingTable: React.FC<FundingOpportunityTable> = ({
   onFundingOpportunityClick,
 }) => (
   <Card className="border-t-destructive border-t-4 p-4">
-    <h3 className="text-primary mb-4 text-base font-semibold">
-      Funding Opportunities
-    </h3>
+    <h3 className="mb-4 text-base font-semibold">Funding Opportunities</h3>
     <Table>
       <TableHeader>
         <TableRow>

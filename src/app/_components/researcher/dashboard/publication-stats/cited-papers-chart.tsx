@@ -19,13 +19,25 @@ interface CitedPapersChartProps {
   dateRange: DateRange | undefined;
 }
 
-// Helper to generate HSL color strings
-const getRandomHSLColor = () => {
-  const hue = Math.floor(Math.random() * 360); // Full hue spectrum
-  const saturation = 65 + Math.random() * 15; // 65–80%
-  const lightness = 50 + Math.random() * 10; // 50–60%
-  return `hsl(${hue}, ${saturation.toFixed(1)}%, ${lightness.toFixed(1)}%)`;
-};
+// Fixed colors for consistent visualization
+const fixedColors = [
+  "#8b5cf6", // purple
+  "#06b6d4", // cyan
+  "#10b981", // green
+  "#f59e0b", // amber
+  "#ef4444", // red
+  "#8b5cf6", // purple (repeat)
+  "#06b6d4", // cyan (repeat)
+  "#10b981", // green (repeat)
+  "#f59e0b", // amber (repeat)
+  "#ef4444", // red (repeat)
+  "#6366f1", // indigo
+  "#ec4899", // pink
+];
+
+function getRandomHSLColor() {
+  return `hsl(${Math.floor(Math.random() * 360)}, 70%, 50%)`;
+}
 
 export const CitedPapersChart: React.FC<CitedPapersChartProps> = ({
   dateRange,
@@ -36,17 +48,20 @@ export const CitedPapersChart: React.FC<CitedPapersChartProps> = ({
 
   const chartConfig = useMemo(() => {
     const config: Record<string, { label: string; color: string }> = {};
-    allCitationSources.forEach((item) => {
+    allCitationSources.forEach((item, index) => {
       config[item.name] = {
         label: item.name,
-        color: getRandomHSLColor(),
+        color: fixedColors[index % fixedColors.length] ?? getRandomHSLColor(),
       };
     });
     return config;
   }, []);
 
   return (
-    <ChartCard title="Most Cited Papers">
+    <ChartCard
+      title="Most Cited Papers"
+      description="Distribution of your most highly cited research papers over the selected time period"
+    >
       <ChartContainer config={chartConfig} className="min-h-[300px] w-full">
         {filteredData.length > 0 ? (
           <PieChart>

@@ -1,5 +1,3 @@
-"use client";
-
 import {
   subDays,
   subMonths,
@@ -76,6 +74,22 @@ const presetRanges: PresetRange[] = [
     getDateRange: () => ({
       from: startOfYear(new Date()),
       to: new Date(),
+    }),
+  },
+  {
+    label: "Current REF period",
+    value: "current-ref-period",
+    getDateRange: () => ({
+      from: new Date(2021, 0, 1), // Jan 1, 2021
+      to: new Date(), // Current date
+    }),
+  },
+  {
+    label: "Last REF period",
+    value: "last-ref-period",
+    getDateRange: () => ({
+      from: new Date(2014, 0, 1), // Jan 1, 2014
+      to: new Date(2020, 11, 31), // Dec 31, 2020
     }),
   },
 ];

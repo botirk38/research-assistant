@@ -11,9 +11,7 @@ import { type Publication } from "@/types/researcher";
 
 const ResearchTable: React.FC<{ data: Publication[] }> = ({ data }) => (
   <Card className="p-4">
-    <h3 className="text-primary mb-4 text-base font-semibold">
-      Research Areas
-    </h3>
+    <h3 className="mb-4 text-base font-semibold">Research Areas</h3>
     <Table>
       <TableHeader>
         <TableRow>

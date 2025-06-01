@@ -17,8 +17,10 @@ import { QuickActions, type QuickActionItem } from "@/components/quick-actions";
 
 const TablesSection: React.FC = () => (
   <div className="space-y-6">
-    <ResearchIdeas />
-    <Collaborations />
+    <div className="mb-8 space-y-8 lg:grid lg:grid-cols-2 lg:gap-8 lg:space-y-0">
+      <ResearchIdeas />
+      <Collaborations />
+    </div>
     <FundingOpportunities />
   </div>
 );

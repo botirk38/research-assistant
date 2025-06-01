@@ -13,19 +13,22 @@ const ExplorationCard: React.FC<{
   subtitle?: string;
   interests: Publication[];
 }> = ({ title, subtitle, interests }) => (
-  <Card className="border-muted border-dashed transition-shadow hover:shadow-sm">
+  <Card className="transition-shadow hover:shadow-md">
     <CardHeader className="flex flex-row items-center justify-between">
-      <div>
-        <CardTitle className="flex items-center gap-2 text-base">
+      <div className="space-y-1">
+        <CardTitle className="flex items-center gap-2">
           <Compass className="text-muted-foreground h-4 w-4" />
           {title}
         </CardTitle>
         {subtitle && <CardDescription>{subtitle}</CardDescription>}
       </div>
     </CardHeader>
-    <CardContent className="space-y-4 pt-2">
+    <CardContent className="space-y-4">
       {interests.map((item, index) => (
-        <div key={index}>
+        <div
+          key={index}
+          className="border-border hover:bg-accent rounded-lg border p-3"
+        >
           <h3 className="text-card-foreground font-medium">{item.title}</h3>
           <p className="text-muted-foreground text-sm">{item.subtitle}</p>
         </div>

@@ -24,18 +24,20 @@ export interface QuickActionItem {
 function QuickAction({ icon, label, onClick, href }: QuickActionItem) {
   const content = (
     <>
-      <div className="bg-primary/10 text-primary rounded-full p-2">{icon}</div>
-      <span className="text-sm font-medium">{label}</span>
+      <div className="bg-primary/10 text-primary rounded-full p-1.5">
+        {icon}
+      </div>
+      <span className="text-xs font-medium">{label}</span>
     </>
   );
 
   return (
     <Card className="hover:bg-accent border-none shadow-none transition-colors">
-      <CardContent className="p-4">
+      <CardContent className="p-0.5">
         {href ? (
           <Button
             variant="ghost"
-            className="flex h-full w-full flex-col items-center justify-center gap-2 p-4"
+            className="flex h-full w-full flex-col items-center justify-center gap-1.5 p-2"
             asChild
           >
             <Link href={href}>{content}</Link>
@@ -43,7 +45,7 @@ function QuickAction({ icon, label, onClick, href }: QuickActionItem) {
         ) : (
           <Button
             variant="ghost"
-            className="flex h-full w-full flex-col items-center justify-center gap-2 p-4"
+            className="flex h-full w-full flex-col items-center justify-center gap-1.5 p-2"
             onClick={onClick}
           >
             {content}

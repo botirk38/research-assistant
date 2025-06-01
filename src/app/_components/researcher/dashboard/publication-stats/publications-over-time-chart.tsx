@@ -33,7 +33,10 @@ export const PublicationsOverTimeChart: React.FC<
   );
 
   return (
-    <ChartCard title="Publications Over Time">
+    <ChartCard
+      title="Publications Over Time"
+      description="Track your research output and publication trends over the years for the selected time period"
+    >
       <ChartContainer config={chartConfig} className="min-h-[300px] w-full">
         {filteredData.length > 0 ? (
           <LineChart data={filteredData}>

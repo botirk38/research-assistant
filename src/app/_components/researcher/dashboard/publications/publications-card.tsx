@@ -16,7 +16,7 @@ const PublicationsCard: React.FC<{
 }> = ({ title, subtitle, publications }) => (
   <Card className="transition-shadow hover:shadow-md">
     <CardHeader className="flex flex-row items-center justify-between">
-      <div>
+      <div className="space-y-1">
         <CardTitle>{title}</CardTitle>
         {subtitle && <CardDescription>{subtitle}</CardDescription>}
       </div>

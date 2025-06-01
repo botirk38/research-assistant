@@ -56,7 +56,7 @@ const PublicationsArea: React.FC = () => {
   ];
 
   return (
-    <div className="mb-8 space-y-8">
+    <div className="mb-8 space-y-8 lg:grid lg:grid-cols-2 lg:gap-8 lg:space-y-0">
       {/* Research Section */}
       <div>
         <div className="mb-4 flex items-center justify-between">
@@ -78,6 +78,7 @@ const PublicationsArea: React.FC = () => {
         {researchView === "card" ? (
           <PublicationsCard
             title="Research Areas"
+            subtitle="Recent publications and research interests based on your profile"
             publications={researchPublications}
           />
         ) : (
@@ -85,6 +86,7 @@ const PublicationsArea: React.FC = () => {
         )}
       </div>
 
+      {/* Exploration Section */}
       <div>
         <div className="mb-4 flex items-center justify-between">
           <ToggleGroup
@@ -105,7 +107,7 @@ const PublicationsArea: React.FC = () => {
         {explorationView === "card" ? (
           <ExplorationCard
             title="Exploration Areas"
-            subtitle="Topics of ongoing interest"
+            subtitle="Topics of ongoing interest based on your profile"
             interests={explorationPublications}
           />
         ) : (

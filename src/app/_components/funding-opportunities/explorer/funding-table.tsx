@@ -54,7 +54,7 @@ function FundingTable({
               </TableCell>
               <TableCell>
                 <Button asChild variant="outline" size="sm">
-                  <a href={`/opportunities/${opp.id}`}>
+                  <a href={`/researcher/funding-opportunities/${opp.id}`}>
                     <LucideLink className="mr-1 h-4 w-4" />
                     View
                   </a>

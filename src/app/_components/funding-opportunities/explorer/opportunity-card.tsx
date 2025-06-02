@@ -119,7 +119,7 @@ export function OpportunityCard({ opportunity }: OpportunityCardProps) {
         </div>
         <div className="flex gap-2 self-end">
           <Button asChild>
-            <Link href={`/opportunities/${opportunity.id}`}>
+            <Link href={`/researcher/funding-opportunities/${opportunity.id}`}>
               View Full Details
             </Link>
           </Button>

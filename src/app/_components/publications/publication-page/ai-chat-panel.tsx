@@ -5,7 +5,6 @@ import { useChat } from "@ai-sdk/react";
 import { Chat } from "@/components/ui/chat";
 import { FileText } from "lucide-react";
 import type { Publication } from "@/types/researcher";
-import type { UIMessage } from "@ai-sdk/ui-utils";
 
 interface AIChatPanelProps {
   publication: Publication;

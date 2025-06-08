@@ -42,7 +42,17 @@ export function AIChatPanel({
   className,
 }: AIChatPanelProps) {
   const { messages, input, handleInputChange, handleSubmit, isLoading } =
-    useChat({ api: `/api/chat/pdf/${publication.id}` });
+    useChat({ 
+      api: `/api/chat/pdf/${publication.id}`,
+      body: {
+        pdfUrl: publication.pdfUrl,
+        publicationTitle: publication.title,
+        publicationAuthors: publication.coAuthors?.join(', '),
+        publicationJournal: publication.journal,
+        publicationYear: publication.year,
+        publicationAbstract: publication.abstract,
+      },
+    });
 
   const setInputValue = useCallback(
     (value: string) => {

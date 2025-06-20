@@ -1,7 +1,7 @@
 "use client";
 
 import { Avatar } from "@/components/ui/avatar";
-import { DollarSign, Home, Settings } from "lucide-react";
+import { DollarSign, Home, Settings, Users } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -36,6 +36,11 @@ export function ResearcherDashboardSidebar() {
       icon: FaPaperclip,
       label: "Publications",
       href: "/researcher/publications",
+    },
+    {
+      icon: Users,
+      label: "Team Papers",
+      href: "/researcher/team-papers",
     },
   ].map((item) => ({
     ...item,

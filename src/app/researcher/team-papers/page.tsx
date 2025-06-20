@@ -264,7 +264,6 @@ export default function BestPapersPage() {
 
   const handleSendToInnovationManager = () => {
     setShowSendDialog(true);
-    // UI-only functionality for now
     setTimeout(() => {
       alert(
         `Sending ${selectedPapers.length} selected papers to Innovation Manager`,
@@ -287,7 +286,6 @@ export default function BestPapersPage() {
 
   return (
     <div className="container mx-auto space-y-6 p-6">
-      {/* Header */}
       <div className="flex flex-col space-y-4">
         <div className="flex items-center justify-between">
           <div>
@@ -306,12 +304,11 @@ export default function BestPapersPage() {
           </div>
         </div>
 
-        {/* Stats Cards */}
         <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
           <Card>
             <CardContent className="p-4">
               <div className="flex items-center space-x-2">
-                <Users className="h-5 w-5 text-blue-600" />
+                <Users className="text-chart-1 h-5 w-5" />
                 <div>
                   <p className="text-sm font-medium">Team Members</p>
                   <p className="text-2xl font-bold">{mockTeamMembers.length}</p>
@@ -322,7 +319,7 @@ export default function BestPapersPage() {
           <Card>
             <CardContent className="p-4">
               <div className="flex items-center space-x-2">
-                <BookOpen className="h-5 w-5 text-green-600" />
+                <BookOpen className="text-chart-2 h-5 w-5" />
                 <div>
                   <p className="text-sm font-medium">Total Papers</p>
                   <p className="text-2xl font-bold">{totalPapers}</p>
@@ -333,7 +330,7 @@ export default function BestPapersPage() {
           <Card>
             <CardContent className="p-4">
               <div className="flex items-center space-x-2">
-                <TrendingUp className="h-5 w-5 text-purple-600" />
+                <TrendingUp className="text-chart-3 h-5 w-5" />
                 <div>
                   <p className="text-sm font-medium">Total Citations</p>
                   <p className="text-2xl font-bold">{totalCitations}</p>
@@ -344,10 +341,10 @@ export default function BestPapersPage() {
           <Card>
             <CardContent className="p-4">
               <div className="flex items-center space-x-2">
-                <Award className="h-5 w-5 text-orange-600" />
+                <Award className="text-chart-4 h-5 w-5" />
                 <div>
                   <p className="text-sm font-medium">Selected Papers</p>
-                  <p className="text-2xl font-bold text-orange-600">
+                  <p className="text-chart-4 text-2xl font-bold">
                     {selectedPapers.length}
                   </p>
                 </div>
@@ -357,7 +354,6 @@ export default function BestPapersPage() {
         </div>
       </div>
 
-      {/* Search and Send Button */}
       <Card>
         <CardContent className="p-4">
           <div className="flex flex-col items-center gap-4 md:flex-row">
@@ -376,7 +372,7 @@ export default function BestPapersPage() {
               <Button
                 onClick={handleSendToInnovationManager}
                 disabled={showSendDialog}
-                className="bg-blue-600 hover:bg-blue-700"
+                className="bg-primary hover:bg-primary/90"
               >
                 <Send className="mr-2 h-4 w-4" />
                 {showSendDialog
@@ -388,7 +384,6 @@ export default function BestPapersPage() {
         </CardContent>
       </Card>
 
-      {/* Team Members Horizontal Rows */}
       <div className="space-y-6">
         {filteredMembers.map((member) => (
           <Card key={member.id} className="overflow-hidden">
@@ -430,20 +425,18 @@ export default function BestPapersPage() {
               </div>
             </CardHeader>
             <CardContent className="p-6">
-              {/* Horizontal scrollable papers */}
               <div className="flex gap-6 overflow-x-auto pb-4">
                 {member.papers.map((paper) => (
                   <div
                     key={paper.id}
                     className={`w-80 flex-shrink-0 cursor-pointer rounded-lg border p-4 transition-all hover:shadow-md ${
                       selectedPapers.includes(paper.id)
-                        ? "border-blue-200 bg-blue-50 ring-2 ring-blue-200"
+                        ? "border-primary bg-primary/5 ring-primary/20 ring-2"
                         : "hover:bg-muted/50"
                     }`}
                     onClick={() => handlePaperSelection(paper.id)}
                   >
                     <div className="space-y-3">
-                      {/* Paper Preview Image */}
                       <div className="relative">
                         <Image
                           src={paper.previewImage || "/placeholder.svg"}
@@ -473,7 +466,6 @@ export default function BestPapersPage() {
                         </div>
                       </div>
 
-                      {/* Paper Info */}
                       <div className="space-y-2">
                         <h4 className="line-clamp-2 text-sm leading-tight font-semibold">
                           {paper.title}
@@ -499,14 +491,14 @@ export default function BestPapersPage() {
                         <div className="flex items-center justify-between pt-1">
                           <div className="flex items-center space-x-3 text-xs">
                             <div className="flex items-center space-x-1">
-                              <TrendingUp className="h-3 w-3 text-green-600" />
-                              <span className="font-semibold text-green-600">
+                              <TrendingUp className="text-chart-2 h-3 w-3" />
+                              <span className="text-chart-2 font-semibold">
                                 {paper.citations}
                               </span>
                             </div>
                             <div className="flex items-center space-x-1">
-                              <Star className="h-3 w-3 text-yellow-600" />
-                              <span className="font-semibold text-yellow-600">
+                              <Star className="text-chart-5 h-3 w-3" />
+                              <span className="text-chart-5 font-semibold">
                                 {paper.impactFactor}
                               </span>
                             </div>

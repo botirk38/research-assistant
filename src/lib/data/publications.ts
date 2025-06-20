@@ -17,14 +17,9 @@ export const allPublicationsOverTime = [
 
 export const allRefLevels = [
   { level: "4*", count: 2, date: new Date(2025, 0, 15) }, // Jan 2025
-  { level: "4*", count: 4, date: new Date(2025, 1, 15) }, // Feb 2025
-  { level: "3*", count: 3, date: new Date(2025, 2, 22) }, // Mar 2025
   { level: "3*", count: 5, date: new Date(2025, 3, 22) }, // Apr 2025
-  { level: "2*", count: 4, date: new Date(2025, 4, 10) }, // May 2025
   { level: "2*", count: 6, date: new Date(2025, 5, 10) }, // Jun 2025
   { level: "1*", count: 1, date: new Date(2025, 6, 18) }, // Jul 2025
-  { level: "1*", count: 3, date: new Date(2025, 7, 18) }, // Aug 2025
-  { level: "U", count: 2, date: new Date(2025, 8, 27) }, // Sep 2025 (Unclassified)
   { level: "U", count: 3, date: new Date(2025, 9, 14) }, // Oct 2025 (Unclassified)
 ];
 

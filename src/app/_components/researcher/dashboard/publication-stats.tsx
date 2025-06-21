@@ -1,7 +1,9 @@
 import type { DateRange } from "react-day-picker";
-import { PublicationsOverTimeChart } from "./publication-stats/publications-over-time-chart";
-import { REFLevelsChart } from "./publication-stats/ref-levels-chart";
-import { CitedPapersChart } from "./publication-stats/cited-papers-chart";
+import {
+  PublicationsOverTimeChart,
+  REFLevelsChart,
+  CitedPapersChart,
+} from "@/components/charts/publications";
 
 interface PublicationsStatsProps {
   dateRange: DateRange | undefined;

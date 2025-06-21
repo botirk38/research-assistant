@@ -6,10 +6,16 @@ import {
   XAxis,
   YAxis,
   CartesianGrid,
-  Tooltip,
-  Legend,
   ResponsiveContainer,
 } from "recharts";
+
+import {
+  ChartConfig,
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+  ChartLegend,
+} from "@/components/ui/chart";
 
 const data = [
   {
@@ -40,6 +46,21 @@ const data = [
   },
 ];
 
+const chartConfig = {
+  publications: {
+    label: "Publications",
+    color: "hsl(var(--chart-1))",
+  },
+  citations: {
+    label: "Citations",
+    color: "hsl(var(--chart-2))",
+  },
+  funding: {
+    label: "Funding (£)",
+    color: "hsl(var(--chart-3))",
+  },
+} satisfies ChartConfig;
+
 export function DepartmentKPIChart() {
   return (
     <div>
@@ -52,7 +73,7 @@ export function DepartmentKPIChart() {
         </p>
       </div>
 
-      <div className="h-[400px]">
+      <ChartContainer config={chartConfig} className="min-h-[400px]">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart
             data={data}
@@ -63,37 +84,52 @@ export function DepartmentKPIChart() {
               bottom: 5,
             }}
           >
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="department" />
-            <YAxis yAxisId="left" orientation="left" stroke="var(--chart-1)" />
+            <CartesianGrid vertical={false} />
+            <XAxis
+              dataKey="department"
+              tickLine={false}
+              tickMargin={10}
+              axisLine={false}
+            />
+            <YAxis
+              yAxisId="left"
+              orientation="left"
+              stroke="hsl(var(--chart-1))"
+              tickLine={false}
+              axisLine={false}
+            />
             <YAxis
               yAxisId="right"
               orientation="right"
-              stroke="var(--chart-2)"
+              stroke="hsl(var(--chart-3))"
+              tickFormatter={(value) => `£${value / 1000000}M`}
+              tickLine={false}
+              axisLine={false}
             />
-            <Tooltip />
-            <Legend />
+            <ChartTooltip content={<ChartTooltipContent />} />
+            <ChartLegend content={<ChartLegend />} />
+
             <Bar
               yAxisId="left"
               dataKey="publications"
-              name="Publications"
-              fill="var(--chart-1)"
+              fill="var(--color-publications)"
+              radius={4}
             />
             <Bar
               yAxisId="left"
               dataKey="citations"
-              name="Citations"
-              fill="var(--chart-2)"
+              fill="var(--color-citations)"
+              radius={4}
             />
             <Bar
               yAxisId="right"
               dataKey="funding"
-              name="Funding (£)"
-              fill="var(--chart-3)"
+              fill="var(--color-funding)"
+              radius={4}
             />
           </BarChart>
         </ResponsiveContainer>
-      </div>
+      </ChartContainer>
     </div>
   );
 }

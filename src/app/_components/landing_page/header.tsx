@@ -67,6 +67,27 @@ export const HeroHeader = () => {
                       </Button>
                     </li>
                   ))}
+                  {/* Temporary dashboard links */}
+                  <li>
+                    <Button
+                      asChild
+                      size="sm"
+                      className="bg-blue-600 text-white hover:bg-blue-700"
+                    >
+                      <Link href="/research-admin">
+                        Research Admin Dashboard
+                      </Link>
+                    </Button>
+                  </li>
+                  <li>
+                    <Button
+                      asChild
+                      size="sm"
+                      className="bg-green-600 text-white hover:bg-green-700"
+                    >
+                      <Link href="/researcher">Researcher Dashboard</Link>
+                    </Button>
+                  </li>
                 </ul>
               </div>
             </div>
@@ -118,6 +139,21 @@ export const HeroHeader = () => {
                   <Link href="/signup">
                     <span>Get Started</span>
                   </Link>
+                </Button>
+                {/* Temporary dashboard links for mobile */}
+                <Button
+                  asChild
+                  size="sm"
+                  className="bg-blue-600 text-white hover:bg-blue-700 lg:hidden"
+                >
+                  <Link href="/research-admin">Research Admin Dashboard</Link>
+                </Button>
+                <Button
+                  asChild
+                  size="sm"
+                  className="bg-green-600 text-white hover:bg-green-700 lg:hidden"
+                >
+                  <Link href="/researcher">Researcher Dashboard</Link>
                 </Button>
               </div>
             </div>

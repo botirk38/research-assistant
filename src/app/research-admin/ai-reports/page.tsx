@@ -208,7 +208,9 @@ export default function AIReportsPage() {
           </form>
           {/* Show agent plan steps for tool calls */}
           {currentStep !== null && (
-            <Plan key={`progress-${currentStep}`} tasks={aiReportTasks} />
+            <div className="mt-6 space-y-2">
+              <Plan key={`progress-${currentStep}`} tasks={aiReportTasks} />
+            </div>
           )}
           {/* Optionally, show the completed plan when report is ready */}
           {currentStep === null && aiReportReady && (

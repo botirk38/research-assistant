@@ -2,14 +2,6 @@ import React from "react";
 import type { DateRange } from "react-day-picker";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { SchoolSelect } from "@/components/filters/SchoolSelect";
-import { DepartmentSelect } from "@/components/filters/DepartmentSelect";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { DateRangeSelector } from "@/app/researcher/_components/dashboard/top-navigation/date-range-selector";
 
 interface SchoolOption {

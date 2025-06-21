@@ -184,62 +184,84 @@ function ChartTooltipContent({
           const itemConfig = getPayloadConfigFromPayload(config, item, key);
           const indicatorColor = color || item.payload.fill || item.color;
 
+          // Use formatter if provided and item.value is defined
+          const formatted =
+            formatter && item?.value !== undefined && item.name
+              ? formatter(item.value, item.name, item, index, item.payload)
+              : undefined;
+
+          const value =
+            formatted && Array.isArray(formatted) && formatted.length === 2
+              ? formatted[0]
+              : formatted &&
+                  (typeof formatted === "string" ||
+                    typeof formatted === "number" ||
+                    typeof formatted === "bigint")
+                ? formatted
+                : Array.isArray(formatted)
+                  ? formatted[0]
+                  : item.value;
+
+          const name =
+            formatted && Array.isArray(formatted) && formatted.length === 2
+              ? formatted[1]
+              : formatted &&
+                  (typeof formatted === "string" ||
+                    typeof formatted === "number" ||
+                    typeof formatted === "bigint")
+                ? ""
+                : Array.isArray(formatted)
+                  ? formatted[1]
+                  : item.name;
+
           return (
             <div
               key={item.dataKey}
               className={cn(
-                "[&>svg]:text-muted-foreground flex w-full flex-wrap items-stretch gap-2 [&>svg]:h-2.5 [&>svg]:w-2.5",
+                "flex w-full items-center justify-between gap-4",
                 indicator === "dot" && "items-center",
               )}
             >
-              {formatter && item?.value !== undefined && item.name ? (
-                formatter(item.value, item.name, item, index, item.payload)
+              {/* Optional indicator/icon */}
+              {itemConfig?.icon ? (
+                <itemConfig.icon />
               ) : (
-                <>
-                  {itemConfig?.icon ? (
-                    <itemConfig.icon />
-                  ) : (
-                    !hideIndicator && (
-                      <div
-                        className={cn(
-                          "shrink-0 rounded-[2px] border-(--color-border) bg-(--color-bg)",
-                          {
-                            "h-2.5 w-2.5": indicator === "dot",
-                            "w-1": indicator === "line",
-                            "w-0 border-[1.5px] border-dashed bg-transparent":
-                              indicator === "dashed",
-                            "my-0.5": nestLabel && indicator === "dashed",
-                          },
-                        )}
-                        style={
-                          {
-                            "--color-bg": indicatorColor,
-                            "--color-border": indicatorColor,
-                          } as React.CSSProperties
-                        }
-                      />
-                    )
-                  )}
+                !hideIndicator && (
                   <div
                     className={cn(
-                      "flex flex-1 justify-between leading-none",
-                      nestLabel ? "items-end" : "items-center",
+                      "shrink-0 rounded-[2px] border-(--color-border) bg-(--color-bg)",
+                      {
+                        "h-2.5 w-2.5": indicator === "dot",
+                        "w-1": indicator === "line",
+                        "w-0 border-[1.5px] border-dashed bg-transparent":
+                          indicator === "dashed",
+                        "my-0.5": nestLabel && indicator === "dashed",
+                      },
                     )}
-                  >
-                    <div className="grid gap-1.5">
-                      {nestLabel ? tooltipLabel : null}
-                      <span className="text-muted-foreground">
-                        {itemConfig?.label || item.name}
-                      </span>
-                    </div>
-                    {item.value && (
-                      <span className="text-foreground font-mono font-medium tabular-nums">
-                        {item.value.toLocaleString()}
-                      </span>
-                    )}
-                  </div>
-                </>
+                    style={
+                      {
+                        "--color-bg": indicatorColor,
+                        "--color-border": indicatorColor,
+                      } as React.CSSProperties
+                    }
+                  />
+                )
               )}
+              {/* Value and key in two columns */}
+              <span className="text-foreground font-mono font-medium tabular-nums">
+                {typeof value === "string" || typeof value === "number"
+                  ? value
+                  : typeof value === "bigint"
+                    ? value.toString()
+                    : ""}
+              </span>
+              <span className="text-muted-foreground">
+                {typeof name === "string" || typeof name === "number"
+                  ? name
+                  : typeof name === "bigint"
+                    ? name.toString()
+                    : itemConfig?.label || item.name || ""}
+              </span>
             </div>
           );
         })}

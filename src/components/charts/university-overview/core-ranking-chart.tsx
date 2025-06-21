@@ -181,7 +181,7 @@ export function COREankingChart({
                 content={
                   <ChartTooltipContent
                     formatter={(value: unknown) => [
-                      `${value as number} publications`,
+                      String(value),
                       "Publications",
                     ]}
                     labelFormatter={(label: string) => `CORE Ranking: ${label}`}

@@ -64,8 +64,8 @@ export function ChatInput({
       {showPresets && presetQuestions.length > 0 && (
         <div className="space-y-3">
           <div className="flex items-center gap-2">
-            <Sparkles className="h-4 w-4 text-muted-foreground" />
-            <span className="text-sm font-medium text-muted-foreground">
+            <Sparkles className="text-muted-foreground h-4 w-4" />
+            <span className="text-muted-foreground text-sm font-medium">
               Quick questions
             </span>
           </div>
@@ -75,11 +75,13 @@ export function ChatInput({
                 key={index}
                 variant="outline"
                 className={cn(
-                  "cursor-pointer transition-all hover:bg-primary/10 hover:border-primary/50",
-                  "text-xs py-1 px-2 rounded-full border-dashed",
-                  isLoading && "opacity-50 cursor-not-allowed"
+                  "hover:bg-primary/10 hover:border-primary/50 cursor-pointer transition-all",
+                  "rounded-full border-dashed px-2 py-1 text-xs",
+                  isLoading && "cursor-not-allowed opacity-50",
                 )}
-                onClick={() => !isLoading && handleQuestionSelect(preset.question)}
+                onClick={() =>
+                  !isLoading && handleQuestionSelect(preset.question)
+                }
               >
                 {preset.label}
               </Badge>
@@ -100,10 +102,10 @@ export function ChatInput({
             placeholder={placeholder}
             disabled={isLoading}
             className={cn(
-              "pr-12 rounded-full transition-all duration-200",
-              "focus:ring-2 focus:ring-primary/20 focus:border-primary/50",
+              "rounded-full pr-12 transition-all duration-200",
+              "focus:ring-primary/20 focus:border-primary/50 focus:ring-2",
               isFocused && "shadow-md",
-              isLoading && "opacity-75"
+              isLoading && "opacity-75",
             )}
           />
           <Button
@@ -111,24 +113,24 @@ export function ChatInput({
             disabled={isLoading || !input.trim()}
             size="sm"
             className={cn(
-              "absolute right-1 top-1/2 -translate-y-1/2",
+              "absolute top-1/2 right-1 -translate-y-1/2",
               "h-8 w-8 rounded-full p-0 transition-all",
-              "disabled:opacity-50 disabled:cursor-not-allowed",
+              "disabled:cursor-not-allowed disabled:opacity-50",
               input.trim() && !isLoading
                 ? "bg-primary hover:bg-primary/90 text-primary-foreground"
-                : "bg-muted hover:bg-muted/80 text-muted-foreground"
+                : "bg-muted hover:bg-muted/80 text-muted-foreground",
             )}
           >
             <Send className="h-3.5 w-3.5" />
           </Button>
         </div>
-        
+
         {/* Input hint */}
-        <div className="flex items-center justify-between text-xs text-muted-foreground px-1">
+        <div className="text-muted-foreground flex items-center justify-between px-1 text-xs">
           <span>Press Enter to send</span>
           {input.length > 0 && (
             <span className="text-right">
-              {input.length} character{input.length !== 1 ? 's' : ''}
+              {input.length} character{input.length !== 1 ? "s" : ""}
             </span>
           )}
         </div>

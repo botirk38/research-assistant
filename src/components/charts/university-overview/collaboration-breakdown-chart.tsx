@@ -190,16 +190,16 @@ export function CollaborationBreakdownChart({
                     formatter={(
                       value: string | number | (string | number)[] | undefined,
                     ) => {
+                      let displayValue = "0";
                       if (
                         typeof value === "number" ||
                         typeof value === "string"
                       ) {
-                        return `${value} papers`;
+                        displayValue = String(value);
+                      } else if (Array.isArray(value) && value.length > 0) {
+                        displayValue = String(value[0]);
                       }
-                      if (Array.isArray(value) && value.length > 0) {
-                        return `${value[0]} papers`;
-                      }
-                      return "0 papers";
+                      return [displayValue, "Papers"];
                     }}
                     labelFormatter={(label: string | number) =>
                       `Department: ${label}`

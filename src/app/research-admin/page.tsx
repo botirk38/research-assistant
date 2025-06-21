@@ -2,50 +2,53 @@
 
 import React, { useState, useMemo } from "react";
 import type { DateRange } from "react-day-picker";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { DatePickerWithRange } from "@/components/date-range-picker";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-} from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import type { UniversityOverviewData } from "./_dashboard-sections/university-overview-section";
 
-// Import shared chart components
-import {
-  UniversityOverviewChart,
-  REFScoreDistributionChart,
-  InterdisciplinaryBreakdownChart,
-  COREankingChart,
-  DepartmentREFBreakdownChart,
-  CollaborationBreakdownChart,
-  ResearcherQualityChart,
-  ComparisonTrends,
-  DepartmentKPIChart,
-} from "@/components/charts";
+import { DashboardHeader } from "./_components/dashboard-header";
+import { DashboardFilters } from "./_components/dashboard-filters";
 
-// Mock data
-const mockUniversityOverviewData = [
-  { metric: "Publications", current: 1250, previous: 1180 },
-  { metric: "Avg REF Score", current: 3.2, previous: 3.1 },
-  { metric: "Interdisciplinary", current: 340, previous: 295 },
-];
+// Section components
+import { UniversityOverviewSection } from "./_dashboard-sections/university-overview-section";
+import ResearchQualitySection from "./_dashboard-sections/research-quality-section";
+import { DepartmentPerformanceSection } from "./_dashboard-sections/department-performance-section";
+import { TrendsAnalyticsSection } from "./_dashboard-sections/trends-analytics-section";
+
+import {
+  School,
+  Laptop,
+  Hammer,
+  FlaskConical,
+  Stethoscope,
+  Briefcase,
+} from "lucide-react";
 
 const mockSchools = [
-  "All Schools",
-  "School of Computer Science",
-  "School of Engineering",
-  "School of Natural Sciences",
-  "School of Medicine",
-  "School of Business",
+  { label: "All Schools", value: "All Schools", icon: School },
+  {
+    label: "School of Computer Science",
+    value: "School of Computer Science",
+    icon: Laptop,
+  },
+  {
+    label: "School of Engineering",
+    value: "School of Engineering",
+    icon: Hammer,
+  },
+  {
+    label: "School of Natural Sciences",
+    value: "School of Natural Sciences",
+    icon: FlaskConical,
+  },
+  {
+    label: "School of Medicine",
+    value: "School of Medicine",
+    icon: Stethoscope,
+  },
+  {
+    label: "School of Business",
+    value: "School of Business",
+    icon: Briefcase,
+  },
 ];
 
 const mockREFData = [
@@ -181,6 +184,101 @@ const mockCollaborationData = [
   },
 ];
 
+const mockOverviewData = [
+  {
+    metric: "Publications",
+    current: 520,
+    previous: 480,
+    school: "All Schools",
+  },
+  { metric: "Citations", current: 3200, previous: 2950, school: "All Schools" },
+  {
+    metric: "REF 4* Outputs",
+    current: 125,
+    previous: 110,
+    school: "All Schools",
+  },
+  {
+    metric: "Collaborations",
+    current: 210,
+    previous: 180,
+    school: "All Schools",
+  },
+  {
+    metric: "Publications",
+    current: 120,
+    previous: 100,
+    school: "School of Computer Science",
+  },
+  {
+    metric: "Citations",
+    current: 800,
+    previous: 700,
+    school: "School of Computer Science",
+  },
+  {
+    metric: "REF 4* Outputs",
+    current: 40,
+    previous: 35,
+    school: "School of Computer Science",
+  },
+  {
+    metric: "Collaborations",
+    current: 60,
+    previous: 50,
+    school: "School of Computer Science",
+  },
+  {
+    metric: "Publications",
+    current: 90,
+    previous: 85,
+    school: "School of Engineering",
+  },
+  {
+    metric: "Citations",
+    current: 600,
+    previous: 550,
+    school: "School of Engineering",
+  },
+  {
+    metric: "REF 4* Outputs",
+    current: 30,
+    previous: 28,
+    school: "School of Engineering",
+  },
+  {
+    metric: "Collaborations",
+    current: 45,
+    previous: 40,
+    school: "School of Engineering",
+  },
+  {
+    metric: "Publications",
+    current: 80,
+    previous: 75,
+    school: "School of Natural Sciences",
+  },
+  {
+    metric: "Citations",
+    current: 500,
+    previous: 480,
+    school: "School of Natural Sciences",
+  },
+  {
+    metric: "REF 4* Outputs",
+    current: 25,
+    previous: 22,
+    school: "School of Natural Sciences",
+  },
+  {
+    metric: "Collaborations",
+    current: 40,
+    previous: 35,
+    school: "School of Natural Sciences",
+  },
+  // Add more schools as needed
+];
+
 export default function ResearchAdminDashboard() {
   const [dateRange, setDateRange] = useState<DateRange | undefined>({
     from: new Date(2024, 0, 1),
@@ -202,91 +300,51 @@ export default function ResearchAdminDashboard() {
     };
   }, [selectedSchool]);
 
+  // Filter overview data and metrics based on selected school
+  const filteredOverviewData = React.useMemo<UniversityOverviewData[]>(() => {
+    if (selectedSchool === "All Schools") {
+      // Aggregate by metric
+      const metricMap = new Map<string, UniversityOverviewData>();
+      for (const item of mockOverviewData) {
+        const key = item.metric;
+        if (!metricMap.has(key)) {
+          metricMap.set(key, { ...item, current: 0, previous: 0 });
+        }
+        const agg = metricMap.get(key)!;
+        agg.current += item.current;
+        agg.previous += item.previous;
+      }
+      return Array.from(metricMap.values());
+    }
+    // Specific school
+    return mockOverviewData.filter((item) => item.school === selectedSchool);
+  }, [selectedSchool]);
+
   return (
     <div className="bg-background min-h-screen">
       <div className="container mx-auto space-y-12 px-6 py-8">
         {/* Header Section */}
         <div className="space-y-4">
-          <div className="flex items-center justify-between">
-            <div className="space-y-2">
-              <h1 className="text-4xl font-bold tracking-tight">
-                Research Performance Dashboard
-              </h1>
-              <p className="text-muted-foreground text-xl">
-                University-wide research metrics and analytics
-              </p>
-            </div>
-            <Badge variant="outline" className="px-4 py-2 text-lg">
-              Research Admin
-            </Badge>
-          </div>
-
-          {/* Filters Section */}
-          <Card className="bg-muted/20 border-0">
-            <CardHeader className="pb-4">
-              <CardTitle className="text-lg font-semibold">
-                Dashboard Filters
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-                <div className="space-y-3">
-                  <label className="text-muted-foreground text-sm font-medium">
-                    Time Period
-                  </label>
-                  <DatePickerWithRange
-                    value={dateRange}
-                    onChange={setDateRange}
-                  />
-                </div>
-                <div className="space-y-3">
-                  <label className="text-muted-foreground text-sm font-medium">
-                    School Filter
-                  </label>
-                  <Select
-                    value={selectedSchool}
-                    onValueChange={setSelectedSchool}
-                  >
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {mockSchools.map((school) => (
-                        <SelectItem key={school} value={school}>
-                          {school}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+          <DashboardHeader />
+          <DashboardFilters
+            dateRange={dateRange}
+            onDateRangeChange={setDateRange}
+            selectedSchool={selectedSchool}
+            onSchoolChange={setSelectedSchool}
+            schools={mockSchools}
+          />
         </div>
 
         {/* Overview Section */}
-        <section className="space-y-6">
-          <div className="space-y-2">
-            <h2 className="text-3xl font-semibold">University Overview</h2>
-            <p className="text-muted-foreground text-lg">
-              Key performance indicators across all research activities
-            </p>
-          </div>
-          <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
-            <UniversityOverviewChart
-              data={mockUniversityOverviewData}
-              dateRange={dateRange}
-              schoolFilter={selectedSchool}
-              className="border-0 shadow-sm"
-            />
-            <REFScoreDistributionChart
-              data={mockREFData}
-              dateRange={dateRange}
-              schoolFilter={selectedSchool}
-              className="border-0 shadow-sm"
-            />
-          </div>
-        </section>
+        <UniversityOverviewSection
+          overviewData={filteredOverviewData}
+          refScoreData={mockREFData}
+          interdisciplinaryData={mockInterdisciplinaryData}
+          coreRankingData={mockCOREData}
+          collaborationData={mockCollaborationData}
+          dateRange={dateRange}
+          schoolFilter={selectedSchool}
+        />
 
         {/* Section Divider */}
         <div className="relative py-8">
@@ -301,34 +359,10 @@ export default function ResearchAdminDashboard() {
         </div>
 
         {/* Research Quality Section */}
-        <section className="space-y-6">
-          <div className="space-y-2">
-            <h2 className="text-3xl font-semibold">
-              Research Quality & Rankings
-            </h2>
-            <p className="text-muted-foreground text-lg">
-              Publication quality metrics and conference/journal rankings
-            </p>
-          </div>
-          <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
-            <COREankingChart
-              data={mockCOREData}
-              dateRange={dateRange}
-              schoolFilter={selectedSchool}
-              className="border-0 shadow-sm"
-            />
-            <Card className="border-0 shadow-sm">
-              <CardHeader className="pb-4">
-                <CardTitle className="text-lg font-semibold">
-                  Researcher Quality Distribution
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ResearcherQualityChart />
-              </CardContent>
-            </Card>
-          </div>
-        </section>
+        <ResearchQualitySection
+          refScoreData={mockREFData}
+          coreRankingData={mockCOREData}
+        />
 
         {/* Section Divider */}
         <div className="relative py-8">
@@ -343,36 +377,13 @@ export default function ResearchAdminDashboard() {
         </div>
 
         {/* Department Performance Section */}
-        <section className="space-y-6">
-          <div className="space-y-2">
-            <h2 className="text-3xl font-semibold">Department Performance</h2>
-            <p className="text-muted-foreground text-lg">
-              Departmental research metrics and collaboration patterns
-            </p>
-          </div>
-          <div className="space-y-8">
-            <InterdisciplinaryBreakdownChart
-              data={filteredData.interdisciplinary}
-              dateRange={dateRange}
-              schoolFilter={selectedSchool}
-              className="border-0 shadow-sm"
-            />
-            <div className="grid grid-cols-1 gap-8 xl:grid-cols-2">
-              <DepartmentREFBreakdownChart
-                data={filteredData.departmentREF}
-                dateRange={dateRange}
-                schoolFilter={selectedSchool}
-                className="border-0 shadow-sm"
-              />
-              <CollaborationBreakdownChart
-                data={filteredData.collaboration}
-                dateRange={dateRange}
-                schoolFilter={selectedSchool}
-                className="border-0 shadow-sm"
-              />
-            </div>
-          </div>
-        </section>
+        <DepartmentPerformanceSection
+          interdisciplinaryData={filteredData.interdisciplinary}
+          departmentREFData={filteredData.departmentREF}
+          collaborationData={filteredData.collaboration}
+          dateRange={dateRange}
+          schoolFilter={selectedSchool}
+        />
 
         {/* Section Divider */}
         <div className="relative py-8">
@@ -387,80 +398,7 @@ export default function ResearchAdminDashboard() {
         </div>
 
         {/* Trends & Analytics Section */}
-        <section className="space-y-6">
-          <div className="space-y-2">
-            <h2 className="text-3xl font-semibold">Trends & Analytics</h2>
-            <p className="text-muted-foreground text-lg">
-              Historical performance trends and key performance indicators
-            </p>
-          </div>
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4">
-            <Card className="border-0 shadow-sm">
-              <CardHeader className="pb-4">
-                <CardTitle className="text-lg font-semibold">
-                  Publications Trend
-                </CardTitle>
-                <CardDescription>
-                  Track publications over the selected period
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <ComparisonTrends metric="publications" />
-              </CardContent>
-            </Card>
-            <Card className="border-0 shadow-sm">
-              <CardHeader className="pb-4">
-                <CardTitle className="text-lg font-semibold">
-                  REF Scores Trend
-                </CardTitle>
-                <CardDescription>
-                  Track REF scores over the selected period
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <ComparisonTrends metric="ref" />
-              </CardContent>
-            </Card>
-            <Card className="border-0 shadow-sm">
-              <CardHeader className="pb-4">
-                <CardTitle className="text-lg font-semibold">
-                  Interdisciplinary Trend
-                </CardTitle>
-                <CardDescription>
-                  Track interdisciplinary research over time
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <ComparisonTrends metric="interdisciplinary" />
-              </CardContent>
-            </Card>
-            <Card className="border-0 shadow-sm">
-              <CardHeader className="pb-4">
-                <CardTitle className="text-lg font-semibold">
-                  Collaborations Trend
-                </CardTitle>
-                <CardDescription>
-                  Track collaborations over time
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <ComparisonTrends metric="collaborations" />
-              </CardContent>
-            </Card>
-          </div>
-          <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
-            <Card className="border-0 shadow-sm">
-              <CardHeader className="pb-4">
-                <CardTitle className="text-lg font-semibold">
-                  Department KPI Summary
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <DepartmentKPIChart />
-              </CardContent>
-            </Card>
-          </div>
-        </section>
+        <TrendsAnalyticsSection />
 
         {/* Footer spacing */}
         <div className="h-12" />

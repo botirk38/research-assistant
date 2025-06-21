@@ -51,11 +51,23 @@ export function REFScoreDistributionChart({
   data,
   dateRange,
   schoolFilter,
-  title = "University Wide Overview - REF (Quantity in Each REF Score)",
-  description = "Distribution of research outputs across different REF scores",
+  title,
+  description,
   className,
   loading = false,
 }: REFScoreDistributionChartProps) {
+  // Dynamic title/description based on schoolFilter if not provided
+  const dynamicTitle =
+    title ??
+    (!schoolFilter || schoolFilter === "All Schools"
+      ? "REF Score Distribution"
+      : `${schoolFilter} REF Score Distribution`);
+  const dynamicDescription =
+    description ??
+    (!schoolFilter || schoolFilter === "All Schools"
+      ? "Distribution of research outputs across different REF scores"
+      : `Distribution of research outputs across different REF scores for ${schoolFilter}`);
+
   const filteredData = useMemo(() => {
     let processedData = [...data];
 
@@ -113,8 +125,10 @@ export function REFScoreDistributionChart({
     return (
       <Card className={className}>
         <CardHeader>
-          <CardTitle className="text-sm font-medium">{title}</CardTitle>
-          {description && <CardDescription>{description}</CardDescription>}
+          <CardTitle className="text-sm font-medium">{dynamicTitle}</CardTitle>
+          {dynamicDescription && (
+            <CardDescription>{dynamicDescription}</CardDescription>
+          )}
         </CardHeader>
         <CardContent>
           <div className="flex h-64 w-full items-center justify-center">
@@ -130,8 +144,10 @@ export function REFScoreDistributionChart({
   return (
     <Card className={className}>
       <CardHeader>
-        <CardTitle className="text-sm font-medium">{title}</CardTitle>
-        {description && <CardDescription>{description}</CardDescription>}
+        <CardTitle className="text-sm font-medium">{dynamicTitle}</CardTitle>
+        {dynamicDescription && (
+          <CardDescription>{dynamicDescription}</CardDescription>
+        )}
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig} className="h-64 w-full">
@@ -168,7 +184,7 @@ export function REFScoreDistributionChart({
                       } else if (Array.isArray(value) && value.length > 0) {
                         displayValue = String(value[0]);
                       }
-                      return [`${displayValue} publications`, "Publications"];
+                      return [String(displayValue), "Publications"];
                     }}
                     labelFormatter={(label: string | number) =>
                       `REF Score: ${label}`

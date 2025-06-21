@@ -218,7 +218,7 @@ export function DepartmentREFBreakdownChart({
                       }
                       const displayName = name ? String(name) : "";
                       return [
-                        `${displayValue} publications`,
+                        String(displayValue),
                         chartConfig[displayName as keyof typeof chartConfig]
                           ?.label || displayName,
                       ];

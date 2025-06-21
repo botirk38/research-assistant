@@ -9,6 +9,13 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+} from "@/components/ui/card";
 
 const data = [
   { quartile: "Q1", percentage: 42 },
@@ -19,40 +26,42 @@ const data = [
 
 export function ResearcherQualityChart() {
   return (
-    <div>
-      <div className="flex flex-col space-y-1.5">
-        <h3 className="text-foreground leading-none font-semibold tracking-tight">
+    <Card>
+      <CardHeader>
+        <CardTitle className="text-foreground leading-none font-semibold tracking-tight">
           Researcher Quality Outputs
-        </h3>
-        <p className="text-muted-foreground text-sm">
+        </CardTitle>
+        <CardDescription>
           % of Eligible Researchers in High Quality Outputs
-        </p>
-      </div>
-      <div className="mt-4 h-[300px]">
-        <ResponsiveContainer width="100%" height="100%">
-          <BarChart
-            data={data}
-            margin={{
-              top: 5,
-              right: 30,
-              left: 20,
-              bottom: 5,
-            }}
-          >
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="quartile" />
-            <YAxis />
-            <Tooltip
-              formatter={(value) => [`${Number(value)}%`, "Percentage"]}
-              labelFormatter={(label) => `Quartile ${label}`}
-            />
-            <Bar dataKey="percentage" fill="var(--chart-1)" />
-          </BarChart>
-        </ResponsiveContainer>
-      </div>
-      <div className="text-muted-foreground mt-2 text-sm">
-        <p>How Many Publications in Each Quartile</p>
-      </div>
-    </div>
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <div className="mt-2 h-[300px]">
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart
+              data={data}
+              margin={{
+                top: 5,
+                right: 30,
+                left: 20,
+                bottom: 5,
+              }}
+            >
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="quartile" />
+              <YAxis />
+              <Tooltip
+                formatter={(value) => [`${Number(value)}%`, "Percentage"]}
+                labelFormatter={(label) => `Quartile ${label}`}
+              />
+              <Bar dataKey="percentage" fill="var(--chart-1)" />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+        <div className="text-muted-foreground mt-2 text-sm">
+          <p>How Many Publications in Each Quartile</p>
+        </div>
+      </CardContent>
+    </Card>
   );
 }

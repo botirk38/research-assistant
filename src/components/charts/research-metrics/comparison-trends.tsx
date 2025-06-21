@@ -1,13 +1,10 @@
 "use client";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid } from "recharts";
 import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-} from "recharts";
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "@/components/ui/chart";
 
 const data = [
   {
@@ -72,33 +69,41 @@ interface ComparisonTrendsProps {
   metric: keyof typeof metricConfig;
 }
 
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+} from "@/components/ui/card";
+
 export function ComparisonTrends({ metric }: ComparisonTrendsProps) {
   const config = metricConfig[metric];
   return (
-    <div>
-      <div className="mb-4 flex flex-col space-y-1.5">
-        <h3 className="text-foreground leading-none font-semibold tracking-tight">
+    <Card className="flex h-full flex-col shadow-sm">
+      <CardHeader>
+        <CardTitle className="text-lg font-semibold">
           {config.label} Trend
-        </h3>
-        <p className="text-muted-foreground text-sm">Time Range Analysis</p>
-      </div>
-      <div className="h-[250px]">
-        <ResponsiveContainer width="100%" height="100%">
+        </CardTitle>
+        <CardDescription>Time Range Analysis</CardDescription>
+      </CardHeader>
+      <CardContent className="h-full flex-1">
+        <ChartContainer config={metricConfig} className="h-full w-full">
           <LineChart data={data}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="month" />
             <YAxis />
-            <Tooltip />
+            <ChartTooltip content={<ChartTooltipContent />} />
             <Line
               type="monotone"
               dataKey={metric}
-              stroke={config.color}
+              stroke={`var(--color-${metric})`}
               activeDot={{ r: 8 }}
             />
           </LineChart>
-        </ResponsiveContainer>
-      </div>
-    </div>
+        </ChartContainer>
+      </CardContent>
+    </Card>
   );
 }
 

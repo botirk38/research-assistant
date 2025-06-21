@@ -167,10 +167,7 @@ export function InterdisciplinaryBreakdownChart({
                       } else if (Array.isArray(value) && value.length > 0) {
                         displayValue = String(value[0]);
                       }
-                      return [
-                        `${typeof displayValue === "string" || typeof displayValue === "number" ? displayValue : ""} papers`,
-                        "Interdisciplinary Papers",
-                      ];
+                      return [String(displayValue), "Interdisciplinary Papers"];
                     }}
                     labelFormatter={(label: string) => `Department: ${label}`}
                   />

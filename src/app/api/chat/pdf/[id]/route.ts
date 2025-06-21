@@ -67,7 +67,9 @@ async function searchPDF(
     const chunks = await createTextChunks(documents);
     const vectorStore = await createVectorStore(chunks);
 
-    const results = await (vectorStore as VectorStoreWithSearch).similaritySearch(query, 3);
+    const results = await (
+      vectorStore as VectorStoreWithSearch
+    ).similaritySearch(query, 3);
 
     return results.map((doc: Document, i: number) => ({
       content: doc.pageContent,

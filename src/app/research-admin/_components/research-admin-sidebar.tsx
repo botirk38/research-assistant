@@ -1,91 +1,160 @@
+"use client";
+
+import { Avatar } from "@/components/ui/avatar";
 import {
   Sidebar,
-  SidebarHeader,
   SidebarContent,
   SidebarGroup,
-  SidebarGroupLabel,
+  SidebarGroupContent,
   SidebarMenu,
+  SidebarMenuButton,
   SidebarMenuItem,
-  SidebarFooter,
   SidebarSeparator,
+  useSidebar,
 } from "@/components/ui/sidebar";
-import { usePathname } from "next/navigation";
-import { cn } from "@/lib/utils";
-import { Home, Users, FileText, Settings, BarChart2 } from "lucide-react";
 import Link from "next/link";
+import { ModeToggle } from "@/components/mode-toggle";
+import { usePathname } from "next/navigation";
+import { Home, Users, FileText, Settings, BarChart2 } from "lucide-react";
 
 export function ResearchAdminSidebar() {
+  const { open: openDesktop, openMobile } = useSidebar?.() ?? {
+    openDesktop: true,
+    openMobile: false,
+  };
+  const open = openDesktop || openMobile;
   const pathname = usePathname();
 
-  // Define sidebar menu items for the research admin role
-  const menuItems = [
+  const navItems = [
     {
+      icon: Home,
       label: "Dashboard",
-      icon: <Home className="h-4 w-4" />,
       href: "/research-admin",
       active: pathname === "/research-admin",
     },
     {
+      icon: Users,
       label: "Researchers",
-      icon: <Users className="h-4 w-4" />,
       href: "/research-admin/researchers",
       active: pathname.startsWith("/research-admin/researchers"),
     },
     {
+      icon: FileText,
       label: "Submissions",
-      icon: <FileText className="h-4 w-4" />,
       href: "/research-admin/submissions",
       active: pathname.startsWith("/research-admin/submissions"),
     },
     {
+      icon: BarChart2,
       label: "Reports",
-      icon: <BarChart2 className="h-4 w-4" />,
       href: "/research-admin/reports",
       active: pathname.startsWith("/research-admin/reports"),
     },
     {
+      icon: Settings,
       label: "Settings",
-      icon: <Settings className="h-4 w-4" />,
       href: "/research-admin/settings",
       active: pathname.startsWith("/research-admin/settings"),
     },
   ];
 
   return (
-    <Sidebar>
-      <SidebarHeader>
-        <span className="text-lg font-bold tracking-tight">Research Admin</span>
-      </SidebarHeader>
+    <Sidebar className="bg-sidebar text-sidebar-foreground">
       <SidebarContent>
-        <SidebarGroup>
-          <SidebarGroupLabel>Main</SidebarGroupLabel>
-          <SidebarMenu>
-            {menuItems.map((item) => (
-              <SidebarMenuItem
-                key={item.label}
-                className={cn(
-                  "flex items-center gap-2",
-                  item.active && "bg-muted text-primary",
-                )}
+        {/* Logo area */}
+        <div className="border-sidebar-border flex h-16 items-center border-b px-4">
+          {open ? (
+            <div className="flex items-center">
+              <Link
+                className="font-display text-sidebar-foreground ml-3 flex items-center gap-x-3 font-semibold"
+                href="/research-admin"
               >
-                <Link
-                  href={item.href}
-                  className="flex h-full w-full items-center gap-2"
-                >
-                  {item.icon}
-                  <span>{item.label}</span>
-                </Link>
-              </SidebarMenuItem>
-            ))}
-          </SidebarMenu>
+                <span className="text-xl font-bold">RA</span>
+                Research Admin
+              </Link>
+            </div>
+          ) : (
+            <div className="bg-sidebar-primary font-display text-sidebar-primary-foreground mx-auto flex h-10 w-10 items-center justify-center rounded-lg font-bold">
+              RA
+            </div>
+          )}
+        </div>
+
+        {/* User profile */}
+        <div
+          className={`border-sidebar-border border-b px-4 py-4 ${
+            !open && "flex justify-center"
+          }`}
+        >
+          {open ? (
+            <div className="flex items-center">
+              <Avatar className="border-sidebar-primary/20 h-10 w-10 border-2">
+                <div className="bg-sidebar-accent text-sidebar-accent-foreground flex h-full w-full items-center justify-center font-medium">
+                  AD
+                </div>
+              </Avatar>
+              <div className="ml-3">
+                <div className="text-sidebar-foreground font-medium">
+                  Admin User
+                </div>
+                <div className="text-sidebar-foreground/70 text-xs">
+                  Research Admin
+                </div>
+              </div>
+            </div>
+          ) : (
+            <Avatar className="border-sidebar-primary/20 h-10 w-10 border-2">
+              <div className="bg-sidebar-accent text-sidebar-accent-foreground flex h-full w-full items-center justify-center font-medium">
+                AD
+              </div>
+            </Avatar>
+          )}
+        </div>
+
+        {/* Navigation */}
+        <SidebarGroup>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {navItems.map((item) => (
+                <SidebarMenuItem key={item.label}>
+                  <SidebarMenuButton asChild isActive={item.active}>
+                    <a
+                      href={item.href}
+                      className="hover:text-sidebar-primary transition-colors duration-200"
+                    >
+                      <item.icon
+                        className={`h-5 w-5 ${
+                          item.active
+                            ? "text-sidebar-primary"
+                            : "text-sidebar-foreground/70"
+                        }`}
+                      />
+                      {open && <span className="ml-3">{item.label}</span>}
+                    </a>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
         </SidebarGroup>
         <SidebarSeparator />
+        <SidebarGroup className="mt-auto">
+          <SidebarGroupContent>
+            <SidebarMenu className="flex-row items-center justify-between">
+              <SidebarMenuItem>
+                <Avatar className="border-sidebar-primary/20 h-10 w-10 border-2">
+                  <div className="bg-sidebar-accent text-sidebar-accent-foreground flex h-full w-full items-center justify-center font-medium">
+                    AD
+                  </div>
+                </Avatar>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <ModeToggle />
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter>
-        <span className="text-muted-foreground text-xs">
-          &copy; {new Date().getFullYear()} Research Admin
-        </span>
-      </SidebarFooter>
     </Sidebar>
   );
 }

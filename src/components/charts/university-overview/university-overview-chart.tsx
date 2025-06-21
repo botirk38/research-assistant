@@ -1,13 +1,26 @@
 "use client";
 
 import React, { useMemo } from "react";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from "recharts";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  ResponsiveContainer,
+} from "recharts";
 import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import type { DateRange } from "react-day-picker";
 import { filterDataByDateRange } from "../utils";
 
@@ -43,11 +56,22 @@ export function UniversityOverviewChart({
   data,
   dateRange,
   schoolFilter,
-  title = "University Overview Metrics",
-  description = "Key performance indicators for the selected period",
+  title,
+  description,
   className,
   loading = false,
 }: UniversityOverviewChartProps) {
+  // Dynamic title/description based on schoolFilter if not provided
+  const dynamicTitle =
+    title ??
+    (!schoolFilter || schoolFilter === "All Schools"
+      ? "University Overview Metrics"
+      : `${schoolFilter} Overview Metrics`);
+  const dynamicDescription =
+    description ??
+    (!schoolFilter || schoolFilter === "All Schools"
+      ? "Key performance indicators for the selected period"
+      : `Key performance indicators for ${schoolFilter} in the selected period`);
   const filteredData = useMemo(() => {
     let processedData = [...data];
 
@@ -69,12 +93,12 @@ export function UniversityOverviewChart({
       <Card className={className}>
         <CardHeader>
           <div className="space-y-2">
-            <div className="h-4 w-3/4 bg-muted animate-pulse rounded" />
-            <div className="h-3 w-1/2 bg-muted animate-pulse rounded" />
+            <div className="bg-muted h-4 w-3/4 animate-pulse rounded" />
+            <div className="bg-muted h-3 w-1/2 animate-pulse rounded" />
           </div>
         </CardHeader>
         <CardContent>
-          <div className="h-64 w-full bg-muted animate-pulse rounded" />
+          <div className="bg-muted h-64 w-full animate-pulse rounded" />
         </CardContent>
       </Card>
     );
@@ -84,8 +108,12 @@ export function UniversityOverviewChart({
     return (
       <Card className={className}>
         <CardHeader>
-          <CardTitle className="text-lg font-semibold">{title}</CardTitle>
-          {description && <CardDescription>{description}</CardDescription>}
+          <CardTitle className="text-lg font-semibold">
+            {dynamicTitle}
+          </CardTitle>
+          {dynamicDescription && (
+            <CardDescription>{dynamicDescription}</CardDescription>
+          )}
         </CardHeader>
         <CardContent>
           <div className="flex h-64 w-full items-center justify-center">
@@ -101,8 +129,10 @@ export function UniversityOverviewChart({
   return (
     <Card className={className}>
       <CardHeader className="pb-4">
-        <CardTitle className="text-lg font-semibold">{title}</CardTitle>
-        {description && <CardDescription>{description}</CardDescription>}
+        <CardTitle className="text-lg font-semibold">{dynamicTitle}</CardTitle>
+        {dynamicDescription && (
+          <CardDescription>{dynamicDescription}</CardDescription>
+        )}
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig} className="h-64 w-full">
@@ -132,8 +162,11 @@ export function UniversityOverviewChart({
                 content={
                   <ChartTooltipContent
                     formatter={(value, name) => [
-                      typeof value === 'number' ? value.toLocaleString() : value,
-                      chartConfig[name as keyof typeof chartConfig]?.label || name
+                      typeof value === "number"
+                        ? value.toLocaleString()
+                        : String(value),
+                      chartConfig[name as keyof typeof chartConfig]?.label ||
+                        String(name),
                     ]}
                     labelFormatter={(label) => `${label}`}
                   />

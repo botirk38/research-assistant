@@ -1,12 +1,20 @@
 "use client";
 
 import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+} from "@/components/ui/card";
+import {
   BarChart,
   Bar,
   XAxis,
   YAxis,
   CartesianGrid,
   ResponsiveContainer,
+  Legend,
 } from "recharts";
 
 import {
@@ -14,7 +22,6 @@ import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-  ChartLegend,
 } from "@/components/ui/chart";
 
 const data = [
@@ -63,73 +70,69 @@ const chartConfig = {
 
 export function DepartmentKPIChart() {
   return (
-    <div>
-      <div className="mb-4 flex flex-col space-y-1.5">
-        <h3 className="text-foreground leading-none font-semibold tracking-tight">
-          Department KPI Tracking Chart
-        </h3>
-        <p className="text-muted-foreground text-sm">
-          Performance metrics by department
-        </p>
-      </div>
-
-      <ChartContainer config={chartConfig} className="min-h-[400px]">
-        <ResponsiveContainer width="100%" height="100%">
-          <BarChart
-            data={data}
-            margin={{
-              top: 20,
-              right: 30,
-              left: 20,
-              bottom: 5,
-            }}
-          >
-            <CartesianGrid vertical={false} />
-            <XAxis
-              dataKey="department"
-              tickLine={false}
-              tickMargin={10}
-              axisLine={false}
-            />
-            <YAxis
-              yAxisId="left"
-              orientation="left"
-              stroke="hsl(var(--chart-1))"
-              tickLine={false}
-              axisLine={false}
-            />
-            <YAxis
-              yAxisId="right"
-              orientation="right"
-              stroke="hsl(var(--chart-3))"
-              tickFormatter={(value) => `£${value / 1000000}M`}
-              tickLine={false}
-              axisLine={false}
-            />
-            <ChartTooltip content={<ChartTooltipContent />} />
-            <ChartLegend content={<ChartLegend />} />
-
-            <Bar
-              yAxisId="left"
-              dataKey="publications"
-              fill="var(--color-publications)"
-              radius={4}
-            />
-            <Bar
-              yAxisId="left"
-              dataKey="citations"
-              fill="var(--color-citations)"
-              radius={4}
-            />
-            <Bar
-              yAxisId="right"
-              dataKey="funding"
-              fill="var(--color-funding)"
-              radius={4}
-            />
-          </BarChart>
-        </ResponsiveContainer>
-      </ChartContainer>
-    </div>
+    <Card className="shadow-sm">
+      <CardHeader>
+        <CardTitle>Department KPI Tracking</CardTitle>
+        <CardDescription>Performance metrics by department</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <ChartContainer config={chartConfig} className="min-h-[400px]">
+          <ResponsiveContainer width="100%" height={350}>
+            <BarChart
+              data={data}
+              margin={{
+                top: 20,
+                right: 30,
+                left: 20,
+                bottom: 5,
+              }}
+            >
+              <CartesianGrid vertical={false} />
+              <XAxis
+                dataKey="department"
+                tickLine={false}
+                tickMargin={10}
+                axisLine={false}
+              />
+              <YAxis
+                yAxisId="left"
+                orientation="left"
+                stroke="hsl(var(--chart-1))"
+                tickLine={false}
+                axisLine={false}
+              />
+              <YAxis
+                yAxisId="right"
+                orientation="right"
+                stroke="hsl(var(--chart-3))"
+                tickFormatter={(value) => `£${value / 1000000}M`}
+                tickLine={false}
+                axisLine={false}
+              />
+              <ChartTooltip content={<ChartTooltipContent />} />
+              <Legend />
+              <Bar
+                yAxisId="left"
+                dataKey="publications"
+                fill="hsl(var(--chart-1))"
+                radius={4}
+              />
+              <Bar
+                yAxisId="left"
+                dataKey="citations"
+                fill="hsl(var(--chart-2))"
+                radius={4}
+              />
+              <Bar
+                yAxisId="right"
+                dataKey="funding"
+                fill="hsl(var(--chart-3))"
+                radius={4}
+              />
+            </BarChart>
+          </ResponsiveContainer>
+        </ChartContainer>
+      </CardContent>
+    </Card>
   );
 }

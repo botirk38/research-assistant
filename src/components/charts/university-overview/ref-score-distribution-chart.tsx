@@ -71,21 +71,24 @@ export function REFScoreDistributionChart({
     }
 
     // Aggregate by REF score
-    const aggregated = processedData.reduce((acc, item) => {
-      const existing = acc.find((a) => a.refScore === item.refScore);
-      if (existing) {
-        existing.quantity += item.quantity;
-      } else {
-        acc.push({ refScore: item.refScore, quantity: item.quantity });
-      }
-      return acc;
-    }, [] as REFScoreDistributionData[]);
+    const aggregated = processedData.reduce<REFScoreDistributionData[]>(
+      (acc, item) => {
+        const existing = acc.find((a) => a.refScore === item.refScore);
+        if (existing) {
+          existing.quantity += item.quantity ?? 0;
+        } else {
+          acc.push({ refScore: item.refScore, quantity: item.quantity ?? 0 });
+        }
+        return acc;
+      },
+      [],
+    );
 
     // Sort by REF score order (4*, 3*, 2*, 1*, Unclassified)
     const scoreOrder = ["4*", "3*", "2*", "1*", "Unclassified"];
     return aggregated.sort((a, b) => {
-      const aIndex = scoreOrder.indexOf(a.refScore);
-      const bIndex = scoreOrder.indexOf(b.refScore);
+      const aIndex = scoreOrder.indexOf(a.refScore ?? "");
+      const bIndex = scoreOrder.indexOf(b.refScore ?? "");
       return aIndex - bIndex;
     });
   }, [data, dateRange, schoolFilter]);
@@ -152,11 +155,24 @@ export function REFScoreDistributionChart({
               <ChartTooltip
                 content={
                   <ChartTooltipContent
-                    formatter={(value, name) => [
-                      `${value} publications`,
-                      "Publications",
-                    ]}
-                    labelFormatter={(label) => `REF Score: ${label}`}
+                    formatter={(
+                      value: string | number | (string | number)[] | undefined,
+                      _name?: string | number,
+                    ): [string, string] => {
+                      let displayValue = "0";
+                      if (
+                        typeof value === "number" ||
+                        typeof value === "string"
+                      ) {
+                        displayValue = String(value);
+                      } else if (Array.isArray(value) && value.length > 0) {
+                        displayValue = String(value[0]);
+                      }
+                      return [`${displayValue} publications`, "Publications"];
+                    }}
+                    labelFormatter={(label: string | number) =>
+                      `REF Score: ${label}`
+                    }
                   />
                 }
               />

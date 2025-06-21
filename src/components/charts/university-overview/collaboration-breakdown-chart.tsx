@@ -1,15 +1,29 @@
 "use client";
 
 import React, { useMemo } from "react";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Legend } from "recharts";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  ResponsiveContainer,
+  Legend,
+} from "recharts";
 import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import type { DateRange } from "react-day-picker";
-import { filterDataByDateRange, sortChartData } from "../utils";
+import { filterDataByDateRange } from "../utils";
 
 interface CollaborationData {
   department: string;
@@ -31,11 +45,11 @@ interface CollaborationBreakdownChartProps {
 }
 
 const chartConfig = {
-  "Internal": {
+  Internal: {
     label: "Internal Collaboration",
     color: "var(--chart-1)",
   },
-  "External": {
+  External: {
     label: "External Collaboration",
     color: "var(--chart-2)",
   },
@@ -61,25 +75,39 @@ export function CollaborationBreakdownChart({
 
     // Apply school filter
     if (schoolFilter && schoolFilter !== "All Schools") {
-      processedData = processedData.filter(item => item.school === schoolFilter);
+      processedData = processedData.filter(
+        (item) => item.school === schoolFilter,
+      );
     }
 
     // Group by department and aggregate collaboration types
-    const departmentData = processedData.reduce((acc, item) => {
-      const existing = acc.find(d => d.department === item.department);
-      if (existing) {
-        existing[item.collaborationType] = (existing[item.collaborationType] || 0) + item.quantity;
-        existing.total += item.quantity;
-      } else {
-        acc.push({
-          department: item.department,
-          [item.collaborationType]: item.quantity,
-          total: item.quantity,
-          school: item.school,
-        });
-      }
-      return acc;
-    }, [] as any[]);
+    type DepartmentCollab = {
+      department: string;
+      Internal: number;
+      External: number;
+      total: number;
+      school?: string;
+    };
+    const departmentData: DepartmentCollab[] = processedData.reduce(
+      (acc: DepartmentCollab[], item) => {
+        const existing = acc.find((d) => d.department === item.department);
+        if (existing) {
+          existing[item.collaborationType] =
+            (existing[item.collaborationType] ?? 0) + item.quantity;
+          existing.total += item.quantity;
+        } else {
+          acc.push({
+            department: item.department,
+            Internal: item.collaborationType === "Internal" ? item.quantity : 0,
+            External: item.collaborationType === "External" ? item.quantity : 0,
+            total: item.quantity,
+            school: item.school,
+          });
+        }
+        return acc;
+      },
+      [],
+    );
 
     // Sort by total quantity and limit results
     const sorted = departmentData
@@ -87,10 +115,10 @@ export function CollaborationBreakdownChart({
       .slice(0, maxDepartments);
 
     // Ensure both collaboration types are present for each department
-    return sorted.map(dept => ({
+    return sorted.map((dept) => ({
       ...dept,
-      "Internal": dept["Internal"] || 0,
-      "External": dept["External"] || 0,
+      Internal: dept.Internal ?? 0,
+      External: dept.External ?? 0,
     }));
   }, [data, dateRange, schoolFilter, maxDepartments]);
 
@@ -99,12 +127,12 @@ export function CollaborationBreakdownChart({
       <Card className={className}>
         <CardHeader>
           <div className="space-y-2">
-            <div className="h-4 w-3/4 bg-muted animate-pulse rounded" />
-            <div className="h-3 w-1/2 bg-muted animate-pulse rounded" />
+            <div className="bg-muted h-4 w-3/4 animate-pulse rounded" />
+            <div className="bg-muted h-3 w-1/2 animate-pulse rounded" />
           </div>
         </CardHeader>
         <CardContent>
-          <div className="h-96 w-full bg-muted animate-pulse rounded" />
+          <div className="bg-muted h-96 w-full animate-pulse rounded" />
         </CardContent>
       </Card>
     );
@@ -144,7 +172,10 @@ export function CollaborationBreakdownChart({
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis
                 dataKey="department"
-                tick={{ fontSize: 10, angle: -45, textAnchor: "end" }}
+                tick={{
+                  fontSize: 10,
+                  textAnchor: "end",
+                }}
                 height={80}
                 axisLine={{ stroke: "hsl(var(--border))" }}
                 interval={0}
@@ -156,17 +187,32 @@ export function CollaborationBreakdownChart({
               <ChartTooltip
                 content={
                   <ChartTooltipContent
-                    formatter={(value, name) => [
-                      `${value} papers`,
-                      chartConfig[name as keyof typeof chartConfig]?.label || name
-                    ]}
-                    labelFormatter={(label) => `Department: ${label}`}
+                    formatter={(
+                      value: string | number | (string | number)[] | undefined,
+                    ) => {
+                      if (
+                        typeof value === "number" ||
+                        typeof value === "string"
+                      ) {
+                        return `${value} papers`;
+                      }
+                      if (Array.isArray(value) && value.length > 0) {
+                        return `${value[0]} papers`;
+                      }
+                      return "0 papers";
+                    }}
+                    labelFormatter={(label: string | number) =>
+                      `Department: ${label}`
+                    }
                   />
                 }
               />
               <Legend
                 wrapperStyle={{ paddingTop: "20px" }}
-                formatter={(value) => chartConfig[value as keyof typeof chartConfig]?.label || value}
+                formatter={(value: string | number) =>
+                  chartConfig[String(value) as keyof typeof chartConfig]
+                    ?.label || String(value)
+                }
               />
               <Bar
                 dataKey="Internal"

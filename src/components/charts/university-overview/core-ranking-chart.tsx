@@ -8,16 +8,11 @@ import {
   YAxis,
   CartesianGrid,
   ResponsiveContainer,
-  PieChart,
-  Pie,
-  Cell,
 } from "recharts";
 import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-  ChartLegend,
-  ChartLegendContent,
 } from "@/components/ui/chart";
 import {
   Card,
@@ -28,7 +23,7 @@ import {
 } from "@/components/ui/card";
 
 import type { DateRange } from "react-day-picker";
-import { filterDataByDateRange, getChartColor } from "../utils";
+import { filterDataByDateRange } from "../utils";
 
 interface CORERankings {
   coreRanking: string;
@@ -37,8 +32,8 @@ interface CORERankings {
   date?: string;
 }
 
-interface CORErankingChartProps {
-  data: CORErankings[];
+interface CORERankingChartProps {
+  data: CORERankings[];
   dateRange?: DateRange | undefined;
   schoolFilter?: string;
   title?: string;
@@ -78,9 +73,9 @@ export function COREankingChart({
   description = "Distribution of publications based on CORE ranking of venues",
   className,
   loading = false,
-}: COREankingChartProps) {
+}: CORERankingChartProps) {
   const filteredData = useMemo(() => {
-    let processedData = [...data];
+    let processedData: CORERankings[] = [...data];
 
     // Apply date range filter
     if (dateRange) {
@@ -95,19 +90,22 @@ export function COREankingChart({
     }
 
     // Aggregate by CORE ranking
-    const aggregated = processedData.reduce((acc, item) => {
-      const existing = acc.find((a) => a.coreRanking === item.coreRanking);
-      if (existing) {
-        existing.quantity += item.quantity;
-      } else {
-        acc.push({
-          coreRanking: item.coreRanking,
-          quantity: item.quantity,
-          school: item.school,
-        });
-      }
-      return acc;
-    }, [] as COREankings[]);
+    const aggregated: CORERankings[] = processedData.reduce(
+      (acc: CORERankings[], item) => {
+        const existing = acc.find((a) => a.coreRanking === item.coreRanking);
+        if (existing) {
+          existing.quantity += item.quantity;
+        } else {
+          acc.push({
+            coreRanking: item.coreRanking,
+            quantity: item.quantity,
+            school: item.school,
+          });
+        }
+        return acc;
+      },
+      [],
+    );
 
     // Sort by CORE ranking order (A*, A, B, C, Unranked)
     const rankingOrder = ["A*", "A", "B", "C", "Unranked"];
@@ -139,7 +137,9 @@ export function COREankingChart({
       <Card className={className}>
         <CardHeader>
           <CardTitle className="text-sm font-medium">{title}</CardTitle>
-          {description && <CardDescription>{description}</CardDescription>}
+          {description ? (
+            <CardDescription>{description}</CardDescription>
+          ) : null}
         </CardHeader>
         <CardContent>
           <div className="flex h-80 w-full items-center justify-center">
@@ -156,7 +156,7 @@ export function COREankingChart({
     <Card className={className}>
       <CardHeader className="pb-4">
         <CardTitle className="text-lg font-semibold">{title}</CardTitle>
-        {description && <CardDescription>{description}</CardDescription>}
+        {description ? <CardDescription>{description}</CardDescription> : null}
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig} className="h-64 w-full">
@@ -180,11 +180,11 @@ export function COREankingChart({
               <ChartTooltip
                 content={
                   <ChartTooltipContent
-                    formatter={(value, name) => [
-                      `${value} publications`,
+                    formatter={(value: unknown) => [
+                      `${value as number} publications`,
                       "Publications",
                     ]}
-                    labelFormatter={(label) => `CORE Ranking: ${label}`}
+                    labelFormatter={(label: string) => `CORE Ranking: ${label}`}
                   />
                 }
               />

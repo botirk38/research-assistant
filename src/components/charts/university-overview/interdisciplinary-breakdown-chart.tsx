@@ -22,7 +22,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import type { DateRange } from "react-day-picker";
-import { filterDataByDateRange, sortChartData } from "../utils";
+import { filterDataByDateRange } from "../utils";
 
 interface InterdisciplinaryData {
   department: string;
@@ -60,38 +60,33 @@ export function InterdisciplinaryBreakdownChart({
   maxDepartments = 10,
 }: InterdisciplinaryBreakdownChartProps) {
   const filteredData = useMemo(() => {
-    let processedData = [...data];
-
-    // Apply date range filter
-    if (dateRange) {
-      processedData = filterDataByDateRange(processedData, dateRange);
-    }
-
-    // Apply school filter
-    if (schoolFilter && schoolFilter !== "All Schools") {
-      processedData = processedData.filter(
-        (item) => item.school === schoolFilter,
-      );
-    }
-
-    // Aggregate by department
-    const aggregated = processedData.reduce((acc, item) => {
-      const existing = acc.find((a) => a.department === item.department);
-      if (existing) {
-        existing.quantity += item.quantity;
-      } else {
-        acc.push({
-          department: item.department,
-          quantity: item.quantity,
-          school: item.school,
-        });
-      }
-      return acc;
-    }, [] as InterdisciplinaryData[]);
-
-    // Sort by quantity (descending) and limit results
-    const sorted = sortChartData(aggregated, "quantity", "desc");
-    return sorted.slice(0, maxDepartments);
+    const baseData = Array.isArray(data) ? data : [];
+    const dateFiltered = dateRange
+      ? filterDataByDateRange(baseData, dateRange)
+      : baseData;
+    const schoolFiltered =
+      schoolFilter && schoolFilter !== "All Schools"
+        ? dateFiltered.filter((item) => item.school === schoolFilter)
+        : dateFiltered;
+    const aggregated = schoolFiltered.reduce<InterdisciplinaryData[]>(
+      (acc, item) => {
+        const existing = acc.find((a) => a.department === item.department);
+        if (existing) {
+          existing.quantity += item.quantity ?? 0;
+        } else {
+          acc.push({
+            department: item.department,
+            quantity: item.quantity ?? 0,
+            school: item.school,
+          });
+        }
+        return acc;
+      },
+      [],
+    );
+    return aggregated
+      .sort((a, b) => b.quantity - a.quantity)
+      .slice(0, maxDepartments);
   }, [data, dateRange, schoolFilter, maxDepartments]);
 
   if (loading) {
@@ -110,7 +105,7 @@ export function InterdisciplinaryBreakdownChart({
     );
   }
 
-  if (!filteredData || filteredData.length === 0) {
+  if (!Array.isArray(filteredData) || filteredData.length === 0) {
     return (
       <Card className={className}>
         <CardHeader className="pb-4">
@@ -138,7 +133,7 @@ export function InterdisciplinaryBreakdownChart({
         <ChartContainer config={chartConfig} className="h-80 w-full">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart
-              data={filteredData}
+              data={Array.isArray(filteredData) ? filteredData : []}
               margin={{ top: 20, right: 30, left: 20, bottom: 80 }}
             >
               <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--muted))" />
@@ -160,11 +155,24 @@ export function InterdisciplinaryBreakdownChart({
               <ChartTooltip
                 content={
                   <ChartTooltipContent
-                    formatter={(value, name) => [
-                      `${value} papers`,
-                      "Interdisciplinary Papers",
-                    ]}
-                    labelFormatter={(label) => `Department: ${label}`}
+                    formatter={(
+                      value: string | number | (string | number)[] | undefined,
+                    ): [string, string] => {
+                      let displayValue = "0";
+                      if (
+                        typeof value === "number" ||
+                        typeof value === "string"
+                      ) {
+                        displayValue = String(value);
+                      } else if (Array.isArray(value) && value.length > 0) {
+                        displayValue = String(value[0]);
+                      }
+                      return [
+                        `${typeof displayValue === "string" || typeof displayValue === "number" ? displayValue : ""} papers`,
+                        "Interdisciplinary Papers",
+                      ];
+                    }}
+                    labelFormatter={(label: string) => `Department: ${label}`}
                   />
                 }
               />

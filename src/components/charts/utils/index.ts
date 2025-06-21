@@ -28,7 +28,7 @@ export function getRandomHSLColor(): string {
  * Gets a color from the predefined palette
  */
 export function getChartColor(index: number): string {
-  return CHART_COLORS[index % CHART_COLORS.length] || getRandomHSLColor();
+  return CHART_COLORS[index % CHART_COLORS.length] ?? getRandomHSLColor();
 }
 
 /**
@@ -86,9 +86,9 @@ export function formatChartValue(
 /**
  * Generates chart configuration from data
  */
-export function generateChartConfig(
-  data: Array<{ [key: string]: any }>,
-  keyField: string = "name",
+export function generateChartConfig<T extends Record<string, unknown>>(
+  data: T[],
+  keyField = "name",
 ): Record<string, { label: string; color: string }> {
   const config: Record<string, { label: string; color: string }> = {};
 
@@ -108,7 +108,7 @@ export function generateChartConfig(
 /**
  * Sorts chart data by a specific field
  */
-export function sortChartData<T extends Record<string, any>>(
+export function sortChartData<T extends Record<string, unknown>>(
   data: T[],
   sortBy: keyof T,
   order: "asc" | "desc" = "desc",

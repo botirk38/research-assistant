@@ -1,15 +1,29 @@
 "use client";
 
 import React, { useMemo } from "react";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Legend } from "recharts";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  ResponsiveContainer,
+  Legend,
+} from "recharts";
 import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import type { DateRange } from "react-day-picker";
-import { filterDataByDateRange, sortChartData } from "../utils";
+import { filterDataByDateRange } from "../utils";
 
 interface DepartmentREFData {
   department: string;
@@ -47,7 +61,7 @@ const chartConfig = {
     label: "1* - Nationally Recognised",
     color: "var(--chart-4)",
   },
-  "Unclassified": {
+  Unclassified: {
     label: "Unclassified",
     color: "var(--chart-5)",
   },
@@ -73,39 +87,58 @@ export function DepartmentREFBreakdownChart({
 
     // Apply school filter
     if (schoolFilter && schoolFilter !== "All Schools") {
-      processedData = processedData.filter(item => item.school === schoolFilter);
+      processedData = processedData.filter(
+        (item) => item.school === schoolFilter,
+      );
     }
 
     // Group by department and aggregate REF scores
-    const departmentData = processedData.reduce((acc, item) => {
-      const existing = acc.find(d => d.department === item.department);
-      if (existing) {
-        existing[item.refScore] = (existing[item.refScore] || 0) + item.quantity;
-        existing.total += item.quantity;
-      } else {
-        acc.push({
-          department: item.department,
-          [item.refScore]: item.quantity,
-          total: item.quantity,
-          school: item.school,
-        });
-      }
-      return acc;
-    }, [] as any[]);
+    type DepartmentAgg = {
+      department: string;
+      [key: string]: string | number | undefined;
+      total: number;
+      school?: string;
+    };
+    const departmentData: DepartmentAgg[] = processedData.reduce(
+      (acc: DepartmentAgg[], item) => {
+        const existing = acc.find((d) => d.department === item.department);
+        if (existing) {
+          existing[item.refScore] =
+            (typeof existing[item.refScore] === "number"
+              ? (existing[item.refScore] as number)
+              : 0) + item.quantity;
+          existing.total += item.quantity;
+        } else {
+          acc.push({
+            department: item.department,
+            [item.refScore]: item.quantity,
+            total: item.quantity,
+            school: item.school,
+          });
+        }
+        return acc;
+      },
+      [],
+    );
 
     // Sort by total quantity and limit results
     const sorted = departmentData
-      .sort((a, b) => b.total - a.total)
+      .sort((a, b) =>
+        typeof b.total === "number" && typeof a.total === "number"
+          ? b.total - a.total
+          : 0,
+      )
       .slice(0, maxDepartments);
 
     // Ensure all REF score categories are present for each department
-    return sorted.map(dept => ({
+    return sorted.map((dept) => ({
       ...dept,
-      "4*": dept["4*"] || 0,
-      "3*": dept["3*"] || 0,
-      "2*": dept["2*"] || 0,
-      "1*": dept["1*"] || 0,
-      "Unclassified": dept["Unclassified"] || 0,
+      "4*": typeof dept["4*"] === "number" ? dept["4*"] : 0,
+      "3*": typeof dept["3*"] === "number" ? dept["3*"] : 0,
+      "2*": typeof dept["2*"] === "number" ? dept["2*"] : 0,
+      "1*": typeof dept["1*"] === "number" ? dept["1*"] : 0,
+      Unclassified:
+        typeof dept.Unclassified === "number" ? dept.Unclassified : 0,
     }));
   }, [data, dateRange, schoolFilter, maxDepartments]);
 
@@ -114,12 +147,12 @@ export function DepartmentREFBreakdownChart({
       <Card className={className}>
         <CardHeader>
           <div className="space-y-2">
-            <div className="h-4 w-3/4 bg-muted animate-pulse rounded" />
-            <div className="h-3 w-1/2 bg-muted animate-pulse rounded" />
+            <div className="bg-muted h-4 w-3/4 animate-pulse rounded" />
+            <div className="bg-muted h-3 w-1/2 animate-pulse rounded" />
           </div>
         </CardHeader>
         <CardContent>
-          <div className="h-96 w-full bg-muted animate-pulse rounded" />
+          <div className="bg-muted h-96 w-full animate-pulse rounded" />
         </CardContent>
       </Card>
     );
@@ -159,7 +192,6 @@ export function DepartmentREFBreakdownChart({
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis
                 dataKey="department"
-                tick={{ fontSize: 10, angle: -45, textAnchor: "end" }}
                 height={80}
                 axisLine={{ stroke: "hsl(var(--border))" }}
                 interval={0}
@@ -171,17 +203,36 @@ export function DepartmentREFBreakdownChart({
               <ChartTooltip
                 content={
                   <ChartTooltipContent
-                    formatter={(value, name) => [
-                      `${value} publications`,
-                      chartConfig[name as keyof typeof chartConfig]?.label || name
-                    ]}
-                    labelFormatter={(label) => `Department: ${label}`}
+                    formatter={(
+                      value: string | number | (string | number)[] | undefined,
+                      name: string | number | undefined,
+                    ): [string, string] => {
+                      let displayValue = "0";
+                      if (
+                        typeof value === "number" ||
+                        typeof value === "string"
+                      ) {
+                        displayValue = String(value);
+                      } else if (Array.isArray(value) && value.length > 0) {
+                        displayValue = String(value[0]);
+                      }
+                      const displayName = name ? String(name) : "";
+                      return [
+                        `${displayValue} publications`,
+                        chartConfig[displayName as keyof typeof chartConfig]
+                          ?.label || displayName,
+                      ];
+                    }}
+                    labelFormatter={(label: string) => `Department: ${label}`}
                   />
                 }
               />
               <Legend
                 wrapperStyle={{ paddingTop: "20px" }}
-                formatter={(value) => chartConfig[value as keyof typeof chartConfig]?.label || value}
+                formatter={(value: string | number) =>
+                  chartConfig[value as keyof typeof chartConfig]?.label ||
+                  String(value)
+                }
               />
               <Bar
                 dataKey="4*"

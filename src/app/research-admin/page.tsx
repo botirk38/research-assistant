@@ -10,7 +10,13 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { DatePickerWithRange } from "@/components/date-range-picker";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 
 // Import shared chart components
@@ -266,7 +272,6 @@ export default function ResearchAdminDashboard() {
               Key performance indicators across all research activities
             </p>
           </div>
-
           <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
             <UniversityOverviewChart
               data={mockUniversityOverviewData}
@@ -305,7 +310,6 @@ export default function ResearchAdminDashboard() {
               Publication quality metrics and conference/journal rankings
             </p>
           </div>
-
           <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
             <COREankingChart
               data={mockCOREData}
@@ -346,7 +350,6 @@ export default function ResearchAdminDashboard() {
               Departmental research metrics and collaboration patterns
             </p>
           </div>
-
           <div className="space-y-8">
             <InterdisciplinaryBreakdownChart
               data={filteredData.interdisciplinary}
@@ -354,7 +357,6 @@ export default function ResearchAdminDashboard() {
               schoolFilter={selectedSchool}
               className="border-0 shadow-sm"
             />
-
             <div className="grid grid-cols-1 gap-8 xl:grid-cols-2">
               <DepartmentREFBreakdownChart
                 data={filteredData.departmentREF}
@@ -392,19 +394,61 @@ export default function ResearchAdminDashboard() {
               Historical performance trends and key performance indicators
             </p>
           </div>
-
-          <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4">
             <Card className="border-0 shadow-sm">
               <CardHeader className="pb-4">
                 <CardTitle className="text-lg font-semibold">
-                  Publications Trend Over Time
+                  Publications Trend
                 </CardTitle>
+                <CardDescription>
+                  Track publications over the selected period
+                </CardDescription>
               </CardHeader>
               <CardContent>
-                <ComparisonTrends />
+                <ComparisonTrends metric="publications" />
               </CardContent>
             </Card>
-
+            <Card className="border-0 shadow-sm">
+              <CardHeader className="pb-4">
+                <CardTitle className="text-lg font-semibold">
+                  REF Scores Trend
+                </CardTitle>
+                <CardDescription>
+                  Track REF scores over the selected period
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <ComparisonTrends metric="ref" />
+              </CardContent>
+            </Card>
+            <Card className="border-0 shadow-sm">
+              <CardHeader className="pb-4">
+                <CardTitle className="text-lg font-semibold">
+                  Interdisciplinary Trend
+                </CardTitle>
+                <CardDescription>
+                  Track interdisciplinary research over time
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <ComparisonTrends metric="interdisciplinary" />
+              </CardContent>
+            </Card>
+            <Card className="border-0 shadow-sm">
+              <CardHeader className="pb-4">
+                <CardTitle className="text-lg font-semibold">
+                  Collaborations Trend
+                </CardTitle>
+                <CardDescription>
+                  Track collaborations over time
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <ComparisonTrends metric="collaborations" />
+              </CardContent>
+            </Card>
+          </div>
+          <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
             <Card className="border-0 shadow-sm">
               <CardHeader className="pb-4">
                 <CardTitle className="text-lg font-semibold">

@@ -15,7 +15,7 @@ import {
 import Link from "next/link";
 import { ModeToggle } from "@/components/mode-toggle";
 import { usePathname } from "next/navigation";
-import { Home, Users, FileText, Settings, BarChart2 } from "lucide-react";
+import { Home, FileText, Sparkles } from "lucide-react";
 
 export function ResearchAdminSidebar() {
   const { open: openDesktop, openMobile } = useSidebar?.() ?? {
@@ -33,28 +33,16 @@ export function ResearchAdminSidebar() {
       active: pathname === "/research-admin",
     },
     {
-      icon: Users,
-      label: "Researchers",
-      href: "/research-admin/researchers",
-      active: pathname.startsWith("/research-admin/researchers"),
-    },
-    {
       icon: FileText,
-      label: "Submissions",
-      href: "/research-admin/submissions",
-      active: pathname.startsWith("/research-admin/submissions"),
+      label: "REF Evaluation",
+      href: "/research-admin/ref-evaluation",
+      active: pathname.startsWith("/research-admin/ref-evaluation"),
     },
     {
-      icon: BarChart2,
-      label: "Reports",
-      href: "/research-admin/reports",
-      active: pathname.startsWith("/research-admin/reports"),
-    },
-    {
-      icon: Settings,
-      label: "Settings",
-      href: "/research-admin/settings",
-      active: pathname.startsWith("/research-admin/settings"),
+      icon: Sparkles,
+      label: "AI Reports",
+      href: "/research-admin/ai-reports",
+      active: pathname.startsWith("/research-admin/ai-reports"),
     },
   ];
 

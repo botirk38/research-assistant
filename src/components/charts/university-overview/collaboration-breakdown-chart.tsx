@@ -70,16 +70,16 @@ export function CollaborationBreakdownChart({
   // Dynamic title/description based on departmentFilter
   const isSpecificDepartment =
     departmentFilter && departmentFilter !== "All Departments";
-  const chartTitle = title
-    ? title
-    : isSpecificDepartment
+  const chartTitle =
+    title ??
+    (isSpecificDepartment
       ? `Collaboration Breakdown for ${departmentFilter}`
-      : "Breakdown of Internal/External Institute papers (By Department)";
-  const chartDescription = description
-    ? description
-    : isSpecificDepartment
+      : "Breakdown of Internal/External Institute papers (By Department)");
+  const chartDescription =
+    description ??
+    (isSpecificDepartment
       ? `Internal vs external collaborations for ${departmentFilter}`
-      : "Quantity of papers from internal vs external collaborations by lead department";
+      : "Quantity of papers from internal vs external collaborations by lead department");
   const filteredData = useMemo(() => {
     let processedData = [...data];
 

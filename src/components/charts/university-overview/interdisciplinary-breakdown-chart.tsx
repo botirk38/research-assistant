@@ -55,8 +55,6 @@ export function InterdisciplinaryBreakdownChart({
   dateRange,
   schoolFilter,
   departmentFilter,
-  title,
-  description,
   className,
   loading = false,
   maxDepartments = 10,

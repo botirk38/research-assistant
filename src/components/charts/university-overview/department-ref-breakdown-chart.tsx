@@ -82,16 +82,16 @@ export function DepartmentREFBreakdownChart({
   // Dynamic title/description based on departmentFilter
   const isSpecificDepartment =
     departmentFilter && departmentFilter !== "All Departments";
-  const chartTitle = title
-    ? title
-    : isSpecificDepartment
+  const chartTitle =
+    title ??
+    (isSpecificDepartment
       ? `REF Breakdown for ${departmentFilter}`
-      : "Department-wise Breakdown (REF)";
-  const chartDescription = description
-    ? description
-    : isSpecificDepartment
+      : "Department-wise Breakdown (REF)");
+  const chartDescription =
+    description ??
+    (isSpecificDepartment
       ? `Distribution of REF scores for publications in ${departmentFilter}`
-      : "Distribution of REF scores for publications by department";
+      : "Distribution of REF scores for publications by department");
   const filteredData = useMemo(() => {
     let processedData = [...data];
 

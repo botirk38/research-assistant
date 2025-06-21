@@ -37,6 +37,7 @@ interface DepartmentREFBreakdownChartProps {
   data: DepartmentREFData[];
   dateRange?: DateRange | undefined;
   schoolFilter?: string;
+  departmentFilter?: string; // NEW
   title?: string;
   description?: string;
   className?: string;
@@ -71,12 +72,26 @@ export function DepartmentREFBreakdownChart({
   data,
   dateRange,
   schoolFilter,
-  title = "Department-wise Breakdown (REF)",
-  description = "Distribution of REF scores for publications by department",
+  departmentFilter,
+  title,
+  description,
   className,
   loading = false,
   maxDepartments = 15,
 }: DepartmentREFBreakdownChartProps) {
+  // Dynamic title/description based on departmentFilter
+  const isSpecificDepartment =
+    departmentFilter && departmentFilter !== "All Departments";
+  const chartTitle = title
+    ? title
+    : isSpecificDepartment
+      ? `REF Breakdown for ${departmentFilter}`
+      : "Department-wise Breakdown (REF)";
+  const chartDescription = description
+    ? description
+    : isSpecificDepartment
+      ? `Distribution of REF scores for publications in ${departmentFilter}`
+      : "Distribution of REF scores for publications by department";
   const filteredData = useMemo(() => {
     let processedData = [...data];
 
@@ -89,6 +104,13 @@ export function DepartmentREFBreakdownChart({
     if (schoolFilter && schoolFilter !== "All Schools") {
       processedData = processedData.filter(
         (item) => item.school === schoolFilter,
+      );
+    }
+
+    // Apply department filter
+    if (departmentFilter && departmentFilter !== "All Departments") {
+      processedData = processedData.filter(
+        (item) => item.department === departmentFilter,
       );
     }
 
@@ -140,7 +162,7 @@ export function DepartmentREFBreakdownChart({
       Unclassified:
         typeof dept.Unclassified === "number" ? dept.Unclassified : 0,
     }));
-  }, [data, dateRange, schoolFilter, maxDepartments]);
+  }, [data, dateRange, schoolFilter, departmentFilter, maxDepartments]);
 
   if (loading) {
     return (
@@ -162,13 +184,17 @@ export function DepartmentREFBreakdownChart({
     return (
       <Card className={className}>
         <CardHeader>
-          <CardTitle className="text-sm font-medium">{title}</CardTitle>
-          {description && <CardDescription>{description}</CardDescription>}
+          <CardTitle className="text-sm font-medium">{chartTitle}</CardTitle>
+          {chartDescription && (
+            <CardDescription>{chartDescription}</CardDescription>
+          )}
         </CardHeader>
         <CardContent>
           <div className="flex h-96 w-full items-center justify-center">
             <p className="text-muted-foreground text-sm">
-              No department REF data available for the selected criteria
+              {isSpecificDepartment
+                ? `No REF data available for ${departmentFilter}`
+                : "No department REF data available for the selected criteria"}
             </p>
           </div>
         </CardContent>
@@ -179,8 +205,10 @@ export function DepartmentREFBreakdownChart({
   return (
     <Card className={className}>
       <CardHeader>
-        <CardTitle className="text-sm font-medium">{title}</CardTitle>
-        {description && <CardDescription>{description}</CardDescription>}
+        <CardTitle className="text-sm font-medium">{chartTitle}</CardTitle>
+        {chartDescription && (
+          <CardDescription>{chartDescription}</CardDescription>
+        )}
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig} className="h-96 w-full">

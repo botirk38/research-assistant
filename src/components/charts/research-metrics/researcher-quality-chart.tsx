@@ -1,14 +1,6 @@
 "use client";
 
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-} from "recharts";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid } from "recharts";
 import {
   Card,
   CardHeader,
@@ -16,6 +8,11 @@ import {
   CardDescription,
   CardContent,
 } from "@/components/ui/card";
+import {
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "@/components/ui/chart";
 
 const data = [
   { quartile: "Q1", percentage: 42 },
@@ -23,6 +20,13 @@ const data = [
   { quartile: "Q3", percentage: 18 },
   { quartile: "Q4", percentage: 12 },
 ];
+
+const chartConfig = {
+  percentage: {
+    label: "Percentage",
+    color: "var(--chart-1)",
+  },
+};
 
 export function ResearcherQualityChart() {
   return (
@@ -37,7 +41,7 @@ export function ResearcherQualityChart() {
       </CardHeader>
       <CardContent>
         <div className="mt-2 h-[300px]">
-          <ResponsiveContainer width="100%" height="100%">
+          <ChartContainer config={chartConfig} className="h-full w-full">
             <BarChart
               data={data}
               margin={{
@@ -50,13 +54,10 @@ export function ResearcherQualityChart() {
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="quartile" />
               <YAxis />
-              <Tooltip
-                formatter={(value) => [`${Number(value)}%`, "Percentage"]}
-                labelFormatter={(label) => `Quartile ${label}`}
-              />
-              <Bar dataKey="percentage" fill="var(--chart-1)" />
+              <ChartTooltip content={<ChartTooltipContent />} />
+              <Bar dataKey="percentage" fill="var(--color-percentage)" />
             </BarChart>
-          </ResponsiveContainer>
+          </ChartContainer>
         </div>
         <div className="text-muted-foreground mt-2 text-sm">
           <p>How Many Publications in Each Quartile</p>

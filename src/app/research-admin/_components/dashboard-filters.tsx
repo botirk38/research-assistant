@@ -1,6 +1,8 @@
 import React from "react";
 import type { DateRange } from "react-day-picker";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { SchoolSelect } from "@/components/filters/SchoolSelect";
+import { DepartmentSelect } from "@/components/filters/DepartmentSelect";
 import {
   Select,
   SelectContent,
@@ -8,7 +10,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { DatePickerWithRange } from "@/components/date-range-picker";
+import { DateRangeSelector } from "@/app/researcher/_components/dashboard/top-navigation/date-range-selector";
 
 interface SchoolOption {
   label: string;
@@ -43,7 +45,7 @@ export function DashboardFilters({
             <label className="text-muted-foreground text-sm font-medium">
               Time Period
             </label>
-            <DatePickerWithRange
+            <DateRangeSelector
               value={dateRange}
               onChange={onDateRangeChange}
               className="w-full"
@@ -53,22 +55,11 @@ export function DashboardFilters({
             <label className="text-muted-foreground text-sm font-medium">
               School Filter
             </label>
-            <Select value={selectedSchool} onValueChange={onSchoolChange}>
-              <SelectTrigger>
-                <SelectValue placeholder="Select a school" />
-              </SelectTrigger>
-              <SelectContent>
-                {schools.map((school) => {
-                  const Icon = school.icon;
-                  return (
-                    <SelectItem key={school.value} value={school.value}>
-                      <Icon className="mr-2 inline-block h-4 w-4" />
-                      {school.label}
-                    </SelectItem>
-                  );
-                })}
-              </SelectContent>
-            </Select>
+            <SchoolSelect
+              schools={schools}
+              selectedSchool={selectedSchool}
+              onSchoolChange={onSchoolChange}
+            />
           </div>
         </div>
       </CardContent>

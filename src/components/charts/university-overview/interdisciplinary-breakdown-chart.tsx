@@ -35,6 +35,7 @@ interface InterdisciplinaryBreakdownChartProps {
   data: InterdisciplinaryData[];
   dateRange?: DateRange | undefined;
   schoolFilter?: string;
+  departmentFilter?: string; // NEW
   title?: string;
   description?: string;
   className?: string;
@@ -53,12 +54,23 @@ export function InterdisciplinaryBreakdownChart({
   data,
   dateRange,
   schoolFilter,
-  title = "Breakdown of Interdisciplinary papers (By Department)",
-  description = "Quantity of interdisciplinary research papers by participating departments",
+  departmentFilter,
+  title,
+  description,
   className,
   loading = false,
   maxDepartments = 10,
 }: InterdisciplinaryBreakdownChartProps) {
+  // Dynamic title/description based on departmentFilter
+  const chartTitle =
+    departmentFilter && departmentFilter !== "All Departments"
+      ? `Interdisciplinary Papers for ${departmentFilter}`
+      : "Breakdown of Interdisciplinary papers (By Department)";
+  const chartDescription =
+    departmentFilter && departmentFilter !== "All Departments"
+      ? `Quantity of interdisciplinary research papers for ${departmentFilter}`
+      : "Quantity of interdisciplinary research papers by participating departments";
+
   const filteredData = useMemo(() => {
     const baseData = Array.isArray(data) ? data : [];
     const dateFiltered = dateRange
@@ -68,7 +80,11 @@ export function InterdisciplinaryBreakdownChart({
       schoolFilter && schoolFilter !== "All Schools"
         ? dateFiltered.filter((item) => item.school === schoolFilter)
         : dateFiltered;
-    const aggregated = schoolFiltered.reduce<InterdisciplinaryData[]>(
+    const departmentFiltered =
+      departmentFilter && departmentFilter !== "All Departments"
+        ? schoolFiltered.filter((item) => item.department === departmentFilter)
+        : schoolFiltered;
+    const aggregated = departmentFiltered.reduce<InterdisciplinaryData[]>(
       (acc, item) => {
         const existing = acc.find((a) => a.department === item.department);
         if (existing) {
@@ -87,7 +103,7 @@ export function InterdisciplinaryBreakdownChart({
     return aggregated
       .sort((a, b) => b.quantity - a.quantity)
       .slice(0, maxDepartments);
-  }, [data, dateRange, schoolFilter, maxDepartments]);
+  }, [data, dateRange, schoolFilter, departmentFilter, maxDepartments]);
 
   if (loading) {
     return (
@@ -109,13 +125,17 @@ export function InterdisciplinaryBreakdownChart({
     return (
       <Card className={className}>
         <CardHeader className="pb-4">
-          <CardTitle className="text-lg font-semibold">{title}</CardTitle>
-          {description && <CardDescription>{description}</CardDescription>}
+          <CardTitle className="text-lg font-semibold">{chartTitle}</CardTitle>
+          {chartDescription && (
+            <CardDescription>{chartDescription}</CardDescription>
+          )}
         </CardHeader>
         <CardContent>
           <div className="flex h-80 w-full items-center justify-center">
             <p className="text-muted-foreground text-sm">
-              No interdisciplinary data available for the selected criteria
+              {departmentFilter && departmentFilter !== "All Departments"
+                ? `No interdisciplinary data available for ${departmentFilter}`
+                : "No interdisciplinary data available for the selected criteria"}
             </p>
           </div>
         </CardContent>
@@ -126,8 +146,10 @@ export function InterdisciplinaryBreakdownChart({
   return (
     <Card className={className}>
       <CardHeader>
-        <CardTitle className="text-lg font-semibold">{title}</CardTitle>
-        {description && <CardDescription>{description}</CardDescription>}
+        <CardTitle className="text-lg font-semibold">{chartTitle}</CardTitle>
+        {chartDescription && (
+          <CardDescription>{chartDescription}</CardDescription>
+        )}
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig} className="h-80 w-full">
@@ -169,7 +191,11 @@ export function InterdisciplinaryBreakdownChart({
                       }
                       return [String(displayValue), "Interdisciplinary Papers"];
                     }}
-                    labelFormatter={(label: string) => `Department: ${label}`}
+                    labelFormatter={(label: string) =>
+                      departmentFilter && departmentFilter !== "All Departments"
+                        ? `Department: ${departmentFilter}`
+                        : `Department: ${label}`
+                    }
                   />
                 }
               />

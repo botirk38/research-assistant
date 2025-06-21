@@ -37,6 +37,7 @@ interface CollaborationBreakdownChartProps {
   data: CollaborationData[];
   dateRange?: DateRange | undefined;
   schoolFilter?: string;
+  departmentFilter?: string; // NEW
   title?: string;
   description?: string;
   className?: string;
@@ -59,12 +60,26 @@ export function CollaborationBreakdownChart({
   data,
   dateRange,
   schoolFilter,
-  title = "Breakdown of Internal/External Institute papers (By Department)",
-  description = "Quantity of papers from internal vs external collaborations by lead department",
+  departmentFilter, // NEW
+  title,
+  description,
   className,
   loading = false,
   maxDepartments = 15,
 }: CollaborationBreakdownChartProps) {
+  // Dynamic title/description based on departmentFilter
+  const isSpecificDepartment =
+    departmentFilter && departmentFilter !== "All Departments";
+  const chartTitle = title
+    ? title
+    : isSpecificDepartment
+      ? `Collaboration Breakdown for ${departmentFilter}`
+      : "Breakdown of Internal/External Institute papers (By Department)";
+  const chartDescription = description
+    ? description
+    : isSpecificDepartment
+      ? `Internal vs external collaborations for ${departmentFilter}`
+      : "Quantity of papers from internal vs external collaborations by lead department";
   const filteredData = useMemo(() => {
     let processedData = [...data];
 
@@ -77,6 +92,13 @@ export function CollaborationBreakdownChart({
     if (schoolFilter && schoolFilter !== "All Schools") {
       processedData = processedData.filter(
         (item) => item.school === schoolFilter,
+      );
+    }
+
+    // Apply department filter
+    if (departmentFilter && departmentFilter !== "All Departments") {
+      processedData = processedData.filter(
+        (item) => item.department === departmentFilter,
       );
     }
 
@@ -120,7 +142,7 @@ export function CollaborationBreakdownChart({
       Internal: dept.Internal ?? 0,
       External: dept.External ?? 0,
     }));
-  }, [data, dateRange, schoolFilter, maxDepartments]);
+  }, [data, dateRange, schoolFilter, departmentFilter, maxDepartments]);
 
   if (loading) {
     return (
@@ -142,13 +164,17 @@ export function CollaborationBreakdownChart({
     return (
       <Card className={className}>
         <CardHeader>
-          <CardTitle className="text-sm font-medium">{title}</CardTitle>
-          {description && <CardDescription>{description}</CardDescription>}
+          <CardTitle className="text-sm font-medium">{chartTitle}</CardTitle>
+          {chartDescription && (
+            <CardDescription>{chartDescription}</CardDescription>
+          )}
         </CardHeader>
         <CardContent>
           <div className="flex h-96 w-full items-center justify-center">
             <p className="text-muted-foreground text-sm">
-              No collaboration data available for the selected criteria
+              {isSpecificDepartment
+                ? `No collaboration data available for ${departmentFilter}`
+                : "No department collaboration data available for the selected criteria"}
             </p>
           </div>
         </CardContent>
@@ -159,8 +185,10 @@ export function CollaborationBreakdownChart({
   return (
     <Card className={className}>
       <CardHeader>
-        <CardTitle className="text-sm font-medium">{title}</CardTitle>
-        {description && <CardDescription>{description}</CardDescription>}
+        <CardTitle className="text-sm font-medium">{chartTitle}</CardTitle>
+        {chartDescription && (
+          <CardDescription>{chartDescription}</CardDescription>
+        )}
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig} className="h-96 w-full">

@@ -2,7 +2,8 @@
 
 import * as React from "react";
 import { CalendarIcon } from "lucide-react";
-import { format } from "date-fns";
+import { formatDateRange } from "little-date";
+
 import type { DateRange } from "react-day-picker";
 
 import { cn } from "@/lib/utils";
@@ -61,21 +62,15 @@ export function DatePickerWithRange({
             )}
           >
             <CalendarIcon className="mr-2 h-4 w-4" />
-            {date?.from ? (
-              date.to ? (
-                <>
-                  {format(date.from, "LLL dd, y")} -{" "}
-                  {format(date.to, "LLL dd, y")}
-                </>
-              ) : (
-                format(date.from, "LLL dd, y")
-              )
-            ) : (
-              <span>From - To Dates</span>
-            )}
+
+            {value?.from && value?.to
+              ? formatDateRange(value.from, value.to, {
+                  includeTime: false,
+                })
+              : "Select date"}
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-auto p-0" align="start">
+        <PopoverContent className="w-auto overflow-hidden p-0" align="start">
           <Calendar
             mode="range"
             defaultMonth={date?.from}

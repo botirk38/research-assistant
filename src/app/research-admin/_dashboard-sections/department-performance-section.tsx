@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useMemo, useState } from "react";
 import {
   InterdisciplinaryBreakdownChart,
   DepartmentREFBreakdownChart,
   CollaborationBreakdownChart,
 } from "@/components/charts";
+import { DepartmentSelect } from "@/components/filters/DepartmentSelect";
 import type { DateRange } from "react-day-picker";
 
 interface InterdisciplinaryData {
@@ -41,6 +42,41 @@ export function DepartmentPerformanceSection({
   dateRange,
   schoolFilter,
 }: DepartmentPerformanceSectionProps) {
+  // Generate department options based on all data for the selected school
+  const departmentOptions = useMemo(() => {
+    const allDepartments = [
+      ...interdisciplinaryData,
+      ...departmentREFData,
+      ...collaborationData,
+    ]
+      .filter((item) => item.school === schoolFilter)
+      .map((item) => item.department);
+
+    const uniqueDepartments = Array.from(new Set(allDepartments));
+    uniqueDepartments.sort();
+    return ["All Departments", ...uniqueDepartments];
+  }, [
+    interdisciplinaryData,
+    departmentREFData,
+    collaborationData,
+    schoolFilter,
+  ]);
+
+  const [selectedDepartment, setSelectedDepartment] =
+    useState<string>("All Departments");
+
+  // Filter data by department if a specific department is selected
+  const filterByDepartment = <T extends { department: string }>(data: T[]) =>
+    selectedDepartment === "All Departments"
+      ? data
+      : data.filter((item) => item.department === selectedDepartment);
+
+  const filteredInterdisciplinaryData = filterByDepartment(
+    interdisciplinaryData,
+  );
+  const filteredDepartmentREFData = filterByDepartment(departmentREFData);
+  const filteredCollaborationData = filterByDepartment(collaborationData);
+
   return (
     <section className="space-y-6">
       <div className="space-y-2">
@@ -49,23 +85,36 @@ export function DepartmentPerformanceSection({
           Departmental research metrics and collaboration patterns
         </p>
       </div>
+      {/* Department filter only shown if a specific school is selected */}
+      {schoolFilter !== "All Schools" && (
+        <div className="max-w-xs">
+          <DepartmentSelect
+            departments={departmentOptions}
+            selectedDepartment={selectedDepartment}
+            onDepartmentChange={setSelectedDepartment}
+          />
+        </div>
+      )}
       <div className="space-y-8">
         <InterdisciplinaryBreakdownChart
-          data={interdisciplinaryData}
+          data={filteredInterdisciplinaryData}
           dateRange={dateRange}
           schoolFilter={schoolFilter}
+          departmentFilter={selectedDepartment}
           className="border-0 shadow-sm"
         />
         <div className="grid grid-cols-1 gap-8 xl:grid-cols-2">
           <DepartmentREFBreakdownChart
-            data={departmentREFData}
+            data={filteredDepartmentREFData}
             dateRange={dateRange}
             schoolFilter={schoolFilter}
+            departmentFilter={selectedDepartment}
             className="border-0 shadow-sm"
           />
           <CollaborationBreakdownChart
-            data={collaborationData}
+            data={filteredCollaborationData}
             dateRange={dateRange}
+            departmentFilter={selectedDepartment}
             schoolFilter={schoolFilter}
             className="border-0 shadow-sm"
           />

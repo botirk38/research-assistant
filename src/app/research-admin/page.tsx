@@ -73,7 +73,27 @@ const mockInterdisciplinaryData = [
     quantity: 45,
     school: "School of Computer Science",
   },
+  {
+    department: "Software Engineering",
+    quantity: 30,
+    school: "School of Computer Science",
+  },
+  {
+    department: "Artificial Intelligence",
+    quantity: 25,
+    school: "School of Computer Science",
+  },
   { department: "Engineering", quantity: 38, school: "School of Engineering" },
+  {
+    department: "Civil Engineering",
+    quantity: 20,
+    school: "School of Engineering",
+  },
+  {
+    department: "Mechanical Engineering",
+    quantity: 18,
+    school: "School of Engineering",
+  },
   { department: "Physics", quantity: 32, school: "School of Natural Sciences" },
   {
     department: "Chemistry",
@@ -86,6 +106,11 @@ const mockInterdisciplinaryData = [
     quantity: 22,
     school: "School of Natural Sciences",
   },
+  {
+    department: "Earth Sciences",
+    quantity: 15,
+    school: "School of Natural Sciences",
+  },
 ];
 
 const mockDepartmentREFData = [
@@ -93,6 +118,18 @@ const mockDepartmentREFData = [
     department: "Computer Science",
     refScore: "4*",
     quantity: 25,
+    school: "School of Computer Science",
+  },
+  {
+    department: "Software Engineering",
+    refScore: "4*",
+    quantity: 10,
+    school: "School of Computer Science",
+  },
+  {
+    department: "Artificial Intelligence",
+    refScore: "3*",
+    quantity: 15,
     school: "School of Computer Science",
   },
   {
@@ -114,6 +151,18 @@ const mockDepartmentREFData = [
     school: "School of Engineering",
   },
   {
+    department: "Civil Engineering",
+    refScore: "3*",
+    quantity: 12,
+    school: "School of Engineering",
+  },
+  {
+    department: "Mechanical Engineering",
+    refScore: "2*",
+    quantity: 8,
+    school: "School of Engineering",
+  },
+  {
     department: "Engineering",
     refScore: "3*",
     quantity: 55,
@@ -129,6 +178,30 @@ const mockDepartmentREFData = [
     department: "Physics",
     refScore: "4*",
     quantity: 30,
+    school: "School of Natural Sciences",
+  },
+  {
+    department: "Chemistry",
+    refScore: "3*",
+    quantity: 20,
+    school: "School of Natural Sciences",
+  },
+  {
+    department: "Biology",
+    refScore: "2*",
+    quantity: 18,
+    school: "School of Natural Sciences",
+  },
+  {
+    department: "Mathematics",
+    refScore: "4*",
+    quantity: 10,
+    school: "School of Natural Sciences",
+  },
+  {
+    department: "Earth Sciences",
+    refScore: "3*",
+    quantity: 7,
     school: "School of Natural Sciences",
   },
   {
@@ -153,6 +226,18 @@ const mockCollaborationData = [
     school: "School of Computer Science",
   },
   {
+    department: "Software Engineering",
+    collaborationType: "Internal" as const,
+    quantity: 20,
+    school: "School of Computer Science",
+  },
+  {
+    department: "Artificial Intelligence",
+    collaborationType: "External" as const,
+    quantity: 15,
+    school: "School of Computer Science",
+  },
+  {
     department: "Computer Science",
     collaborationType: "External" as const,
     quantity: 40,
@@ -165,6 +250,18 @@ const mockCollaborationData = [
     school: "School of Engineering",
   },
   {
+    department: "Civil Engineering",
+    collaborationType: "External" as const,
+    quantity: 12,
+    school: "School of Engineering",
+  },
+  {
+    department: "Mechanical Engineering",
+    collaborationType: "Internal" as const,
+    quantity: 8,
+    school: "School of Engineering",
+  },
+  {
     department: "Engineering",
     collaborationType: "External" as const,
     quantity: 57,
@@ -174,6 +271,30 @@ const mockCollaborationData = [
     department: "Physics",
     collaborationType: "Internal" as const,
     quantity: 45,
+    school: "School of Natural Sciences",
+  },
+  {
+    department: "Chemistry",
+    collaborationType: "External" as const,
+    quantity: 20,
+    school: "School of Natural Sciences",
+  },
+  {
+    department: "Biology",
+    collaborationType: "Internal" as const,
+    quantity: 18,
+    school: "School of Natural Sciences",
+  },
+  {
+    department: "Mathematics",
+    collaborationType: "External" as const,
+    quantity: 10,
+    school: "School of Natural Sciences",
+  },
+  {
+    department: "Earth Sciences",
+    collaborationType: "Internal" as const,
+    quantity: 7,
     school: "School of Natural Sciences",
   },
   {

@@ -8,6 +8,8 @@ import { cn } from "@/lib/utils";
 import Logo from "@/components/logo";
 import { ModeToggle } from "@/components/mode-toggle";
 
+import { BarChart2, Users } from "lucide-react";
+
 const menuItems = [
   { name: "Features", href: "#link" },
   { name: "Pricing", href: "#link" },
@@ -57,7 +59,7 @@ export const HeroHeader = () => {
               </button>
 
               <div className="m-auto hidden size-fit lg:block">
-                <ul className="flex gap-1">
+                <ul className="flex gap-1 items-center">
                   {menuItems.map((item, index) => (
                     <li key={index}>
                       <Button asChild variant="ghost" size="sm">
@@ -67,25 +69,21 @@ export const HeroHeader = () => {
                       </Button>
                     </li>
                   ))}
-                  {/* Temporary dashboard links */}
+                  {/* Subtle dashboard links */}
                   <li>
-                    <Button
-                      asChild
-                      size="sm"
-                      className="bg-blue-600 text-white hover:bg-blue-700"
-                    >
+                    <Button asChild variant="ghost" size="sm" className="flex items-center gap-1">
                       <Link href="/research-admin">
-                        Research Admin Dashboard
+                        <BarChart2 className="h-4 w-4" />
+                        <span className="text-xs">Admin</span>
                       </Link>
                     </Button>
                   </li>
                   <li>
-                    <Button
-                      asChild
-                      size="sm"
-                      className="bg-green-600 text-white hover:bg-green-700"
-                    >
-                      <Link href="/researcher">Researcher Dashboard</Link>
+                    <Button asChild variant="ghost" size="sm" className="flex items-center gap-1">
+                      <Link href="/researcher">
+                        <Users className="h-4 w-4" />
+                        <span className="text-xs">Researcher</span>
+                      </Link>
                     </Button>
                   </li>
                 </ul>
@@ -114,7 +112,6 @@ export const HeroHeader = () => {
                 </div>
                 <Button
                   asChild
-                  variant="ghost"
                   size="sm"
                   className={cn(isScrolled && "lg:hidden")}
                 >
@@ -140,6 +137,31 @@ export const HeroHeader = () => {
                     <span>Get Started</span>
                   </Link>
                 </Button>
+                {/* Subtle dashboard links for mobile */}
+                <Button
+                  asChild
+                  variant="ghost"
+                  size="sm"
+                  className="flex items-center gap-1 lg:hidden"
+                >
+                  <Link href="/research-admin">
+                    <BarChart2 className="h-4 w-4" />
+                    <span className="text-xs">Admin</span>
+                  </Link>
+                </Button>
+                <Button
+                  asChild
+                  variant="ghost"
+                  size="sm"
+                  className="flex items-center gap-1 lg:hidden"
+                >
+                  <Link href="/researcher">
+                    <Users className="h-4 w-4" />
+                    <span className="text-xs">Researcher</span>
+                  </Link>
+                </Button>
+              </div>
+            </div>
                 {/* Temporary dashboard links for mobile */}
                 <Button
                   asChild

@@ -1,4 +1,4 @@
-import FundingExplorer from "@/app/_components/funding-opportunities/funding-explorer";
+import FundingExplorer from "../_components/funding-opportunities/funding-explorer";
 
 export default function FundingOpportunitiesPage() {
   return (

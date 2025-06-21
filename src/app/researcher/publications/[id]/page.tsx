@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { mockPublications } from "@/lib/data/publications";
-import { PublicationHeader } from "@/app/_components/publications/publication-page/publication-header";
-import { PublicationTabs } from "@/app/_components/publications/publication-page/publication-tabs";
+import { PublicationHeader } from "../../_components/publications/publication-page/publication-header";
+import { PublicationTabs } from "../../_components/publications/publication-page/publication-tabs";
 interface PageProps {
   params: Promise<{ id: string }>;
 }

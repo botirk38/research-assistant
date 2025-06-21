@@ -4,7 +4,7 @@ import type React from "react";
 
 import { useState } from "react";
 import { Search, Sparkles } from "lucide-react";
-import ResearchAreaSection from "@/app/_components/researcher/settings/research-area-section";
+import ResearchAreaSection from "../_components/settings/research-area-section";
 import { fullResearchAreas } from "@/lib/data/publications";
 
 export default function ResearcherSettingsPage() {

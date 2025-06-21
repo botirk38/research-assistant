@@ -1,5 +1,5 @@
 import { SidebarProvider } from "@/components/ui/sidebar";
-import { ResearcherDashboardSidebar } from "../_components/researcher/researcher-dashboard-sidebar";
+import { ResearcherDashboardSidebar } from "./_components/researcher-dashboard-sidebar";
 
 export default function ResearcherDashboardLayout({
   children,

@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { ContactCard } from "@/app/_components/researcher/funding-opportunities/contact-card";
-import { FundingHeader } from "@/app/_components/researcher/funding-opportunities/funding-header";
-import { FundingSidebar } from "@/app/_components/researcher/funding-opportunities/funding-sidebar";
-import { FundingTabs } from "@/app/_components/researcher/funding-opportunities/funding-tabs";
+import { ContactCard } from "../../_components/funding-opportunities/contact-card";
+import { FundingHeader } from "../../_components/funding-opportunities/funding-header";
+import { FundingSidebar } from "../../_components/funding-opportunities/funding-sidebar";
+import { FundingTabs } from "../../_components/funding-opportunities/funding-tabs";
 import { AIReviewSection } from "@/components/ai-review-section";
 import { getOpportunity } from "@/lib/data/funding-opportunities";
 

@@ -1,9 +1,9 @@
 import { getResearcherData } from "@/lib/data/researcher-profile";
-import ProfileHeader from "@/app/_components/researcher/profile/profile-header";
-import StatCards from "@/app/_components/researcher/profile/stat-cards";
-import ResearcherNotFound from "@/app/_components/researcher/profile/researcher-not-found";
-import ProfileTabs from "@/app/_components/researcher/profile/profile-tabs";
-import ProfileSidebar from "@/app/_components/researcher/profile/profile-sidebar";
+import ProfileHeader from "../../_components/profile/profile-header";
+import StatCards from "../../_components/profile/stat-cards";
+import ResearcherNotFound from "../../_components/profile/researcher-not-found";
+import ProfileTabs from "../../_components/profile/profile-tabs";
+import ProfileSidebar from "../../_components/profile/profile-sidebar";
 
 export default async function ResearcherProfile({
   params,

@@ -1,14 +1,14 @@
 "use client";
 
-import ChatPopover from "../_components/researcher/chat-popover";
-import Header from "../_components/researcher/dashboard/header";
-import TopNavigation from "../_components/researcher/dashboard/top-navigation";
-import PublicationsStats from "../_components/researcher/dashboard/publication-stats";
-import PublicationsArea from "../_components/researcher/dashboard/publications-area";
-import ResearchProfileSection from "../_components/researcher/dashboard/researcher-profile";
-import ResearchIdeas from "../_components/researcher/dashboard/research-ideas";
-import Collaborations from "../_components/researcher/dashboard/collaborations";
-import FundingOpportunities from "../_components/researcher/dashboard/funding-opportunities";
+import ChatPopover from "./_components/chat-popover";
+import Header from "./_components/dashboard/header";
+import TopNavigation from "./_components/dashboard/top-navigation";
+import PublicationsStats from "./_components/dashboard/publication-stats";
+import PublicationsArea from "./_components/dashboard/publications-area";
+import ResearchProfileSection from "./_components/dashboard/researcher-profile";
+import ResearchIdeas from "./_components/dashboard/research-ideas";
+import Collaborations from "./_components/dashboard/collaborations";
+import FundingOpportunities from "./_components/dashboard/funding-opportunities";
 import { useState } from "react";
 import type { DateRange } from "react-day-picker";
 import { DollarSign, Search, Settings } from "lucide-react";

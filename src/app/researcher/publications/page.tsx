@@ -1,4 +1,4 @@
-import PublicationsBrowser from "@/app/_components/publications/publications-browser";
+import PublicationsBrowser from "../_components/publications/publications-browser";
 
 export default function PublicationsPage() {
   return (

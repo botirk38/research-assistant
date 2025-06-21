@@ -59,7 +59,7 @@ export const HeroHeader = () => {
               </button>
 
               <div className="m-auto hidden size-fit lg:block">
-                <ul className="flex gap-1 items-center">
+                <ul className="flex items-center gap-1">
                   {menuItems.map((item, index) => (
                     <li key={index}>
                       <Button asChild variant="ghost" size="sm">
@@ -71,7 +71,12 @@ export const HeroHeader = () => {
                   ))}
                   {/* Subtle dashboard links */}
                   <li>
-                    <Button asChild variant="ghost" size="sm" className="flex items-center gap-1">
+                    <Button
+                      asChild
+                      variant="ghost"
+                      size="sm"
+                      className="flex items-center gap-1"
+                    >
                       <Link href="/research-admin">
                         <BarChart2 className="h-4 w-4" />
                         <span className="text-xs">Admin</span>
@@ -79,7 +84,12 @@ export const HeroHeader = () => {
                     </Button>
                   </li>
                   <li>
-                    <Button asChild variant="ghost" size="sm" className="flex items-center gap-1">
+                    <Button
+                      asChild
+                      variant="ghost"
+                      size="sm"
+                      className="flex items-center gap-1"
+                    >
                       <Link href="/researcher">
                         <Users className="h-4 w-4" />
                         <span className="text-xs">Researcher</span>
@@ -159,23 +169,6 @@ export const HeroHeader = () => {
                     <Users className="h-4 w-4" />
                     <span className="text-xs">Researcher</span>
                   </Link>
-                </Button>
-              </div>
-            </div>
-                {/* Temporary dashboard links for mobile */}
-                <Button
-                  asChild
-                  size="sm"
-                  className="bg-blue-600 text-white hover:bg-blue-700 lg:hidden"
-                >
-                  <Link href="/research-admin">Research Admin Dashboard</Link>
-                </Button>
-                <Button
-                  asChild
-                  size="sm"
-                  className="bg-green-600 text-white hover:bg-green-700 lg:hidden"
-                >
-                  <Link href="/researcher">Researcher Dashboard</Link>
                 </Button>
               </div>
             </div>

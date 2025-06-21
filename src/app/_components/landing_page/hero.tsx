@@ -44,6 +44,26 @@ export default function HeroSection() {
                       </Link>
                     </Button>
                   </div>
+                  {/* Temporary dashboard links */}
+                  <div className="mt-8">
+                    <h3 className="text-muted-foreground mb-2 text-base font-semibold">
+                      Temporary Dashboards
+                    </h3>
+                    <div className="flex gap-4">
+                      <Link
+                        href="/research-admin"
+                        className="rounded bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
+                      >
+                        Research Admin Dashboard
+                      </Link>
+                      <Link
+                        href="/researcher"
+                        className="rounded bg-green-600 px-4 py-2 text-white hover:bg-green-700"
+                      >
+                        Researcher Dashboard
+                      </Link>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

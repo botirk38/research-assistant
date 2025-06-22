@@ -442,8 +442,8 @@ export default function ResearchAdminDashboard() {
   }, [selectedSchool]);
 
   return (
-    <div className="bg-background min-h-screen">
-      <div className="container mx-auto space-y-12 px-6 py-8">
+    <div className="bg-background min-h-screen w-full">
+      <div className="w-full space-y-12 px-6 py-8">
         {/* Header Section */}
         <div className="space-y-4">
           <DashboardHeader />

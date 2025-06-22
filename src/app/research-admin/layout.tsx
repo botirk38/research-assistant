@@ -8,11 +8,11 @@ export default function ResearchAdminLayout({
 }) {
   return (
     <SidebarProvider>
-      <div className="bg-background flex min-h-screen">
+      <div className="bg-background flex min-h-screen w-full">
         <aside className="bg-card hidden border-r md:flex md:w-64">
           <ResearchAdminSidebar />
         </aside>
-        <main className="flex min-w-0 flex-1 flex-col">{children}</main>
+        <main className="flex min-w-0 flex-1 flex-col p-10">{children}</main>
       </div>
     </SidebarProvider>
   );

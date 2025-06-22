@@ -418,7 +418,7 @@ export default function Plan({ tasks: tasksProp }: { tasks?: Task[] } = {}) {
   };
 
   return (
-    <div className="bg-background text-foreground h-full overflow-auto p-2">
+    <div className="text-foreground h-full overflow-auto p-2">
       <motion.div
         className="bg-card border-border overflow-hidden rounded-lg border shadow"
         initial={{ opacity: 0, y: 10 }}
